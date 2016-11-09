@@ -27,12 +27,12 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**");
+        web.ignoring().antMatchers("/resources/static/**");
     }
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/houtai/**", "/stock/**").hasRole("ADMIN").and().formLogin();
+		http.authorizeRequests().antMatchers("/admin/**", "/stock/**").hasRole("ADMIN").and().formLogin();
 	
 	}
 	
