@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 
 /*
 @RunWith(SpringRunner.class)
-@SpringBootTest*/
+@SpringBootTest */
 public class MyprogApplicationTests {
 
 	@Test

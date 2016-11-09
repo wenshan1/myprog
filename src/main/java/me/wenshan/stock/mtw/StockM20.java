@@ -19,7 +19,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import me.wenshan.stock.domain.StockM20Data;
-import me.wenshan.stock.service.StockGEMEXDataServiceImp;
 import me.wenshan.stock.service.StockIndexFetcher;
 import me.wenshan.stock.service.StockServiceImp;
 
