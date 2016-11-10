@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="layoutadmin :: head">
+<meta charset="utf-8" />
+</head>
+<body>
+	<header th:replace="layoutadmin :: bodyhead"> </header>
+	<!--aside nav-->
+	<aside th:replace="layoutadmin :: bodymenu"></aside>
+	<section class="rt_wrap content mCustomScrollbar">
+		<div class="rt_content">
+
+			<div class="page_title">
+				<h2 class="fl">北京空气质量数据</h2>
+			</div>
+			<table class="table">
+				<tr>
+					<th>日期</th>
+					<th>PM2.5值</th>
+				</tr>
+				<tr th:each="data : ${Page.records}">
+					<td style="width: 265px;"><div class="cut_title ellipsis"
+							th:text="${data.datetime}">日期1</div></td>
+					<td th:text="${data.zhiLiang}">空气质量数</td>
+				</tr>
+			</table>
+			<br/>
+			<div >
+				<a href="beijing_kongqizhiliang.html?curPage=1">首页</a>
+				<a th:if="${Page.currentpage > 1} == true" href="beijing_kongqizhiliang.html?curPage=1" th:href="@{beijing_kongqizhiliang.html(curPage=${Page.currentpage - 1})}">上一页</a>
+				<a th:if="${Page.totalpage > Page.currentpage } == true" href="beijing_kongqizhiliang.html?curPage=2" th:href="@{beijing_kongqizhiliang.html(curPage=${Page.currentpage + 1})}">下一页</a>
+				<a href="beijing_kongqizhiliang.html?curPage=1" th:href="@{beijing_kongqizhiliang.html(curPage=${Page.totalpage})}">末页</a>
+				<spawn th:text="' ' + ${Page.totalrecord}+'条  ' + ${Page.currentpage} + '/' + ${Page.totalpage}+ '页' " > 1条  2/10页 </spawn>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

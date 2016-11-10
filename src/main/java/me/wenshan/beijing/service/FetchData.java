@@ -85,7 +85,13 @@ public class FetchData {
 
 		// 日期
 		Element riqiEle = doc.getElementById("ess_ctr5115_FDCJY_HouseTransactionStatist_timeMark2");
+		
+		if (riqiEle == null)
+		{
+			return false;
+		}
 		String str = riqiEle.text();
+		
 		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			beijing.setRiqi(formater.parse(str));

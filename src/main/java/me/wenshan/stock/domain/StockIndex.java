@@ -85,6 +85,10 @@ public class StockIndex {
 		this.setAdjcloseprice(adjcloseprice);
 	}
 
+	public StockIndex_PK getPk ()
+	{
+		return pk;
+	}
 	public String getStockName ()
 	{
 		return pk.getName();
