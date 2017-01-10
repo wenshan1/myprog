@@ -24,6 +24,7 @@ public class StockInitThread implements Runnable  {
 		this.bInitStock = bInitStock;
 		this.bInitModel = bInitModel;
 		this.mdlService = mdlService;
+		this.opm = opm;
 	}
 	private void initStockData () {
 		StockDataFetcher.initStockList(opm);
