@@ -8,20 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import me.wenshan.biz.OptionManager;
 import me.wenshan.constants.StockConstants;
-import me.wenshan.stock.domain.Stock50GEMData;
-import me.wenshan.stock.domain.StockGEMData;
-import me.wenshan.stock.domain.StockGEMEXData;
 import me.wenshan.stock.domain.StockIndex;
-import me.wenshan.stock.domain.StockM20Data;
-import me.wenshan.stock.mtw.StockModelTongJiMgr;
-import me.wenshan.stock.service.Stock50GEMDataServiceImp;
-import me.wenshan.stock.service.StockGEMEXDataServiceImp;
 import me.wenshan.stock.service.StockInitThread;
 import me.wenshan.stock.service.StockModelTongJiService;
 import me.wenshan.stock.service.StockServiceImp;
 import me.wenshan.stockmodel.domain.StockModelData;
 import me.wenshan.stockmodel.service.StockModelDataService;
+import me.wenshan.stockmodel.service.StockModelManager;
 import me.wenshan.util.LBPage;
 import me.wenshan.util.ShowHelp;
 
@@ -35,6 +30,13 @@ public class StockController {
 	private StockModelTongJiService tongjiService;
 	@Autowired
 	private StockModelDataService  smdService;
+	@Autowired
+	private StockModelTongJiService mdlService;
+	
+	@Autowired
+    private StockModelManager  smmManager;
+	@Autowired
+	private OptionManager opm;
 
 	// 股票指数数据
 	@RequestMapping(value = "/stockindex", method = RequestMethod.GET)
@@ -62,34 +64,21 @@ public class StockController {
 	// 股票300-500模型数据
 	@RequestMapping(value = "/stockm300_500", method = RequestMethod.GET)
 	public String stockm300_500(@RequestParam(value = "curPage", required = false) Integer curPage, Model model) {
-		if (curPage == null)
-			curPage = 1;
-		LBPage<StockM20Data> page = new LBPage<StockM20Data>();
-		page.setTotalrecord(StockServiceImp.getInstance().M20DataCount());
-		page.setMaxresult(pageRecord);
-		page.setCurrentpage(curPage);
-		if (page.getTotalrecord() % page.getMaxresult() == 0)
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult());
-		else
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult() + 1);
-
-		java.util.List<StockM20Data> lst = StockServiceImp.getInstance().getM20DataPageData(page.getFirstResult(),
-				page.getMaxresult());
-
-		page.setRecords(lst);
-
-		model.addAttribute("Page", page);
-
-		return path + "/stockm300_500";
-	}
-
-	   // 股票300-500模型数据
-    @RequestMapping(value = "/custom", method = RequestMethod.GET)
-    public String custom(@RequestParam(value = "curPage", required = false) Integer curPage, Model model) {
         if (curPage == null)
             curPage = 1;
+        
+        String str = customHelp (StockConstants.MODEL_300_500, curPage, model);
+        model.addAttribute("url", "stockm300_500");
+        model.addAttribute("modelName", "轮动300-500");
+
+        return str;
+	}
+
+	private String customHelp (String modelName, Integer curPage, Model model) {
+	    if (curPage == null)
+            curPage = 1;
         LBPage<StockModelData> page = new LBPage<StockModelData>();
-        page.setTotalrecord(smdService.count(StockConstants.MODEL_CUSTOME));
+        page.setTotalrecord(smdService.count(modelName));
         page.setMaxresult(pageRecord);
         page.setCurrentpage(curPage);
         if (page.getTotalrecord() % page.getMaxresult() == 0)
@@ -97,7 +86,7 @@ public class StockController {
         else
             page.setTotalpage(page.getTotalrecord() / page.getMaxresult() + 1);
 
-        java.util.List<StockModelData> lst = smdService.getPageData(StockConstants.MODEL_CUSTOME,page.getFirstResult(),
+        java.util.List<StockModelData> lst = smdService.getPageData(modelName, page.getFirstResult(),
                 page.getMaxresult());
 
         page.setRecords(lst);
@@ -106,85 +95,71 @@ public class StockController {
         model.addAttribute("showhelp", new ShowHelp ());
 
         return path + "/custom";
+	}
+	
+	// 定制模型数据
+	
+    @RequestMapping(value = "/custom", method = RequestMethod.GET)
+    public String custom(@RequestParam(value = "curPage", required = false) Integer curPage, Model model) {
+        if (curPage == null)
+            curPage = 1;
+        
+        String str = customHelp (StockConstants.MODEL_CUSTOME, curPage, model);
+        model.addAttribute("url", "custom");
+        model.addAttribute("modelName", "定制模型数据");
+
+        return str;
     }
     
 	// 股票300-创业板模型数据
 	@RequestMapping(value = "/stockm300_chuangyeban", method = RequestMethod.GET)
 	public String stockm300_chuangyeban(@RequestParam(value = "curPage", required = false) Integer curPage,
 			Model model) {
-		if (curPage == null)
-			curPage = 1;
-		LBPage<StockGEMData> page = new LBPage<StockGEMData>();
-		page.setTotalrecord(StockServiceImp.getInstance().GEMDataCount());
-		page.setMaxresult(pageRecord);
-		page.setCurrentpage(curPage);
-		if (page.getTotalrecord() % page.getMaxresult() == 0)
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult());
-		else
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult() + 1);
+        if (curPage == null)
+            curPage = 1;
+        
+        String str = customHelp (StockConstants.MODEL_300_CHUANGYEBAN, curPage, model);
+        model.addAttribute("url", "stockm300_chuangyeban");
+        model.addAttribute("modelName", "轮动牛300-创业板");
 
-		java.util.List<StockGEMData> lst = StockServiceImp.getInstance().getGEMDataPageData(page.getFirstResult(),
-				page.getMaxresult());
-
-		page.setRecords(lst);
-
-		model.addAttribute("Page", page);
-
-		return path + "/stockm300_chuangyeban";
+        return str;
 	}
 
 	// 股票50-创业板模型数据
 	@RequestMapping(value = "/stockm50_chuangyeban", method = RequestMethod.GET)
 	public String stockm50_chuangyeban(@RequestParam(value = "curPage", required = false) Integer curPage,
 			Model model) {
-		if (curPage == null)
-			curPage = 1;
-		LBPage<Stock50GEMData> page = new LBPage<Stock50GEMData>();
-		page.setTotalrecord(Stock50GEMDataServiceImp.getInstance().Count());
-		page.setMaxresult(pageRecord);
-		page.setCurrentpage(curPage);
-		if (page.getTotalrecord() % page.getMaxresult() == 0)
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult());
-		else
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult() + 1);
+		
+        if (curPage == null)
+            curPage = 1;
+        
+        String str = customHelp (StockConstants.MODEL_50_CHUANGYEBAN, curPage, model);
+        model.addAttribute("url", "stockm50_chuangyeban");
+        model.addAttribute("modelName", "50-创业板");
 
-		java.util.List<Stock50GEMData> lst = Stock50GEMDataServiceImp.getInstance().getPageData(page.getFirstResult(),
-				page.getMaxresult());
-		page.setRecords(lst);
-
-		model.addAttribute("Page", page);
-
-		return path + "/stockm50_chuangyeban";
+        return str;
 	}
 
 	// 创业板指数增强模型数据
 	@RequestMapping(value = "/chuangyebanEn", method = RequestMethod.GET)
 	public String chuangyebanEn(@RequestParam(value = "curPage", required = false) Integer curPage, Model model) {
-		if (curPage == null)
-			curPage = 1;
-		LBPage<StockGEMEXData> page = new LBPage<StockGEMEXData>();
-		page.setTotalrecord(StockGEMEXDataServiceImp.getInstance().Count());
-		page.setMaxresult(pageRecord);
-		page.setCurrentpage(curPage);
-		if (page.getTotalrecord() % page.getMaxresult() == 0)
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult());
-		else
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult() + 1);
+		
+	    if (curPage == null)
+            curPage = 1;
+        
+        String str = customHelp (StockConstants.MODEL_CHUANGYEBANEXEX, curPage, model);
+        model.addAttribute("url", "chuangyebanEn");
+        model.addAttribute("modelName", "创业板指数增强 ");
 
-		java.util.List<StockGEMEXData> lst = StockGEMEXDataServiceImp.getInstance().getPageData(page.getFirstResult(),
-				page.getMaxresult());
-		page.setRecords(lst);
-
-		model.addAttribute("Page", page);
-
-		return path + "/chuangyebanEn";
+        return str;
+	    
 	}
 
-	// 初始化股票指数数据和模型相关数据
+	// 初始化股票指数数据
 	
-	@RequestMapping(value = "/initstock", method = RequestMethod.GET)
-	public String initStock(Model model) {
-		Thread th = new Thread(new StockInitThread(true));
+	@RequestMapping(value = "/initstockindex", method = RequestMethod.GET)
+	public String initstockindex(Model model) {
+		Thread th = new Thread(new StockInitThread(true, false, false, smmManager, mdlService, opm));
 		th.start();
 
 		return "redirect:/blog/backend/index";
@@ -199,12 +174,20 @@ public class StockController {
 	
 	@RequestMapping(value = "/initstockdata", method = RequestMethod.GET)
 	public String initstockdata(Model model) {
-		Thread th = new Thread(new StockInitThread(false));
+		Thread th = new Thread(new StockInitThread(false, true, false, smmManager, mdlService, opm));
 		th.start();
 		
 		return "redirect:/blog/backend/index";
 	}
 	
+    @RequestMapping(value = "/initmodeldata", method = RequestMethod.GET)
+    public String initmodeldata(Model model) {
+        Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, opm));
+        th.start();
+        
+        return "redirect:/blog/backend/index";
+    }
+    
 	@GetMapping (value = "/modeltongji")
 	public String modelTongJi (Model model) {
 		// 300-500

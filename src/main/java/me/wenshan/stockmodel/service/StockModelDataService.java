@@ -2,7 +2,6 @@ package me.wenshan.stockmodel.service;
 
 import java.util.List;
 
-import me.wenshan.stock.domain.StockM20Data;
 import me.wenshan.stockmodel.domain.StockModelData;
 
 public interface StockModelDataService {

@@ -31,12 +31,12 @@ public class HibernateUtil {
 		lst.add(me.wenshan.beijing.domain.KongQiZhiLiang.class);
 		lst.add(me.wenshan.stock.domain.StockIndex.class);
 		lst.add(me.wenshan.stock.domain.StockList.class);
-		lst.add(me.wenshan.stock.domain.StockM20Data.class);
-		lst.add(me.wenshan.stock.domain.StockGEMData.class);
-		lst.add(me.wenshan.stock.domain.Stock50GEMData.class);
-		lst.add(me.wenshan.stock.domain.StockGEMEXData.class);
+		//lst.add(me.wenshan.stock.domain.StockM20Data.class);
+		//lst.add(me.wenshan.stock.domain.StockGEMData.class);
+		//lst.add(me.wenshan.stock.domain.Stock50GEMData.class);
+		//lst.add(me.wenshan.stock.domain.StockGEMEXData.class);
 		lst.add(me.wenshan.stock.domain.StockData.class);
-		lst.add(me.wenshan.stock.domain.StockModelTongJi.class);
+		lst.add(me.wenshan.stockmodel.domain.StockModelTongJi.class);
 		lst.add(me.wenshan.stockmodel.domain.StockModelData.class);
 		
 		//lst.add(me.wenshan.stock.domain.StockShData.class);

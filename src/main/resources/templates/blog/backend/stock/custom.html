@@ -19,11 +19,12 @@
 				<ol class="breadcrumb header">
 					<li><span class="icon glyphicon glyphicon-home"></span>主菜单</li>
 					<li>股票模型</li>
-					<li class="active">自定义轮动</li>
+					<li class="active" th:text = "${modelName}">自定义轮动</li>
 				</ol>
 				<div class="panel panel-default">
-					<div class="panel-heading">
-						<span class="icon glyphicon glyphicon-briefcase"></span>自定义轮动
+					<div class="panel-heading" >
+						<span class="icon glyphicon glyphicon-briefcase"></span>
+						<span th:text = "${modelName}">自定义轮动</span>
 					</div>
 					<div class="panel-body">
 
@@ -47,15 +48,16 @@
 						</table>
 						<br />
 						<aside class="paging">
-							<a href="stockm300_500?curPage=1">首页</a> <a
+							<a href = "#" th:href = "@{${url}(curPage=1)}">首页</a> 
+							<a
 								th:if="${Page.currentpage > 1} == true"
 								href="stockm300_500?curPage=1"
-								th:href="@{stockm300_500(curPage=${Page.currentpage - 1})}">上一页</a>
+								th:href="@{${url}(curPage=${Page.currentpage - 1})}">上一页</a>
 							<a th:if="${Page.totalpage > Page.currentpage } == true"
 								href="stockm300_500?curPage=2"
-								th:href="@{stockm300_500(curPage=${Page.currentpage + 1})}">下一页</a>
+								th:href="@{${url}(curPage=${Page.currentpage + 1})}">下一页</a>
 							<a href="stockm300_500?curPage=1"
-								th:href="@{stockm300_500(curPage=${Page.totalpage})}">末页</a>
+								th:href="@{${url}(curPage=${Page.totalpage})}">末页</a>
 							<spawn
 								th:text="' ' + ${Page.totalrecord}+'条  ' + ${Page.currentpage} + '/' + ${Page.totalpage}+ '页' ">
 							1条 2/10页 </spawn>

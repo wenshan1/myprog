@@ -8,9 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import me.wenshan.dao.HibernateUtil;
-import me.wenshan.stock.domain.StockGEMData;
 import me.wenshan.stock.domain.StockIndex;
-import me.wenshan.stock.domain.StockM20Data;
 
 public class StockServiceImp implements IStockService {
 	private static StockServiceImp ssimp;
@@ -65,28 +63,9 @@ public class StockServiceImp implements IStockService {
 		return index;
 	}
 
-	@Override
-	public void saveM20Data(StockM20Data data) {
-		Session sn = HibernateUtil.getSessionFactory().openSession();
-		Transaction sa = sn.beginTransaction();
-		sn.saveOrUpdate(data);
-		sa.commit();
-		sn.close();
-	}
+	
 
-	@Override
-	public List<StockM20Data> getStockM20DataRecord(String riqistr, int ncount) {
-		String sql = String.format(
-				"SELECT * FROM stockmtwdata where riqi <'%s' order by riqi desc limit 0, %d", 
-				riqistr, ncount);
-
-		List<StockM20Data> lst;
-		Session sn = HibernateUtil.getSessionFactory().openSession();
-		lst = sn.createSQLQuery(sql).addEntity(StockM20Data.class).list();
-		sn.close();
-
-		return  lst;
-	}
+	
 
 	@Override
 	public long M20DataCount() {
@@ -96,22 +75,7 @@ public class StockServiceImp implements IStockService {
 		return cou;
 	}
 
-	@Override
-	public List<StockM20Data> getM20DataPageData(int first, int pageSize) {
-		List<StockM20Data> lst = new ArrayList<StockM20Data> (); 
-		
-		Session sn = HibernateUtil.getSessionFactory().openSession();
-		Query query = sn.createQuery("from StockM20Data as a order by a.riqi desc");
-		query.setFirstResult(first);
-		query.setMaxResults(pageSize);
-		
-		List<?> queryList=query.list();
-		for(Object obj : queryList){
-			lst.add((StockM20Data) obj);
-		}
-		sn.close();
-		return lst;
-	}
+	
 
 	public List<StockIndex> getPageData(int first, int pageSize) {
 		List<StockIndex> lst = new ArrayList<StockIndex> (); 
@@ -129,28 +93,9 @@ public class StockServiceImp implements IStockService {
 		return lst;
 	}
 
-	@Override
-	public void saveGEMData(StockGEMData data) {
-		Session sn = HibernateUtil.getSessionFactory().openSession();
-		Transaction sa = sn.beginTransaction();
-		sn.saveOrUpdate(data);
-		sa.commit();
-		sn.close();
-	}
+	
 
-	@Override
-	public List<StockGEMData> getStockGEMDataRecord(String riqistr, int ncount) {
-		String sql = String.format(
-				"SELECT * FROM stockgemdata where riqi <'%s' order by riqi desc limit 0, %d", 
-				riqistr, ncount);
-
-		List<StockGEMData> lst;
-		Session sn = HibernateUtil.getSessionFactory().openSession();
-		lst = sn.createSQLQuery(sql).addEntity(StockGEMData.class).list();
-		sn.close();
-
-		return  lst;
-	}
+	
 
 	@Override
 	public long GEMDataCount() {
@@ -160,40 +105,9 @@ public class StockServiceImp implements IStockService {
 		return cou;
 	}
 
-	@Override
-	public List<StockGEMData> getGEMDataPageData(int first, int pageSize) {
-		List<StockGEMData> lst = new ArrayList<StockGEMData> (); 
-		
-		Session sn = HibernateUtil.getSessionFactory().openSession();
-		Query query = sn.createQuery("from StockGEMData as a order by a.riqi desc");
-		query.setFirstResult(first);
-		query.setMaxResults(pageSize);
-		
-		List<?> queryList=query.list();
-		for(Object obj : queryList){
-			lst.add((StockGEMData) obj);
-		}
-		sn.close();
-		return lst;
-	}
+	
 
-	@Override
-	public StockM20Data getStockM20Data(String strriqi) {
-        String sql = String.format("SELECT * FROM stockmtwdata where riqi = '%s' ", strriqi);
-        Session sn = HibernateUtil.getSessionFactory().openSession();
-        StockM20Data data =  (StockM20Data) sn.createSQLQuery(sql).addEntity(StockM20Data.class).uniqueResult();
-        sn.close();
-        return data;
-	}
-
-	@Override
-	public StockGEMData getStockGEMData(String strriqi) {
-        String sql = String.format("SELECT * FROM stockgemdata where riqi = '%s' ", strriqi);
-        Session sn = HibernateUtil.getSessionFactory().openSession();
-        StockGEMData data =  (StockGEMData) sn.createSQLQuery(sql).addEntity(StockGEMData.class).uniqueResult();
-        sn.close();
-        return data;
-	}
+	
 
 	@Override
 	public boolean saveAll(List<StockIndex> lst, boolean saved) {

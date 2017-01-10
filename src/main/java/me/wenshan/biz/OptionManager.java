@@ -11,7 +11,6 @@ import me.wenshan.blog.backend.form.PostOption;
 import me.wenshan.blog.backend.service.OptionService;
 import me.wenshan.constants.OptionConstants;
 import me.wenshan.stock.service.StockIndexFetcher;
-import me.wenshan.stockmodel.service.StockModelDataService;
 import me.wenshan.util.*;
 
 @Component

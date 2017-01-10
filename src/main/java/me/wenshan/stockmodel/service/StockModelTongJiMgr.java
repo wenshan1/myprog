@@ -1,25 +1,28 @@
-package me.wenshan.stock.mtw;
+package me.wenshan.stockmodel.service;
 
 import java.util.Date;
-import me.wenshan.stock.domain.StockModelTongJi;
+
 import me.wenshan.stock.service.StockModelTongJiService;
-import me.wenshan.util.MyBeanFactory;
+import me.wenshan.stockmodel.domain.StockModelTongJi;
 
 public class StockModelTongJiMgr {
+    private StockModelTongJiService mdlService;
 	private static StockModelTongJiMgr instance = null;
 	private StockModelTongJiMgr () {
 		
 	}
 	
-	public static StockModelTongJiMgr get () {
-		if (instance == null)
+	public static StockModelTongJiMgr get (StockModelTongJiService mdlService) {
+		if (instance == null) {
 			instance = new StockModelTongJiMgr ();
+			instance.mdlService = mdlService;
+		}
 		return instance;
 	}
 	
 	public boolean saveModelData(String modelName, Date date, double dbIndex, 
 			                     String currentstockName) {
-		StockModelTongJiService mdlService = MyBeanFactory.getBean (StockModelTongJiService.class);
+		//StockModelTongJiService mdlService = MyBeanFactory.getBean (StockModelTongJiService.class);
 		StockModelTongJi tongji = mdlService.getLastOne(modelName);
 		if (currentstockName.isEmpty()) {
 			// 如果统计模型已经完成了就忽略，否则就设置统计模型完成了。如果没有模型记录就忽略。
@@ -69,7 +72,7 @@ public class StockModelTongJiMgr {
 	}
 		
 	public boolean removeAllData () {
-		StockModelTongJiService mdlService = MyBeanFactory.getBean (StockModelTongJiService.class);
+		//StockModelTongJiService mdlService = MyBeanFactory.getBean (StockModelTongJiService.class);
 		return mdlService.removeAll ();
 	}
 }

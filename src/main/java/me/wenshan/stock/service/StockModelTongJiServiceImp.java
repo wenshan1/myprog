@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import me.wenshan.blog.backend.form.TongJiForm;
 import me.wenshan.dao.HibernateUtil;
-import me.wenshan.stock.domain.StockModelTongJi;
+import me.wenshan.stockmodel.domain.StockModelTongJi;
 
 @Service
 public class StockModelTongJiServiceImp implements StockModelTongJiService {

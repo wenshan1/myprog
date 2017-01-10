@@ -1,7 +1,5 @@
 package me.wenshan.blog.backend.form;
 
-import java.util.List;
-
 import me.wenshan.blog.domain.Post;
 
 public class PostVO {

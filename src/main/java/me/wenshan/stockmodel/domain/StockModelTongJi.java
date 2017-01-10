@@ -1,4 +1,4 @@
-package me.wenshan.stock.domain;
+package me.wenshan.stockmodel.domain;
 
 import java.util.Date;
 

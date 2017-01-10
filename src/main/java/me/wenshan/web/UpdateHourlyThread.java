@@ -3,41 +3,33 @@ package me.wenshan.web;
 import java.io.PrintWriter;
 import java.util.Calendar;
 
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import me.wenshan.beijing.service.FetchData;
 import me.wenshan.beijing.service.KongQiZhiLiangService;
 import me.wenshan.biz.OptionManager;
 import me.wenshan.blog.backend.form.DataOption;
+import me.wenshan.constants.StockConstants;
 import me.wenshan.newsmth.service.NewsmthFetchData;
 import me.wenshan.newsmth.service.NewsmthServiceImp;
-import me.wenshan.stock.gemex.StockGEMEx;
-import me.wenshan.stock.mtw.Stock50GEM;
-import me.wenshan.stock.mtw.StockM20;
-import me.wenshan.stock.mtw.StockMGEM;
 import me.wenshan.stock.service.StockDataFetcher;
 import me.wenshan.stock.service.StockIndexFetcher;
-import me.wenshan.util.MyBeanFactory;
+import me.wenshan.stockmodel.service.StockModelManager;
 
-@Component
+
 public class UpdateHourlyThread implements Runnable {
-	
-	public UpdateHourlyThread ()
+    
+	private StockModelManager smmManager; 
+    private OptionManager opm;
+	public UpdateHourlyThread (StockModelManager smmManager, 
+            OptionManager opm)
 	{
-		
+		this.opm = opm;
+		this.smmManager = smmManager;
 	}
 	
-	@Scheduled(cron = "0 0 0/1 * * ?")
-	public static void updateHourly_sc ()
-	{
-		updateHourly (null);
-	}
-	
-	public static void updateHourly (PrintWriter out)
+	public static void updateHourly (StockModelManager smmManager, 
+	        OptionManager opm, PrintWriter out)
 	{
 		try { 
-			OptionManager opm = MyBeanFactory.getBean (OptionManager.class);
 			DataOption dataop = opm.getDataOption();
             Calendar cal = Calendar.getInstance();
             int d = cal.get(Calendar.HOUR_OF_DAY);
@@ -45,15 +37,23 @@ public class UpdateHourlyThread implements Runnable {
             if ( d > 14) {
     			
     			StockIndexFetcher.get10DayData_Sc(); // 更新指数数据
+    			
     			// 生产最新m20等数据
+    			/*
     			StockM20 m20 = new StockM20();
     			m20.weeklyIndex();
     			StockMGEM tmp = new StockMGEM();
     			tmp.weeklyIndex();
     			Stock50GEM nn = new Stock50GEM();
     			nn.weeklyIndex();
+    			
     			StockGEMEx tmp3 = new StockGEMEx();
-    			tmp3.weeklyIndex();
+    			tmp3.weeklyIndex(); */
+    			
+    			smmManager.weekly(StockConstants.MODEL_300_500, "sh000300", "sh000905", 20);
+                smmManager.weekly(StockConstants.MODEL_300_CHUANGYEBAN, "sh000300", "sz399006", 20);
+                smmManager.weekly(StockConstants.MODEL_50_CHUANGYEBAN, "sh000016", "sz399006", 20);
+                smmManager.weekly(StockConstants.MODEL_CHUANGYEBANEXEX, "sz399006", "", 20);
     			
     			if (dataop.getStockDataNum() > 0) {
     				
@@ -77,7 +77,7 @@ public class UpdateHourlyThread implements Runnable {
 
 	@Override
 	public void run() {
-		UpdateHourlyThread.updateHourly(null);
+		UpdateHourlyThread.updateHourly(smmManager, opm, null);
 	}
 
 }

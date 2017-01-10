@@ -9,7 +9,6 @@ import org.hibernate.Transaction;
 
 import me.wenshan.beijing.domain.KongQiZhiLiang;
 import me.wenshan.dao.HibernateUtil;
-import me.wenshan.newsmth.domain.Newsmth;
 
 public class KongQiZhiLiangService {
 	private static KongQiZhiLiangService service;

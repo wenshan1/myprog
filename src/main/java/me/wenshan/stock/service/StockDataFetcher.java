@@ -16,14 +16,13 @@ import me.wenshan.biz.OptionManager;
 import me.wenshan.blog.backend.form.DataOption;
 import me.wenshan.stock.domain.StockData;
 import me.wenshan.stock.domain.StockList;
-import me.wenshan.util.MyBeanFactory;
 
 public class StockDataFetcher {
     
     private static final Logger logger = Logger.getLogger(StockDataFetcher.class);
 
-    public static void initStockList() {
-		OptionManager opm = MyBeanFactory.getBean (OptionManager.class);
+    public static void initStockList(OptionManager opm) {
+		//OptionManager opm = MyBeanFactory.getBean (OptionManager.class);
 		DataOption dataop = opm.getDataOption();
         IStockListService ss = new StockListServiceImp();
         ss.removeAllData();
@@ -36,11 +35,11 @@ public class StockDataFetcher {
         }
     }
 
-    public static void initStockData() {
+    public static void initStockData(OptionManager opm) {
         IStockListService ss = new StockListServiceImp();
         IStockDataService ssdata = StockDataServiceImp.get();
         ssdata.removeAllData();
-		OptionManager opm = MyBeanFactory.getBean (OptionManager.class);
+		//OptionManager opm = MyBeanFactory.getBean (OptionManager.class);
 		DataOption dataop = opm.getDataOption();
 		if (dataop.getStockDataNum() == 0)
 			return;

@@ -96,10 +96,7 @@ public class OptionsController {
 	    optionManager.updateDataOption(form);
 	    stockMM.genModelData (StockConstants.MODEL_CUSTOME, form.getStockModelName1(), 
 	            form.getStockModelName2(), form.getStockModelCycle());
-	    
-	    stockMM.weekly(StockConstants.MODEL_CUSTOME, form.getStockModelName1(), 
-                form.getStockModelName2(), form.getStockModelCycle());
-	    
+	    	    
 	    return "blog/backend/options/data";
 	  }
 

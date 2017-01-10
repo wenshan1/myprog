@@ -1,6 +1,6 @@
 package me.wenshan.blog.backend.form;
 
-import me.wenshan.stock.domain.StockModelTongJi;
+import me.wenshan.stockmodel.domain.StockModelTongJi;
 
 public class TongJiForm {
 	// 最大盈利率

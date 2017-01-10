@@ -275,7 +275,7 @@ public class StockIndexFetcher {
     public static boolean get10DayData() {
         boolean bRet = true;
         ArrayList<StockIndex> lst;
-        StringBuilder builder = new StringBuilder();
+        
         ArrayList<String> names = StockIndexFetcher.getSockNames();
         for (int i = 0; i < names.size(); i++) {
             if (bUsedSina)
