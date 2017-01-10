@@ -1,10 +1,14 @@
 package me.wenshan.newsmth.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NewsmthData {
 	private Newsmth newsmth = null;
-	private Photo photo = null;
+	private List<Photo> photos = new ArrayList<Photo> ();
 	
 	public NewsmthData(){
+		 
 	}
 	
 	public Newsmth getNewsmth(){
@@ -14,13 +18,12 @@ public class NewsmthData {
 	public void  setNewsmth(Newsmth nm){
 		 newsmth = nm;
 	}
-
-	public Photo getPhoto() {
-		return photo;
+	public List<Photo> getPhotos ()
+	{
+		return photos;
 	}
-
-	public void setPhoto(Photo photo) {
-		this.photo = photo;
+	public void setPhotos (List<Photo> l)
+	{
+		photos = l;
 	}
-	
 }

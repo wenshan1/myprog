@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layoutblog :: bootstrap">
+<meta charset="UTF-8" />
+
+</head>
+
+<body style="margin-top: 50px;">
+	<div class="container-fluid" th:replace="layoutblog :: navbar" />
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2" id="sidebar" style="padding: 0;">
+				<ul class="side-menu" th:replace="layoutblog :: sidebar" />
+				<script type="text/javascript" src="/blog/js/backend/sidebar.js"></script>
+			</div>
+      <div class="col-sm-9 col-md-10">
+        <ol class="breadcrumb header">
+          <li><span class="icon glyphicon glyphicon-home"></span>主菜单</li>
+          <li>文章</li>
+          <li class="active">编辑文章</li>
+        </ol>
+        
+          <div class="row">
+          <form action="edit" th:action = "@{/blog/backend/posts/save}" method="post" class="form-horizontal text-left" th:object = "${postForm}">
+           <div class="col-sm-9 col-md-9">
+              <div class="panel panel-default">
+               <div class="panel-heading"><span class="icon glyphicon glyphicon-edit"></span>标题/内容</div>
+                <div class="panel-body"> 
+					<input type="hidden" id="postid" th:value="*{id}" th:field = "*{id}" />
+                    <input type="text" id="title" class="form-control input-md" required="required" placeholder="输入标题" th:value="*{title}" th:field = "*{title}"><br/></input>
+                    <textarea name="myEditor" id="myEditor" th:text = "*{content}">这里写你的初始化内容</textarea>
+                    <script type="text/javascript">
+		                var editor = new UE.ui.Editor(); 
+		              editor.render("myEditor");  
+                   </script>
+                </div>
+		   
+		</div>
+	</div>
+				
+		<div class="col-sm-3 .col-md-3">
+           <div class="panel panel-default">
+             <div class="panel-heading">发布</div>
+             <div class="panel-body">
+               <div class="form-group">
+                 <label for="pstatus">公开度</label><br/>
+                 <label class="radio-inline">
+                    <input type="radio" name="pstatus" value="0" th:checked = "*{pstatus} == 0 ? 'checked':''" th:field = "*{pstatus}" >公开</input>
+                 </label>
+                 <label class="radio-inline">
+                    <input type="radio" name="pstatus" value="1" th:checked = "*{pstatus} == 1 ? 'checked':''" th:field = "*{pstatus}">隐藏</input>
+                 </label>
+               </div>
+               <div class="form-group">
+                 <label for="tags">标签</label>
+                 <input type="text" class="form-control" id="tags" th:value = "*{strtag}" th:field = "*{strtag}" />
+                 <span class="help-block">多个标签请用英文逗号（,）分开</span>
+               </div>
+               <div class="form-group">
+                 <label for="cstatus">是否允许评论</label><br/>
+                 <label class="radio-inline">
+                    <input type="radio" name="cstatus" value="0" th:checked = "*{cstatus} == 0?'checked':''"  th:field = "*{cstatus}" >是</input>
+                 </label>
+                 <label class="radio-inline">
+                    <input type="radio" name="cstatus" value="1" th:checked = "*{cstatus} == 1? 'checked':''" th:field = "*{cstatus}" >否</input>
+                 </label>
+               </div>
+             </div>
+             <div class="panel-footer">
+                <p th:if="${success}!=null" th:text = "${success}"> </p>
+               <button type="submit" class="btn btn-info btn-block" >发布</button>
+             </div>
+           </div>
+         </div>
+         </form>
+       </div>
+
+      </div>
+    </div>
+  </div>
+	
+</body>
+</html>

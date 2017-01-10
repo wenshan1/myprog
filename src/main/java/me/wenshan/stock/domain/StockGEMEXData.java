@@ -47,6 +47,11 @@ public class StockGEMEXData {
 	{
 		
 	}
+	
+	public String getClosepriceStr () {
+		return String.format("%.2f", closeprice);
+	}
+	
 	public String getCurrStockName ()
 	{
 		return this.currStockName;

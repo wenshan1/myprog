@@ -39,6 +39,7 @@ public class KongQiZhiLiang {
         targetTime = targetTime + off;
         
         datetime = new Date (targetTime);
+        zhiLiang = -1;
 	}
 	public long getId() {
 		return id;

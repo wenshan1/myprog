@@ -9,5 +9,5 @@ public interface IStockListService {
     void save (StockList data);
     void removeAllData ();
     List<StockList> getAllDataFromDB ();
-    
+    long count();
 }

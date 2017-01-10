@@ -14,6 +14,7 @@ import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
 	private static final Logger logger = Logger.getLogger(HibernateUtil.class);
+	@SuppressWarnings("rawtypes")
 	private static List<Class> entityList = listEntityClass (); 
 
 	// A SessionFactory is set up once for an application
@@ -29,13 +30,25 @@ public class HibernateUtil {
 		lst.add(me.wenshan.beijing.domain.Beijing_fangdican_qianyue.class);
 		lst.add(me.wenshan.beijing.domain.KongQiZhiLiang.class);
 		lst.add(me.wenshan.stock.domain.StockIndex.class);
-		lst.add(me.wenshan.stock.domain.StockData.class);
 		lst.add(me.wenshan.stock.domain.StockList.class);
 		lst.add(me.wenshan.stock.domain.StockM20Data.class);
 		lst.add(me.wenshan.stock.domain.StockGEMData.class);
 		lst.add(me.wenshan.stock.domain.Stock50GEMData.class);
 		lst.add(me.wenshan.stock.domain.StockGEMEXData.class);
+		lst.add(me.wenshan.stock.domain.StockData.class);
+		lst.add(me.wenshan.stock.domain.StockModelTongJi.class);
+		lst.add(me.wenshan.stockmodel.domain.StockModelData.class);
 		
+		//lst.add(me.wenshan.stock.domain.StockShData.class);
+		//lst.add(me.wenshan.stock.domain.StockSzData.class);
+		
+		//lst.add(me.wenshan.blog.domain.Category.class);
+		lst.add(me.wenshan.blog.backend.domain.Option.class);
+		lst.add(me.wenshan.blog.domain.Post.class);
+		lst.add(me.wenshan.blog.domain.Tag.class);
+		
+		//lst.add(me.wenshan.blog.domain.PostTag.class);
+
 		return lst;
 	}
 	
@@ -44,9 +57,23 @@ public class HibernateUtil {
 			Configuration configuration = new Configuration();
 			configuration.configure(configFile);
 			
+			// if openshift, reset the jdbc url etc
+			String str = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+			if (str != null )
+			{
+				configuration.setProperty("hibernate.connection.url", 
+						"jdbc:mysql://" + System.getenv("OPENSHIFT_MYSQL_DB_HOST") + ":" + System.getenv("OPENSHIFT_MYSQL_DB_PORT")
+						+ "/stock?useUnicode=true&characterEncoding=UTF-8");
+				configuration.setProperty("hibernate.connection.username", System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"));
+				configuration.setProperty("hibernate.connection.password", System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"));
+			}
+			//end of openshift
+			
 			for (int i=0; i< entityList.size(); i++)
 				configuration.addAnnotatedClass (entityList.get(i));
 
+			System.out.println(configuration.getProperties().toString());
+			
 			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 					.applySettings(configuration.getProperties()).build();
 			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
@@ -64,7 +91,7 @@ public class HibernateUtil {
 		return sessionFactory;
 	}
 	
-	private static void backAClass (SessionFactory from, SessionFactory to, Class cls)
+	private static void backAClass (SessionFactory from, SessionFactory to, Class<?> cls)
 	{	
 		logger.info("Begin backup " + cls.getName());
 		

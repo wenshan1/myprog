@@ -12,10 +12,12 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
 
 import me.wenshan.dao.HibernateUtil;
 import me.wenshan.stock.domain.StockList;
 
+@Service
 public class StockListServiceImp implements IStockListService {
 
     // 返回的值是一个js代码段 包括指定url页面包含的所有股票代码
@@ -171,5 +173,13 @@ public class StockListServiceImp implements IStockListService {
         sn.close();
         return  lst;
     }
+
+	@Override
+	public long count() {
+        Session sn = HibernateUtil.getSessionFactory().openSession();
+        long cou = (long) sn.createQuery("select count(u) from StockList as u").uniqueResult();
+        sn.close();
+        return cou;
+	}
 
 }

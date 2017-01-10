@@ -13,18 +13,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.log4j.Logger;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
+import me.wenshan.constants.StockConstants;
 import me.wenshan.stock.domain.StockGEMEXData;
 import me.wenshan.stock.domain.StockIndex;
+import me.wenshan.stock.mtw.StockModelTongJiMgr;
 import me.wenshan.stock.service.StockGEMEXDataServiceImp;
 import me.wenshan.stock.service.StockIndexFetcher;
 import me.wenshan.stock.service.StockServiceImp;
 
-@Component
+
 public class StockGEMEx {
     private double dbIndex = 1000; /* 2011-1-1 */
     private final String stockName = "sz399006";
@@ -111,7 +110,8 @@ public class StockGEMEx {
             if (getCurrentIndex(strriqi)) {
                 m20Data = new StockGEMEXData(cal.getTime(), dbIndex, currentstockName, nextstockName, nnextstockName);
                 StockGEMEXDataServiceImp.getInstance().saveOrUpdate(m20Data);
-
+                StockModelTongJiMgr.get().saveModelData (StockConstants.MODEL_CHUANGYEBANEXEX, 
+                        cal.getTime(), dbIndex, currentstockName);
                 currentstockName = nextstockName;
                 nextstockName = nnextstockName;
             }
@@ -133,7 +133,6 @@ public class StockGEMEx {
     	return bRet;
     }
     
-    @Scheduled(cron = "0 0/10 15-23 * * ?")
     public void weeklyIndex() {
     	if (!StockIndexFetcher.isTodayDataExist() || isTodayDataExist ())
     		return;
@@ -178,7 +177,8 @@ public class StockGEMEx {
             if (getCurrentIndex(strriqi)) {
                 m20Data = new StockGEMEXData(cal.getTime(), dbIndex, currentstockName, nextstockName, nnextstockName);
                 StockGEMEXDataServiceImp.getInstance().saveOrUpdate(m20Data);
-
+                StockModelTongJiMgr.get().saveModelData (StockConstants.MODEL_CHUANGYEBANEXEX, 
+                        cal.getTime(), dbIndex, currentstockName);
                 currentstockName = nextstockName;
                 nextstockName = nnextstockName;
             }

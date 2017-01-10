@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layoutblog :: bootstrap">
+<meta charset="UTF-8" />
+</head>
+
+<body style="margin-top: 50px;">
+	<div class="container-fluid" th:replace="layoutblog :: navbar" />
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2" id="sidebar" style="padding: 0;">
+				<ul class="side-menu" th:replace="layoutblog :: sidebar" />
+				<script type="text/javascript" src="/blog/js/backend/sidebar.js"></script>
+			</div>
+
+			<div class="col-sm-9 col-md-10">
+				<ol class="breadcrumb header">
+					<li><span class="icon glyphicon glyphicon-home"></span>主菜单</li>
+					<li>股票模型</li>
+					<li class="active">模型统计</li>
+				</ol>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="icon glyphicon glyphicon-briefcase"></span>300-500模型统计
+					</div>
+					<div class="panel-body">
+
+						<table class="table">
+							<tr>
+								<th>开始日期</th>
+								<th>开始收盘价格</th>
+								<th>开始收盘股票名称</th>
+								<th>结束日期</th>
+								<th>结束收盘价格</th>
+								<th>结束收盘股票名称</th>
+								<th>盈亏</th>
+							</tr>
+							<tr th:each="obj : ${model_300_500}">
+								<td th:text="${#calendars.format(obj.startDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.startClosePrice}">收盘价格</td>
+								<div th:switch="${obj.startStockName}">
+									<td th:case="'sh000300'">沪深300</td>
+									<td th:case="'sh000905'">中证500</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${#calendars.format(obj.endDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.endClosePrice}">收盘价格</td>
+								<div th:switch="${obj.endStockName}">
+									<td th:case="'sh000300'">沪深300</td>
+									<td th:case="'sh000905'">中证500</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${(obj.endClosePrice-obj.startClosePrice)/obj.startClosePrice}">yingkui</td>
+							</tr>
+						</table>
+						<br />
+						
+						<div>最大盈利率：<span th:text = "${tongji300500form.yinMax}"></span>
+						    <table class="table">
+							<tr>
+								<th>开始日期</th>
+								<th>开始收盘价格</th>
+								<th>开始收盘股票名称</th>
+								<th>结束日期</th>
+								<th>结束收盘价格</th>
+								<th>结束收盘股票名称</th>
+								<th>盈亏</th>
+							</tr>
+							<tr th:with="obj = ${tongji300500form.yinMaxObject}">
+								<td th:text="${#calendars.format(obj.startDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.startClosePrice}">收盘价格</td>
+								<div th:switch="${obj.startStockName}">
+									<td th:case="'sh000300'">沪深300</td>
+									<td th:case="'sh000905'">中证500</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${#calendars.format(obj.endDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.endClosePrice}">收盘价格</td>
+								<div th:switch="${obj.endStockName}">
+									<td th:case="'sh000300'">沪深300</td>
+									<td th:case="'sh000905'">中证500</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${(obj.endClosePrice-obj.startClosePrice)/obj.startClosePrice}">yingkui</td>
+							</tr>
+						</table>
+						</div>
+						<div>最小盈利率：<span th:text = "${tongji300500form.yinMin}"></span>
+						<table class="table">
+							<tr>
+								<th>开始日期</th>
+								<th>开始收盘价格</th>
+								<th>开始收盘股票名称</th>
+								<th>结束日期</th>
+								<th>结束收盘价格</th>
+								<th>结束收盘股票名称</th>
+								<th>盈亏</th>
+							</tr>
+							<tr th:with="obj = ${tongji300500form.yinMinObject}">
+								<td th:text="${#calendars.format(obj.startDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.startClosePrice}">收盘价格</td>
+								<div th:switch="${obj.startStockName}">
+									<td th:case="'sh000300'">沪深300</td>
+									<td th:case="'sh000905'">中证500</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${#calendars.format(obj.endDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.endClosePrice}">收盘价格</td>
+								<div th:switch="${obj.endStockName}">
+									<td th:case="'sh000300'">沪深300</td>
+									<td th:case="'sh000905'">中证500</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${(obj.endClosePrice-obj.startClosePrice)/obj.startClosePrice}">yingkui</td>
+							</tr>
+						</table>
+						</div>
+						<div>总记录数：<span th:text = "${tongji300500form.count}"></span> 
+						              盈利记录数：<span th:text = "${tongji300500form.yinCount}"></span></div>
+
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading" style="color: red">
+						<span class="icon glyphicon glyphicon-briefcase"></span>50-创业板模型统计
+					</div>
+					<div class="panel-body">
+
+						<table class="table">
+							<tr>
+								<th>开始日期</th>
+								<th>开始收盘价格</th>
+								<th>开始收盘股票名称</th>
+								<th>结束日期</th>
+								<th>结束收盘价格</th>
+								<th>结束收盘股票名称</th>
+								<th>盈亏</th>
+							</tr>
+							<tr th:each="obj : ${model_50_chuangyeban}">
+								<td th:text="${#calendars.format(obj.startDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.startClosePrice}">收盘价格</td>
+								<div th:switch="${obj.startStockName}">
+						            <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${#calendars.format(obj.endDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.endClosePrice}">收盘价格</td>
+								<div th:switch="${obj.endStockName}">
+						            <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${(obj.endClosePrice-obj.startClosePrice)/obj.startClosePrice}">yingkui</td>
+							</tr>
+						</table>
+						<br />
+						
+						<div>最大盈利率：<span th:text = "${model_50_chuangyebanform.yinMax}"></span>
+						    <table class="table">
+							<tr>
+								<th>开始日期</th>
+								<th>开始收盘价格</th>
+								<th>开始收盘股票名称</th>
+								<th>结束日期</th>
+								<th>结束收盘价格</th>
+								<th>结束收盘股票名称</th>
+								<th>盈亏</th>
+							</tr>
+							<tr th:with="obj = ${model_50_chuangyebanform.yinMaxObject}">
+								<td th:text="${#calendars.format(obj.startDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.startClosePrice}">收盘价格</td>
+								<div th:switch="${obj.startStockName}">
+						            <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${#calendars.format(obj.endDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.endClosePrice}">收盘价格</td>
+								<div th:switch="${obj.endStockName}">
+						            <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${(obj.endClosePrice-obj.startClosePrice)/obj.startClosePrice}">yingkui</td>
+							</tr>
+						</table>
+						</div>
+						<div>最小盈利率：<span th:text = "${model_50_chuangyebanform.yinMin}"></span>
+						<table class="table">
+							<tr>
+								<th>开始日期</th>
+								<th>开始收盘价格</th>
+								<th>开始收盘股票名称</th>
+								<th>结束日期</th>
+								<th>结束收盘价格</th>
+								<th>结束收盘股票名称</th>
+								<th>盈亏</th>
+							</tr>
+							<tr th:with="obj = ${model_50_chuangyebanform.yinMinObject}">
+								<td th:text="${#calendars.format(obj.startDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.startClosePrice}">收盘价格</td>
+								<div th:switch="${obj.startStockName}">
+					                <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${#calendars.format(obj.endDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.endClosePrice}">收盘价格</td>
+								<div th:switch="${obj.endStockName}">
+                                    <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${(obj.endClosePrice-obj.startClosePrice)/obj.startClosePrice}">yingkui</td>
+							</tr>
+						</table>
+						</div>
+						<div>总记录数：<span th:text = "${model_50_chuangyebanform.count}"></span> 
+						              盈利记录数：<span th:text = "${model_50_chuangyebanform.yinCount}"></span></div>
+
+					</div>
+				</div>				
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="icon glyphicon glyphicon-briefcase"></span>创业板增强模型统计
+					</div>
+					<div class="panel-body">
+
+						<table class="table">
+							<tr>
+								<th>开始日期</th>
+								<th>开始收盘价格</th>
+								<th>开始收盘股票名称</th>
+								<th>结束日期</th>
+								<th>结束收盘价格</th>
+								<th>结束收盘股票名称</th>
+								<th>盈亏</th>
+							</tr>
+							<tr th:each="obj : ${chuangyebanex}">
+								<td th:text="${#calendars.format(obj.startDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.startClosePrice}">收盘价格</td>
+								<div th:switch="${obj.startStockName}">
+						            <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${#calendars.format(obj.endDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.endClosePrice}">收盘价格</td>
+								<div th:switch="${obj.endStockName}">
+						            <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${(obj.endClosePrice-obj.startClosePrice)/obj.startClosePrice}">yingkui</td>
+							</tr>
+						</table>
+						<br />
+						
+						<div>最大盈利率：<span th:text = "${chuangyebanexform.yinMax}"></span>
+						    <table class="table">
+							<tr>
+								<th>开始日期</th>
+								<th>开始收盘价格</th>
+								<th>开始收盘股票名称</th>
+								<th>结束日期</th>
+								<th>结束收盘价格</th>
+								<th>结束收盘股票名称</th>
+								<th>盈亏</th>
+							</tr>
+							<tr th:with="obj = ${chuangyebanexform.yinMaxObject}">
+								<td th:text="${#calendars.format(obj.startDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.startClosePrice}">收盘价格</td>
+								<div th:switch="${obj.startStockName}">
+						            <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${#calendars.format(obj.endDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.endClosePrice}">收盘价格</td>
+								<div th:switch="${obj.endStockName}">
+						            <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${(obj.endClosePrice-obj.startClosePrice)/obj.startClosePrice}">yingkui</td>
+							</tr>
+						</table>
+						</div>
+						<div>最小盈利率：<span th:text = "${chuangyebanexform.yinMin}"></span>
+						<table class="table">
+							<tr>
+								<th>开始日期</th>
+								<th>开始收盘价格</th>
+								<th>开始收盘股票名称</th>
+								<th>结束日期</th>
+								<th>结束收盘价格</th>
+								<th>结束收盘股票名称</th>
+								<th>盈亏</th>
+							</tr>
+							<tr th:with="obj = ${chuangyebanexform.yinMinObject}">
+								<td th:text="${#calendars.format(obj.startDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.startClosePrice}">收盘价格</td>
+								<div th:switch="${obj.startStockName}">
+					                <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${#calendars.format(obj.endDate, 'yyyy-MM-dd')}">日期1</td>
+								<td th:text="${obj.endClosePrice}">收盘价格</td>
+								<div th:switch="${obj.endStockName}">
+                                    <td th:case="'sh000016'">上证50</td>
+						            <td th:case="'sz399006'">创业板指</td>
+									<td th:case="*"></td>
+								</div>
+								<td th:text="${(obj.endClosePrice-obj.startClosePrice)/obj.startClosePrice}">yingkui</td>
+							</tr>
+						</table>
+						</div>
+						<div>总记录数：<span th:text = "${chuangyebanexform.count}"></span> 
+						              盈利记录数：<span th:text = "${chuangyebanexform.yinCount}"></span></div>
+
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>

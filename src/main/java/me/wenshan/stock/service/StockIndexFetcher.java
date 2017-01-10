@@ -11,18 +11,15 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import me.wenshan.stock.domain.StockIndex;
 
-@Component
 public class StockIndexFetcher {
 
     final static boolean bUsedSina = true;
     private static final Logger logger = Logger.getLogger(StockIndexFetcher.class);
 
-    private static ArrayList<String> getSockNames() {
+    public static ArrayList<String> getSockNames() {
         ArrayList<String> list = new ArrayList<String>();
         if (bUsedSina) {
             list.add("sh000001"); // 上证指数
@@ -224,14 +221,16 @@ public class StockIndexFetcher {
         return list;
     }
 
-    private static void SaveAllData(ArrayList<StockIndex> list, StringBuilder builder) {
+    private static void SaveAllData(ArrayList<StockIndex> list, boolean init) {
+    	StockServiceImp.getInstance().saveAll(list, init);
+    	/*
         for (int i = 0; i < list.size(); i++) {
             StockServiceImp.getInstance().save(list.get(i));
             if (i == 0) {
                 builder.append(list.get(i).toString());
                 builder.append("\n");
             }
-        }
+        }*/
     }
     
     public static boolean  isTodayDataExist ()
@@ -254,7 +253,6 @@ public class StockIndexFetcher {
     	return bRet;
     }
 
-    @Scheduled(cron = "0 0/10 15-23 * * ?")
     public static void get10DayData_Sc() {
     	if (isTodayDataExist ())
     		return;
@@ -285,10 +283,10 @@ public class StockIndexFetcher {
                 lst = StockIndexFetcher.getAllHistoryDataFromSina(names.get(i), 10);
                 if (lst.isEmpty())
                     bRet = false;
-                SaveAllData(lst, builder);
+                SaveAllData(lst, false);
             }
             else
-                SaveAllData(StockIndexFetcher.getAllHistoryDataFromYahoo(names.get(i), 5), builder);
+                SaveAllData(StockIndexFetcher.getAllHistoryDataFromYahoo(names.get(i), 5), false);
         }
 
         return bRet;
@@ -299,9 +297,9 @@ public class StockIndexFetcher {
         ArrayList<String> names = StockIndexFetcher.getSockNames();
         for (int i = 0; i < names.size(); i++) {
             if (bUsedSina)
-                SaveAllData(getAllHistoryDataFromSina(names.get(i), -1), builder);
+                SaveAllData(getAllHistoryDataFromSina(names.get(i), -1), true);
             else
-                SaveAllData(getAllHistoryDataFromYahoo(names.get(i), -1), builder);
+                SaveAllData(getAllHistoryDataFromYahoo(names.get(i), -1), true);
         }
 
         return builder.toString();

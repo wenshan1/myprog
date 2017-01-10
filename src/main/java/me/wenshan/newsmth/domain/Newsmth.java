@@ -25,11 +25,11 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table (name = "newsmth")
 public class Newsmth {
-	
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long  id;
-	
 	@Id
+	@Column (name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	
 	@NotNull
 	@Column (name="link")
 	private String  link;        /* 文章链接 */
@@ -61,6 +61,15 @@ public class Newsmth {
     //@JoinColumn(name="newsmth_fk")
 	//private Set<Photo> photos = new HashSet<Photo>();
 	
+	
+	public long getId ()
+	{
+		return id;
+	}
+	public void setId (long i)
+	{
+		id = i;
+	}
 	
 	public String getAuthor() {
 		return author;

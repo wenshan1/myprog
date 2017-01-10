@@ -14,33 +14,26 @@ import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
-
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
-
 import me.wenshan.newsmth.domain.Newsmth;
 import me.wenshan.newsmth.domain.NewsmthData;
 import me.wenshan.newsmth.domain.Photo;
 
-@Component
 public class NewsmthFetchData {
 
 	private static final Logger logger = Logger.getLogger(NewsmthFetchData.class);
 	
 	private static NewsmthService nmservice = NewsmthServiceImp.getInstance();
 
-	@Scheduled(cron = "0 0/20 * * * ?")
 	public static void fetchAll_sc () {
 		logger.info("start fetch www.newsmth.net data");
 		fetchAll();
@@ -98,8 +91,7 @@ public class NewsmthFetchData {
 	} */
 
 	private static void getPhoto(String str, NewsmthData nmdata) {
-		Photo photo = new Photo(nmdata.getNewsmth().getLink());
-		int num = 0;
+		Photo photo = new Photo();
 		Document doc = Jsoup.parseBodyFragment(str);
 		Elements media = doc.select("[src]");
 		for (Element src : media) {
@@ -117,8 +109,9 @@ public class NewsmthFetchData {
 
 					// All the following subsequent URLConnections will use the
 					// same cookie manager.
-
-					url = new URL(src.attr("abs:src"));
+					
+					String picName = src.attr("abs:src"); 
+					url = new URL(picName);
 
 					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 					connection.setRequestProperty("User-Agent",
@@ -143,8 +136,9 @@ public class NewsmthFetchData {
 						}
 						/* not empty */
 						if (i > 10) {
-							photo.setPhoto(new SerialBlob(bytes), num);
-							num++;
+							photo.setPic(new SerialBlob(bytes));
+							photo.setPicname(picName);
+							nmdata.getPhotos().add(photo);
 						}
 
 					}
@@ -168,9 +162,6 @@ public class NewsmthFetchData {
 
 			}
 		}
-		if (photo.getPhoto(0) != null)
-			nmdata.setPhoto(photo);
-
 	}
 
 	private static boolean fetchNewsmth(String rss, String boardName) {

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import me.wenshan.constants.UserConstants;
 import me.wenshan.userinfo.domain.User;
 import me.wenshan.userinfo.service.UserServiceImp;
 
@@ -21,13 +22,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (user == null)
 			return null;
 
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true,
-				true, true, true, getGrantedAuthorities(user));
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), 
+				user.isEnable(), true, true, true, getGrantedAuthorities(user));
 	}
 	
 	 private List<org.springframework.security.core.GrantedAuthority> getGrantedAuthorities(User user){
 	        List<org.springframework.security.core.GrantedAuthority> authorities = new ArrayList<org.springframework.security.core.GrantedAuthority>();
-	        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+	        if (user.getRole() == UserConstants.USER_ROLE_ADMIN)
+	        	authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+	        else if (user.getRole() != UserConstants.USER_ROLE_ADMIN)
+	        	authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 	        return authorities;
 	    }
 

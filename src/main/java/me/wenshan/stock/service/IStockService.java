@@ -7,7 +7,8 @@ import me.wenshan.stock.domain.StockIndex;
 import me.wenshan.stock.domain.StockM20Data;
 
 public interface IStockService {
-	
+	boolean removeAll ();
+	boolean saveAll(List<StockIndex> lst, boolean saved);
 	void save (StockIndex sin);
 	long count();
 	List<StockIndex> getDataRecord (String stockname, String riqistr, int ncount);

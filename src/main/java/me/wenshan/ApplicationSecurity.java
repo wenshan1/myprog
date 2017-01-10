@@ -32,8 +32,10 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/admin/**", "/stock/**").hasRole("ADMIN").and().formLogin();
-	
+		http.authorizeRequests().antMatchers("/admin/**", "/stock/**", "/blog/backend/**").hasRole("ADMIN").and().formLogin()
+		.loginPage("/login")
+		.and()
+		.logout().permitAll().and().rememberMe().tokenValiditySeconds(60*60*24*10);
 	}
 	
 	@Override

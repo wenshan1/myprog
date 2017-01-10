@@ -16,7 +16,6 @@ import java.util.List;
 
 import me.wenshan.newsmth.domain.Newsmth;
 import me.wenshan.newsmth.domain.NewsmthData;
-import me.wenshan.newsmth.domain.Photo;
 
 public interface NewsmthService {
 
@@ -26,9 +25,10 @@ public interface NewsmthService {
 	
 	long count();
 	long countPhoto();
+	//preservernum: 保留条数
+	void deleteOld (long preservernum);
 	
 	List<NewsmthData> getPageData(int first, int pageSize);
 	
-	Photo getPhotoById(String link);
-	void delete (String link);
+	void delete (long id);
 }

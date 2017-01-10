@@ -15,14 +15,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
+import me.wenshan.constants.StockConstants;
 import me.wenshan.stock.domain.StockM20Data;
 import me.wenshan.stock.service.StockIndexFetcher;
 import me.wenshan.stock.service.StockServiceImp;
 
-@Component
 public class StockM20 extends Stock28 {
     private static final Logger logger = Logger.getLogger(StockM20.class);
     
@@ -55,7 +53,6 @@ public class StockM20 extends Stock28 {
     	return bRet;
     }
     
-    @Scheduled(cron = "0 0/10 15-23 * * ?")
     public void weeklyIndex() {
     	if (!StockIndexFetcher.isTodayDataExist() || isTodayDataExist ())
     		return;
@@ -100,6 +97,9 @@ public class StockM20 extends Stock28 {
             if (getCurrentIndex(strriqi)) {
                 m20Data = new StockM20Data(cal.getTime(), dbIndex, currentstockName, nextstockName, nnextstockName);
                 StockServiceImp.getInstance().saveM20Data(m20Data);
+                
+                StockModelTongJiMgr.get().saveModelData (StockConstants.MODEL_300_500, 
+                                                         cal.getTime(), dbIndex, currentstockName);
 
                 String tmp = String.format("<p>日期=%s 当前股票代码=%s 下一日股票代码=%s, 下下日股票代码=%s, 指数值=%f </p>", strriqi,
                         currentstockName, nextstockName, nnextstockName, dbIndex);
@@ -138,6 +138,9 @@ public class StockM20 extends Stock28 {
             if (getCurrentIndex(strriqi)) {
                 m20Data = new StockM20Data(cal.getTime(), dbIndex, currentstockName, nextstockName, nnextstockName);
                 StockServiceImp.getInstance().saveM20Data(m20Data);
+                
+                StockModelTongJiMgr.get().saveModelData (StockConstants.MODEL_300_500, 
+                		                                 cal.getTime(), dbIndex, currentstockName);
 
                 String tmp = String.format("<p>日期=%s 当前股票代码=%s 下一日股票代码=%s, 下下日股票代码=%s, 指数值=%f </p>\n", strriqi,
                         currentstockName, nextstockName, nnextstockName, dbIndex);

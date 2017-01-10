@@ -194,4 +194,35 @@ public class StockServiceImp implements IStockService {
         sn.close();
         return data;
 	}
+
+	@Override
+	public boolean saveAll(List<StockIndex> lst, boolean saved) {
+		Session sn = HibernateUtil.getSessionFactory().openSession();
+		Transaction sa = sn.beginTransaction();
+		for (int i = 0; i < lst.size(); i++) {
+			if (saved)
+				sn.save(lst.get(i));
+			else
+				sn.saveOrUpdate(lst.get(i));
+
+			if (i % 500 == 0) {
+				sa.commit();
+				sa = sn.beginTransaction();
+			}
+		}
+		sa.commit();
+		sn.close();
+		return true;
+	}
+
+	@Override
+	public boolean removeAll() {
+		Session sn = HibernateUtil.getSessionFactory().openSession();
+		Transaction sa = sn.beginTransaction();
+		sn.createQuery("delete from StockIndex").executeUpdate();
+		sa.commit();
+		sn.close();
+		
+		return true;
+	}
 }

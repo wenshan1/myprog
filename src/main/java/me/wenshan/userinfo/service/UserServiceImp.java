@@ -2,10 +2,12 @@ package me.wenshan.userinfo.service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
 
 import me.wenshan.dao.HibernateUtil;
 import me.wenshan.userinfo.domain.User;
 
+@Service
 public class UserServiceImp implements UserService {
 
 	private static UserServiceImp service = null;
@@ -23,7 +25,6 @@ public class UserServiceImp implements UserService {
 	
 	@Override
 	public void save(User user) {
-	
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa=sn.beginTransaction();
 		sn.saveOrUpdate(user);
@@ -34,7 +35,7 @@ public class UserServiceImp implements UserService {
 	@Override
 	public User getUser(String user) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
-		User userObj=(User) sn.createQuery("from User as u where u.username = ?").setString(0, user).uniqueResult();
+		User userObj=(User) sn.createQuery("from User as u where u.nickName = :nickName").setString("nickName", user).uniqueResult();
 		sn.close();
 		return userObj;
 	}
@@ -46,5 +47,12 @@ public class UserServiceImp implements UserService {
 		sn.close();
 		return cou;
 	}
-	
+
+	@Override
+	public User loadById(String id) {
+		Session sn = HibernateUtil.getSessionFactory().openSession();
+		User userObj=(User) sn.createQuery("from User as u where u.id = :id").setString("id", id).uniqueResult();
+		sn.close();
+		return userObj;
+	}
 }

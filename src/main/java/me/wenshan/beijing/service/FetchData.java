@@ -9,17 +9,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import me.wenshan.beijing.domain.Beijing_fangdican_qianyue;
 import me.wenshan.beijing.domain.KongQiZhiLiang;
 
-@Component
 public class FetchData {
 	private static final Logger logger = Logger.getLogger(FetchData.class);
 
-	@Scheduled(cron = "0 0/20 * * * ?")
 	public static void fetchAll_Sc() {
 		logger.info("start fetch beijing data");
 		fetchAll();
@@ -27,7 +22,9 @@ public class FetchData {
 	}
 
 	public static boolean fetchAll() {
-		return scanBeijingKongQi() && scanBeijingFangDiCan();
+		scanBeijingKongQi();
+		scanBeijingFangDiCan();
+		return true;
 	}
 
 	private static boolean scanBeijingKongQi() {
@@ -59,11 +56,7 @@ public class FetchData {
 				bGot = true;
 			}
 		}
-
-		if (bGot) {
-			kongqiservice.saveOrUpdate(kongQi);
-		} else
-			kongQi = null;
+		kongqiservice.save(kongQi);
 		return bGot;
 	}
 

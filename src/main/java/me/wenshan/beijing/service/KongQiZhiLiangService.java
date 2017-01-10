@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 
 import me.wenshan.beijing.domain.KongQiZhiLiang;
 import me.wenshan.dao.HibernateUtil;
+import me.wenshan.newsmth.domain.Newsmth;
 
 public class KongQiZhiLiangService {
 	private static KongQiZhiLiangService service;
@@ -23,11 +24,11 @@ public class KongQiZhiLiangService {
 			service = new KongQiZhiLiangService();
 		return service;
 	}
-	public void saveOrUpdate(KongQiZhiLiang kongqi)
+	public void save(KongQiZhiLiang kongqi)
 	{
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa=sn.beginTransaction();
-		sn.saveOrUpdate(kongqi);
+		sn.save(kongqi);
 		sa.commit();
 		sn.close();
 	};
@@ -54,4 +55,20 @@ public class KongQiZhiLiangService {
         sn.close();
         return lst;
     }
+    
+    public void deleteOld(long preservernum) {
+		Session sn = HibernateUtil.getSessionFactory().openSession();
+		if (count() > preservernum) {
+			long nRemoved = count() - preservernum;
+			List<?> lst;
+			lst = sn.createQuery("from KongQiZhiLiang order by id").list();
+			Transaction sa = sn.beginTransaction();
+			for (long i = 0; i < nRemoved; i++) {
+				KongQiZhiLiang nm = (KongQiZhiLiang) lst.get((int) i);
+				sn.delete(nm);
+			}
+			sa.commit();
+		}
+		sn.close();
+	}
 }

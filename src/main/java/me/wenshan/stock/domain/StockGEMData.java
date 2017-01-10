@@ -45,6 +45,11 @@ public class StockGEMData {
 	{
 		
 	}
+	
+	public String getClosepriceStr () {
+		return String.format("%.2f", closeprice);
+	}
+	
 	public String getCurrStockName ()
 	{
 		return this.currStockName;
