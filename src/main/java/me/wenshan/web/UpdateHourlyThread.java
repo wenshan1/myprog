@@ -34,7 +34,7 @@ public class UpdateHourlyThread implements Runnable {
             Calendar cal = Calendar.getInstance();
             int d = cal.get(Calendar.HOUR_OF_DAY);
             
-            if ( d > 14) {
+            if ( d > 15 && !StockIndexFetcher.isTodayDataExist()) {
     			
     			StockIndexFetcher.get10DayData_Sc(); // 更新指数数据
     			
