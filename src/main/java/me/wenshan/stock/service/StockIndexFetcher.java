@@ -254,6 +254,7 @@ public class StockIndexFetcher {
     }
 
     public static void get10DayData_Sc() {
+        int nCount = 0;
     	if (isTodayDataExist ())
     		return;
     	
@@ -268,6 +269,9 @@ public class StockIndexFetcher {
                 e.printStackTrace();
             }
             bRet = get10DayData ();
+            
+            if (nCount ++ > 2)
+                break;
         }
         logger.info("End of fetch index stock data");
     }

@@ -61,13 +61,15 @@ public class UpdateHourlyThread implements Runnable {
     			StockDataFetcher.getTenDayData_Sc();
     			}
             }
-            
-			FetchData.fetchAll_Sc(); // 更新北京房地产数据和空气质量
-			NewsmthFetchData.fetchAll_sc();
-			
+            			
 			// 删除过多newsmth记录
 			NewsmthServiceImp.getInstance().deleteOld(dataop.getNewsmthNum());
 			KongQiZhiLiangService.getInstance().deleteOld(dataop.getBeijingQuality());
+			
+	        FetchData.fetchAll_Sc(); // 更新北京房地产数据和空气质量
+	        
+	        if (dataop.getNewsmthNum() <= 0)
+	            NewsmthFetchData.fetchAll_sc();
 						
 		} catch (Exception e) {
 			if (out != null)

@@ -90,11 +90,11 @@ public class OptionManager {
 		boolean bStock2 = false;
 		ArrayList<String> stockList = StockIndexFetcher.getSockNames();
 	        
-		if(option.getBeijingQuality() < 10000) {
-			form.put("beijingQuality", "数据应该大于10000");
+		if(option.getBeijingQuality() < 1) {
+			form.put("beijingQuality", "数据应该大于1");
 			}
-		if (option.getNewsmthNum() < 1000) {
-			form.put("newsmthNum", "数据应该大于1000");
+		if (option.getNewsmthNum() < 1) {
+			form.put("newsmthNum", "数据应该大于1");
 		}
 		if (option.getStockDataNum() < 0) {
 			form.put("stockDataNum", "数据不能为负数");
