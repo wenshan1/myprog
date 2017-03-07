@@ -93,8 +93,8 @@ public class OptionManager {
 		if(option.getBeijingQuality() < 1) {
 			form.put("beijingQuality", "数据应该大于1");
 			}
-		if (option.getNewsmthNum() < 1) {
-			form.put("newsmthNum", "数据应该大于1");
+		if (option.getNewsmthNum() < 0) {
+			form.put("newsmthNum", "数据不能为负数");
 		}
 		if (option.getStockDataNum() < 0) {
 			form.put("stockDataNum", "数据不能为负数");
