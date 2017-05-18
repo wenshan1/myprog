@@ -63,7 +63,8 @@ public class FetchData {
 	private static boolean scanBeijingFangDiCan() {
 		FangDiCanQianYueService fangcanservice = FangDiCanQianYueService.getInstance();
 
-		Connection con = Jsoup.connect("http://www.bjjs.gov.cn/tabid/2167/Default.aspx");
+		Connection con = Jsoup.connect("http://www.bjjs.gov.cn/bjjs/fwgl/fdcjy/fwjy/index.shtml");
+	    con.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0");
 		con.timeout(300000);
 		Document doc;
 		try {
@@ -73,60 +74,65 @@ public class FetchData {
 			logger.error("获得北京房地产数据失败。");
 			return false;
 		}
-
-		Beijing_fangdican_qianyue beijing = new Beijing_fangdican_qianyue();
-
-		// 日期
-		Element riqiEle = doc.getElementById("ess_ctr5115_FDCJY_HouseTransactionStatist_timeMark2");
 		
-		if (riqiEle == null)
-		{
-			return false;
-		}
-		String str = riqiEle.text();
-		
-		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			beijing.setRiqi(formater.parse(str));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+        Elements  elesTable = doc.getElementsByTag("table");
+        System.out.println(elesTable.html());
+        
+        Elements  eles = elesTable;
+        
+        // 期房网上签约
+        
+        Element ele = eles.get(6);
+        eles = ele.children();  // the table children
+        eles = eles.get(0).children();  
+        String str = eles.get(0).text();  
+        String riqi = str.replaceAll("期房网上签约", "");
+        
+        String strQifang = eles.get(1).children().get(1).text(); //总签约套数
+        String strQifangZhuzai = eles.get(3).children().get(1).text(); //住宅
 
-		// 存量房总
-		Element cunliangfang_zongEle = doc.getElementById("ess_ctr5112_FDCJY_SignOnlineStatistics_totalCount4");
-		str = cunliangfang_zongEle.text();
-		beijing.setCunliangfang_zong(Integer.valueOf(str));
-
-		// 存量房总
-		Element cunliangfang_zhuzhaiEle = doc.getElementById("ess_ctr5112_FDCJY_SignOnlineStatistics_residenceCount4");
-		str = cunliangfang_zhuzhaiEle.text();
-		beijing.setCunliangfang_zhuzhai(Integer.valueOf(str));
-
-		// 现房 总
-		Element xianfang_zongEle = doc.getElementById("ess_ctr5115_FDCJY_HouseTransactionStatist_totalCount8");
-		str = xianfang_zongEle.text();
-		beijing.setXianfang_zong(Integer.valueOf(str));
-
-		// 现房住宅
-		Element xianfang_zhuzhaiEle = doc.getElementById("ess_ctr5115_FDCJY_HouseTransactionStatist_residenceCount8");
-		str = xianfang_zhuzhaiEle.text();
-		beijing.setXianfang_zhuzhai(Integer.valueOf(str));
-
-		// 期房
-		Element qifang_zongEle = doc.getElementById("ess_ctr5115_FDCJY_HouseTransactionStatist_totalCount4");
-		str = qifang_zongEle.text();
-		beijing.setQifang_zong(Integer.valueOf(str));
-
-		// 期房住宅
-		Element qifang_zhuzhaiEle = doc.getElementById("ess_ctr5115_FDCJY_HouseTransactionStatist_residenceCount4");
-		str = qifang_zhuzhaiEle.text();
-		beijing.setQifang_zhuzhai(Integer.valueOf(str));
-
-		fangcanservice.saveOrUpdate(beijing);
-
-		beijing = null;
-
+        // 现房网上签约
+        eles = elesTable;
+        ele = eles.get(10);
+        eles = ele.children();  // the table children
+        eles = eles.get(0).children();          
+        String strXianfang = eles.get(1).children().get(1).text();
+        String strXianfangZhuzai = eles.get(3).children().get(1).text(); //住宅
+        
+        // 存量房网上签约 
+        eles = elesTable;
+        ele = eles.get(13);
+        eles = ele.children();  // the table children
+        eles = eles.get(0).children();
+        eles = eles.get(0).children();
+        eles = eles.get(3).children();
+        eles = eles.get(0).children();
+        ele = eles.get(0);
+        String strChuanlian = ele.children().get(1).text();
+        String strChuanlianZhuzai = ele.children().get(3).children().get(1).text(); //住宅
+        
+        // save data
+        
+        Beijing_fangdican_qianyue beijing = new Beijing_fangdican_qianyue();
+        
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            beijing.setRiqi(formater.parse(riqi));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+        beijing.setQifang_zong(Integer.valueOf(strQifang));
+        beijing.setQifang_zhuzhai(Integer.valueOf(strQifangZhuzai));
+        
+        beijing.setXianfang_zhuzhai(Integer.valueOf(strXianfangZhuzai));
+        beijing.setXianfang_zong(Integer.valueOf(strXianfang));
+        
+        beijing.setCunliangfang_zhuzhai(Integer.valueOf(strChuanlianZhuzai));
+        beijing.setCunliangfang_zong(Integer.valueOf(strChuanlian));
+        fangcanservice.saveOrUpdate(beijing);
+        
 		return true;
 	}
 
