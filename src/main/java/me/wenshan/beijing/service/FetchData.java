@@ -108,7 +108,7 @@ public class FetchData {
         eles = eles.get(3).children();
         eles = eles.get(0).children();
         ele = eles.get(0);
-        String strChuanlian = ele.children().get(1).text();
+        String strChuanlian = ele.children().get(1).children().get(1).text();
         String strChuanlianZhuzai = ele.children().get(3).children().get(1).text(); //住宅
         
         // save data
