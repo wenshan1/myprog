@@ -49,6 +49,8 @@ public class NewsmthServiceImp implements NewsmthService {
 		Object obj = sn.createQuery("select nm.id from Newsmth as nm where nm.link = ?").setString(0, nmdata.getNewsmth().getLink()).uniqueResult();
 		sn.clear();
 		
+		try{
+			
 		if (obj != null) {
 			long id = (long) obj;
 			nmdata.getNewsmth().setId(id);
@@ -68,9 +70,15 @@ public class NewsmthServiceImp implements NewsmthService {
             }
 		
 		sa.commit();
-
-		sn.close();
-		sn = null;
+		}
+		catch (Exception e)
+		{
+			
+			sa.rollback();
+		}finally {
+			sn.close();
+			sn = null;	
+		}
 	}
 
 	@SuppressWarnings("unchecked")

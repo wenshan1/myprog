@@ -76,7 +76,7 @@ public class FetchData {
 		}
 		
         Elements  elesTable = doc.getElementsByTag("table");
-        System.out.println(elesTable.html());
+        //System.out.println(elesTable.html());
         
         Elements  eles = elesTable;
         
