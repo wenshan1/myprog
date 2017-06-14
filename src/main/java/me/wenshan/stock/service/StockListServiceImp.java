@@ -75,6 +75,8 @@ public class StockListServiceImp implements IStockListService {
     private List<String> handleStockCode(String code) {
         List<String> codes = null;
         int end = code.indexOf(";");
+        if (end < 1)
+            return null;
         code = code.substring(0, end);
         int start = code.lastIndexOf("=");
         code = code.substring(start);
@@ -118,7 +120,9 @@ public class StockListServiceImp implements IStockListService {
                 return codes;
             }
             String code = getBatchStackCodes(url);
-            codes.addAll(handleStockCode(code));
+            List<String> lstr = handleStockCode(code);
+            if (lstr != null)
+                codes.addAll(lstr);
         }
         return codes;
     }
