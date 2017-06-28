@@ -36,7 +36,8 @@ public class UpdateHourlyThread implements Runnable {
             
             if ( d > 15 && !StockIndexFetcher.isTodayDataExist()) {
     			
-    			StockIndexFetcher.get10DayData_Sc(); // 更新指数数据
+                //因为sina和yanhoo关闭了历史数据接口
+    			//StockIndexFetcher.get10DayData_Sc(); // 更新指数数据
     			
     			// 生产最新m20等数据
     			/*
@@ -56,9 +57,9 @@ public class UpdateHourlyThread implements Runnable {
                 smmManager.weekly(StockConstants.MODEL_CHUANGYEBANEXEX, "sz399006", "", 20);
     			
     			if (dataop.getStockDataNum() > 0) {
-    				
+                //因为sina和yanhoo关闭了历史数据接口
     			//得到股票的数据
-    			StockDataFetcher.getTenDayData_Sc();
+    			//StockDataFetcher.getTenDayData_Sc();
     			}
             }
             			

@@ -44,6 +44,8 @@ class StockIndex_PK implements Serializable{
 	}
 }
 
+// 指数股票日k线数据
+
 @Entity
 @Table(name = "stockindex")
 public class StockIndex {

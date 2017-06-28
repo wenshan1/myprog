@@ -35,7 +35,9 @@ public class StockInitThread implements Runnable  {
 	public void run() {
 		if (bInitIndex) {
 		    StockServiceImp.getInstance().removeAll();
-	        StockIndexFetcher.getInitData();
+		    
+		    // 注释。因为不能从sina或雅虎获得数据。
+	        //StockIndexFetcher.getInitData(); 
 		}
 		if (bInitStock) {
 			initStockData ();

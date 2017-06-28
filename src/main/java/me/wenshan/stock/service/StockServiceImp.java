@@ -63,9 +63,6 @@ public class StockServiceImp implements IStockService {
 		return index;
 	}
 
-	
-
-	
 
 	@Override
 	public long M20DataCount() {
@@ -104,10 +101,6 @@ public class StockServiceImp implements IStockService {
 		sn.close();
 		return cou;
 	}
-
-	
-
-	
 
 	@Override
 	public boolean saveAll(List<StockIndex> lst, boolean saved) {

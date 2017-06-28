@@ -8,9 +8,6 @@ import javax.persistence.Embeddable;
 
 @Embeddable 
 public class StockData_PK implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Column (name="name", nullable = false)

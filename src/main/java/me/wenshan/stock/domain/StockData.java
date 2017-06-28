@@ -7,6 +7,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+// 股票日k线数据
+
 @Entity
 @Table(name = "stockdata")
 public class StockData {
