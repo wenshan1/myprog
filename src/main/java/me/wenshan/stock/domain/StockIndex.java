@@ -66,7 +66,7 @@ public class StockIndex {
 	private double closeprice; /* 收盘价格 */
 	
 	@Column (name="volume")
-	private long volume; /* 成交量 */
+	private double volume; /* 成交量 */
 	
 	@Column (name="adjcloseprice")
 	private double adjcloseprice; /* 复权收盘价格 */
@@ -99,11 +99,11 @@ public class StockIndex {
 	{
 		return pk.getRiqi();
 	}
-	public long getVolume() {
+	public double getVolume() {
 		return volume;
 	}
 
-	public void setVolume(long volume) {
+	public void setVolume(double volume) {
 		this.volume = volume;
 	}
 

@@ -28,7 +28,7 @@ public class StockData {
 	private double closeprice; /* 收盘价格 */
 	
 	@Column (name="volume", nullable = false)
-	private long volume; /* 成交量 */
+	private double volume; /* 成交量 */
 	
 	@Column (name="adjcloseprice")
 	private double adjcloseprice; /* 复权收盘价格 */
@@ -81,11 +81,11 @@ public class StockData {
 		this.closeprice = closeprice;
 	}
 
-	public long getVolume() {
+	public double getVolume() {
 		return volume;
 	}
 
-	public void setVolume(long volume) {
+	public void setVolume(double volume) {
 		this.volume = volume;
 	}
 
