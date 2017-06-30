@@ -2,7 +2,6 @@ package me.wenshan.stock.service;
 
 import me.wenshan.biz.OptionManager;
 import me.wenshan.constants.StockConstants;
-import me.wenshan.stock.service.StockIndexFetcher;
 import me.wenshan.stockmodel.service.StockModelManager;
 import me.wenshan.stockmodel.service.StockModelTongJiMgr;
 
@@ -26,10 +25,7 @@ public class StockInitThread implements Runnable  {
 		this.mdlService = mdlService;
 		this.opm = opm;
 	}
-	private void initStockData () {
-		StockDataFetcher.initStockList(opm);
-		StockDataFetcher.initStockData(opm);
-	}
+	
 	
 	@Override
 	public void run() {
@@ -40,7 +36,8 @@ public class StockInitThread implements Runnable  {
 	        //StockIndexFetcher.getInitData(); 
 		}
 		if (bInitStock) {
-			initStockData ();
+	        IStockDataService ssdata = StockDataServiceImp.get();
+	        ssdata.removeAllData();
 		}
 		if (bInitModel) {
 		    StockModelTongJiMgr.get(mdlService).removeAllData();

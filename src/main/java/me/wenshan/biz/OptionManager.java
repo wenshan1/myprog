@@ -10,7 +10,7 @@ import me.wenshan.blog.backend.form.GeneralOption;
 import me.wenshan.blog.backend.form.PostOption;
 import me.wenshan.blog.backend.service.OptionService;
 import me.wenshan.constants.OptionConstants;
-import me.wenshan.stock.service.StockIndexFetcher;
+import me.wenshan.constants.StockConstants;
 import me.wenshan.util.*;
 
 @Component
@@ -88,7 +88,7 @@ public class OptionManager {
 		MapContainer form = new MapContainer();
 		boolean bStock1 = false;
 		boolean bStock2 = false;
-		ArrayList<String> stockList = StockIndexFetcher.getSockNames();
+		ArrayList<String> stockList = StockConstants.getSockNames();
 	        
 		if(option.getBeijingQuality() < 1) {
 			form.put("beijingQuality", "数据应该大于1");

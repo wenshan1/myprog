@@ -2,6 +2,7 @@ package me.wenshan.stock.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -108,4 +109,18 @@ public class StockDataServiceImp implements IStockDataService {
 		return data;
 	}
 
+    public static boolean  isTodayDataExist (String stockName) {
+        boolean  bRet     = true;
+        Calendar cal      = Calendar.getInstance();
+        int       m       = cal.get(Calendar.MONTH) + 1;
+        int       d       = cal.get(Calendar.DAY_OF_MONTH);
+        int       y       = cal.get(Calendar.YEAR);
+        String    strriqi = String.format("%d-%02d-%02d", y, m, d);
+        IStockDataService ss = StockDataServiceImp.get();
+        
+        if (ss.get(strriqi, stockName) == null){
+            bRet = false;
+            }
+        return bRet;
+    }
 }

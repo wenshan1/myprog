@@ -36,6 +36,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 		.loginPage("/login")
 		.and()
 		.logout().permitAll().and().rememberMe().tokenValiditySeconds(60*60*24*10);
+		
+		http.csrf().ignoringAntMatchers("/post/**");
 	}
 	
 	@Override

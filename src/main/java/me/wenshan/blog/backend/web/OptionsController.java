@@ -13,7 +13,6 @@ import me.wenshan.blog.backend.form.GeneralOption;
 import me.wenshan.blog.backend.form.PostOption;
 import me.wenshan.blog.backend.service.OptionService;
 import me.wenshan.constants.StockConstants;
-import me.wenshan.stock.service.StockIndexFetcher;
 import me.wenshan.stockmodel.service.StockModelManager;
 import me.wenshan.util.Global;
 import me.wenshan.util.MapContainer;
@@ -74,7 +73,7 @@ public class OptionsController {
 	@RequestMapping(value = "/data", method = RequestMethod.GET)
 	public String data(Model model) {
 	    model.addAttribute("form", optionManager.getDataOption ());
-	    model.addAttribute("stocks", StockIndexFetcher.getSockNames());
+	    model.addAttribute("stocks", StockConstants.getSockNames());
 	    model.addAttribute("showhelp", new ShowHelp ());
 	    
 	    return "blog/backend/options/data";
@@ -83,7 +82,7 @@ public class OptionsController {
 	@RequestMapping(value = "/data", method = RequestMethod.POST)
 	public String updateData(@ModelAttribute DataOption  form, Model model) {
 	    model.addAttribute("form", form);
-	    model.addAttribute("stocks", StockIndexFetcher.getSockNames());
+	    model.addAttribute("stocks", StockConstants.getSockNames());
 	    model.addAttribute("showhelp", new ShowHelp ());
 	    
 	    MapContainer result = OptionManager.validateData(form);
