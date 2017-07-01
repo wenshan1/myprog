@@ -2,6 +2,8 @@ package me.wenshan.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -59,7 +61,17 @@ public class RootController {
     @ResponseBody
     public String postStockIndex(@RequestBody StockIndexM sim) {
         if (sim.getToken().compareTo("698544885afeeggafdfadafafdiekee") == 0) {
-
+        	
+        	for (int i = 0; i < sim.getData().size(); i ++) {
+        		StockIndex sti = sim.getData().get(i);
+        		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+        		String str = formater.format(sti.getRiqi());
+        		try {
+					sti.getPk().setRiqi(formater.parse(str));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}        		
+        	}
             StockServiceImp.getInstance().saveAll(sim.getData(), false);
             return "OK";
         }
