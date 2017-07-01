@@ -2,20 +2,12 @@ package me.wenshan.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.persistence.Column;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -68,7 +60,7 @@ public class RootController {
     public String postStockIndex(@RequestBody StockIndexM sim) {
         if (sim.getToken().compareTo("698544885afeeggafdfadafafdiekee") == 0) {
 
-            StockServiceImp.getInstance().save(sim.getData());
+            StockServiceImp.getInstance().saveAll(sim.getData(), false);
             return "OK";
         }
         else {
@@ -79,7 +71,7 @@ public class RootController {
 
 class StockIndexM {
     private String token;
-    private StockIndex data;
+    private List<StockIndex> data;
 
     public StockIndexM() {
     }
@@ -92,11 +84,11 @@ class StockIndexM {
         this.token = token;
     }
 
-    public StockIndex getData() {
+    public List<StockIndex> getData() {
         return data;
     }
 
-    public void setData(StockIndex data) {
+    public void setData(List<StockIndex> data) {
         this.data = data;
     }
 
