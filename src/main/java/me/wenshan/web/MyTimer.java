@@ -14,7 +14,7 @@ public class MyTimer {
     @Autowired
     private OptionManager opm;
     
-    @Scheduled(cron = "0 0 0/1 * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     public void updateHourly_sc () {
         UpdateHourlyThread.updateHourly (smmManager, opm, null);
     }

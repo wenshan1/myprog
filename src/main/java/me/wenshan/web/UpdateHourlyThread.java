@@ -15,7 +15,11 @@ import me.wenshan.stock.service.StockServiceImp;
 import me.wenshan.stockmodel.service.StockModelManager;
 
 public class UpdateHourlyThread implements Runnable {
-
+	private static int  stockModleCount = 0;
+	private static int  newsmthCount = 0;
+	private static int  beijingFandicanCount = 0;
+	private static int  beijingKongQiCount = 0;
+	
     private StockModelManager smmManager;
     private OptionManager opm;
 
@@ -47,11 +51,17 @@ public class UpdateHourlyThread implements Runnable {
 
     public static void updateHourly(StockModelManager smmManager, OptionManager opm, PrintWriter out) {
         try {
+        	stockModleCount ++;
+        	newsmthCount ++;
+        	beijingFandicanCount ++;
+        	beijingKongQiCount ++;
+        	
             DataOption dataop = opm.getDataOption();
             Calendar cal = Calendar.getInstance();
             int d = cal.get(Calendar.HOUR_OF_DAY);
 
-            if (d > 15 ) {
+            if ((stockModleCount >= 10) && (d > 15) ) {
+            	stockModleCount = 0;
 
                 // 因为sina和yanhoo关闭了历史数据接口
                 // StockIndexFetcher.get10DayData_Sc(); // 更新指数数据
@@ -76,15 +86,25 @@ public class UpdateHourlyThread implements Runnable {
                     // StockDataFetcher.getTenDayData_Sc();
                 }
             }
-
-            // 删除过多newsmth记录
-            NewsmthServiceImp.getInstance().deleteOld(dataop.getNewsmthNum());
-            KongQiZhiLiangService.getInstance().deleteOld(dataop.getBeijingQuality());
-
-            FetchData.fetchAll_Sc(); // 更新北京房地产数据和空气质量
-
-            if (dataop.getNewsmthNum() > 0)
-                NewsmthFetchData.fetchAll_sc();
+            
+            if (beijingFandicanCount > 60 * 4) {
+            	beijingFandicanCount = 0;
+            	FetchData.fetchAll_FandDiCan (); //更新北京房地产数据
+            }
+            
+            if (beijingKongQiCount > 60) {
+            	beijingKongQiCount = 0;
+                KongQiZhiLiangService.getInstance().deleteOld(dataop.getBeijingQuality());
+                FetchData.fetchAll_KongQi(); // 更新空气质量
+            }
+            
+            if (newsmthCount > 60) {
+            	newsmthCount = 0;
+                // 删除过多newsmth记录
+                NewsmthServiceImp.getInstance().deleteOld(dataop.getNewsmthNum());
+                if (dataop.getNewsmthNum() > 0)
+                    NewsmthFetchData.fetchAll_sc();	
+            }
 
         } catch (Exception e) {
             if (out != null)

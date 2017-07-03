@@ -15,18 +15,18 @@ import me.wenshan.beijing.domain.KongQiZhiLiang;
 public class FetchData {
 	private static final Logger logger = Logger.getLogger(FetchData.class);
 
-	public static void fetchAll_Sc() {
+	public static void fetchAll_KongQi() {
 		logger.info("start fetch beijing data");
-		fetchAll();
+		scanBeijingKongQi();
 		logger.info("end fetch beijing data");
 	}
 
-	public static boolean fetchAll() {
-		scanBeijingKongQi();
+	public static void fetchAll_FandDiCan() {
+		logger.info("start fetch beijing data");
 		scanBeijingFangDiCan();
-		return true;
+		logger.info("end fetch beijing data");
 	}
-
+	
 	private static boolean scanBeijingKongQi() {
 		KongQiZhiLiangService kongqiservice = KongQiZhiLiangService.getInstance();
 
