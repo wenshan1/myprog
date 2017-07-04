@@ -68,6 +68,8 @@ public final class OptionConstants{
 	  
 	  public static final String STOCK_MODEL_NAME_2 = "stock_model_name_2";
 	  
+	   public static final String STOCK_UPDATE_CYCLE = "stock_update_cycle";
+	  
 	  
 	}
 

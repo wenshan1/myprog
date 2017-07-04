@@ -15,11 +15,11 @@ import me.wenshan.stock.service.StockServiceImp;
 import me.wenshan.stockmodel.service.StockModelManager;
 
 public class UpdateHourlyThread implements Runnable {
-	private static int  stockModleCount = 0;
-	private static int  newsmthCount = 0;
-	private static int  beijingFandicanCount = 0;
-	private static int  beijingKongQiCount = 0;
-	
+    private static int stockModleCount = 0;
+    private static int newsmthCount = 0;
+    private static int beijingFandicanCount = 0;
+    private static int beijingKongQiCount = 0;
+
     private StockModelManager smmManager;
     private OptionManager opm;
 
@@ -27,8 +27,6 @@ public class UpdateHourlyThread implements Runnable {
         this.opm = opm;
         this.smmManager = smmManager;
     }
-
-   
 
     public static boolean isTodayDataExist() {
         boolean bRet = true;
@@ -49,61 +47,45 @@ public class UpdateHourlyThread implements Runnable {
         return bRet;
     }
 
-    public static void updateHourly(StockModelManager smmManager, OptionManager opm, PrintWriter out) {
+    public static void updateMinute(StockModelManager smmManager, OptionManager opm, PrintWriter out) {
         try {
-        	stockModleCount ++;
-        	newsmthCount ++;
-        	beijingFandicanCount ++;
-        	beijingKongQiCount ++;
-        	
+            stockModleCount++;
+            newsmthCount++;
+            beijingFandicanCount++;
+            beijingKongQiCount++;
+
             DataOption dataop = opm.getDataOption();
-            Calendar cal = Calendar.getInstance();
-            int d = cal.get(Calendar.HOUR_OF_DAY);
+            
+            //Calendar cal = Calendar.getInstance();
+            //int d = cal.get(Calendar.HOUR_OF_DAY);
 
-            if ((stockModleCount >= 10) && (d > 15) ) {
-            	stockModleCount = 0;
-
-                // 因为sina和yanhoo关闭了历史数据接口
-                // StockIndexFetcher.get10DayData_Sc(); // 更新指数数据
-
-                // 生产最新m20等数据
-                /*
-                 * StockM20 m20 = new StockM20(); m20.weeklyIndex(); StockMGEM
-                 * tmp = new StockMGEM(); tmp.weeklyIndex(); Stock50GEM nn = new
-                 * Stock50GEM(); nn.weeklyIndex();
-                 * 
-                 * StockGEMEx tmp3 = new StockGEMEx(); tmp3.weeklyIndex();
-                 */
+            if ((stockModleCount > dataop.getStockUpdateCycle())) {
+                stockModleCount = 0;
 
                 smmManager.weekly(StockConstants.MODEL_300_500, "sh000300", "sh000905", 20);
                 smmManager.weekly(StockConstants.MODEL_300_CHUANGYEBAN, "sh000300", "sz399006", 20);
                 smmManager.weekly(StockConstants.MODEL_50_CHUANGYEBAN, "sh000016", "sz399006", 20);
                 smmManager.weekly(StockConstants.MODEL_CHUANGYEBANEXEX, "sz399006", "", 20);
 
-                if (dataop.getStockDataNum() > 0) {
-                    // 因为sina和yanhoo关闭了历史数据接口
-                    // 得到股票的数据
-                    // StockDataFetcher.getTenDayData_Sc();
-                }
             }
-            
+
             if (beijingFandicanCount > 60 * 4) {
-            	beijingFandicanCount = 0;
-            	FetchData.fetchAll_FandDiCan (); //更新北京房地产数据
+                beijingFandicanCount = 0;
+                FetchData.fetchAll_FandDiCan(); // 更新北京房地产数据
             }
-            
+
             if (beijingKongQiCount > 60) {
-            	beijingKongQiCount = 0;
+                beijingKongQiCount = 0;
                 KongQiZhiLiangService.getInstance().deleteOld(dataop.getBeijingQuality());
                 FetchData.fetchAll_KongQi(); // 更新空气质量
             }
-            
+
             if (newsmthCount > 60) {
-            	newsmthCount = 0;
+                newsmthCount = 0;
                 // 删除过多newsmth记录
                 NewsmthServiceImp.getInstance().deleteOld(dataop.getNewsmthNum());
                 if (dataop.getNewsmthNum() > 0)
-                    NewsmthFetchData.fetchAll_sc();	
+                    NewsmthFetchData.fetchAll_sc();
             }
 
         } catch (Exception e) {
@@ -114,7 +96,7 @@ public class UpdateHourlyThread implements Runnable {
 
     @Override
     public void run() {
-        UpdateHourlyThread.updateHourly(smmManager, opm, null);
+        UpdateHourlyThread.updateMinute(smmManager, opm, null);
     }
 
 }

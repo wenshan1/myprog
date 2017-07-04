@@ -7,6 +7,7 @@ public class DataOption {
 	private String stockModelName1;  //股票模型名字1
 	private String stockModelName2; //股票模型名字2
 	private int stockModelCycle;    //股票模型轮动周期
+	private int stockUpdateCycle;    //股票模型更新周期
 
 	public int getBeijingQuality() {
 		return beijingQuality;
@@ -54,6 +55,14 @@ public class DataOption {
 
     public void setStockModelCycle(int stockModelCycle) {
         this.stockModelCycle = stockModelCycle;
+    }
+
+    public int getStockUpdateCycle() {
+        return stockUpdateCycle;
+    }
+
+    public void setStockUpdateCycle(int stockUpdateCycle) {
+        this.stockUpdateCycle = stockUpdateCycle;
     }
     
 }

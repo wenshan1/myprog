@@ -55,10 +55,10 @@ public class StockModelTongJiServiceImp implements StockModelTongJiService {
 	}
 	
 	@Override
-	public boolean update(StockModelTongJi st) {
+	public boolean saveorupdate(StockModelTongJi st) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa = sn.beginTransaction();
-		sn.update(st);
+		sn.saveOrUpdate(st);
 		sa.commit();
 		sn.close();
 		

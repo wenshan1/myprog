@@ -8,7 +8,7 @@ import me.wenshan.stockmodel.domain.StockModelTongJi;
 public interface StockModelTongJiService {
 	boolean save(StockModelTongJi st);
 	StockModelTongJi getLastOne(String modelName);
-	boolean update (StockModelTongJi st);
+	boolean saveorupdate (StockModelTongJi st);
 	boolean removeAll ();
 	List<StockModelTongJi> getLastData (String modelName, int num);
 	TongJiForm getTongJiForm (String modelName);

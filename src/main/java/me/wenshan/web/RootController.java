@@ -43,7 +43,7 @@ public class RootController {
         return "logout";
     }
 
-    @RequestMapping(value = "/updatehourly", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateminute", method = RequestMethod.GET)
     public void updatehourly(@RequestParam(value = "thread", required = false) Boolean useThread,
             HttpServletResponse response) throws IOException {
         if (useThread != null && useThread == true) {
@@ -52,7 +52,7 @@ public class RootController {
         } else {
             PrintWriter out = response.getWriter();
             out.println("10ver No Error");
-            UpdateHourlyThread.updateHourly(smmManager, opm, out);
+            UpdateHourlyThread.updateMinute(smmManager, opm, out);
         }
         return;
     }

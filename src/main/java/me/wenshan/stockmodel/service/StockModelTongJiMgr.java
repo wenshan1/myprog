@@ -29,7 +29,7 @@ public class StockModelTongJiMgr {
 			if (tongji != null) {
 				if (tongji.getStatus() == 1) {
 					tongji.setStatus(2);
-					mdlService.update(tongji);
+					mdlService.saveorupdate(tongji);
 				}
 			}
 		}
@@ -64,7 +64,7 @@ public class StockModelTongJiMgr {
 					tongji.setEndDate(date);
 					tongji.setEndStockName(currentstockName);
 					tongji.setEndClosePrice(dbIndex);
-					mdlService.update(tongji);
+					mdlService.saveorupdate(tongji);
 				}
 			}
 		}

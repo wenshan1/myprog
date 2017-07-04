@@ -16,7 +16,7 @@ public class MyTimer {
     
     @Scheduled(cron = "0 0/1 * * * ?")
     public void updateHourly_sc () {
-        UpdateHourlyThread.updateHourly (smmManager, opm, null);
+        UpdateHourlyThread.updateMinute (smmManager, opm, null);
     }
 
 }
