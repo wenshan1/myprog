@@ -6,23 +6,14 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
 
 import me.wenshan.beijing.domain.KongQiZhiLiang;
 import me.wenshan.dao.HibernateUtil;
 
+@Service
 public class KongQiZhiLiangService {
-	private static KongQiZhiLiangService service;
 	
-	private KongQiZhiLiangService()
-	{
-		
-	}
-	public static KongQiZhiLiangService getInstance ()
-	{
-		if ( service == null)
-			service = new KongQiZhiLiangService();
-		return service;
-	}
 	public void save(KongQiZhiLiang kongqi)
 	{
 		Session sn = HibernateUtil.getSessionFactory().openSession();

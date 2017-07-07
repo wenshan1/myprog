@@ -27,21 +27,13 @@ import me.wenshan.newsmth.domain.NewsmthData;
 @Service
 public class NewsmthServiceImp implements NewsmthService {
 
-	private static NewsmthServiceImp nm = null;
+	
 
 	public NewsmthServiceImp() {
 
 	}
 
-	public static NewsmthServiceImp getInstance() {
-		{
-			if (nm == null) {
-				nm = new NewsmthServiceImp();
-			}
-		}
-		return nm;
-	}
-
+	
 	@Override
 	public void save(NewsmthData nmdata) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();

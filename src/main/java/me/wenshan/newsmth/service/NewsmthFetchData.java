@@ -32,7 +32,7 @@ public class NewsmthFetchData {
 
 	private static final Logger logger = Logger.getLogger(NewsmthFetchData.class);
 	
-	private static NewsmthService nmservice = NewsmthServiceImp.getInstance();
+	private static NewsmthService nmservice;
 
 	public static void fetchAll_sc () {
 		logger.info("start fetch www.newsmth.net data");

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import me.wenshan.biz.OptionManager;
 import me.wenshan.constants.StockConstants;
 import me.wenshan.stock.domain.StockIndex;
+import me.wenshan.stock.service.IStockDataService;
+import me.wenshan.stock.service.IStockService;
 import me.wenshan.stock.service.StockInitThread;
 import me.wenshan.stock.service.StockModelTongJiService;
 import me.wenshan.stock.service.StockServiceImp;
@@ -32,7 +34,9 @@ import me.wenshan.util.ShowHelp;
 public class StockController {
     private final String path = "blog/backend/stock";
     private final int pageRecord = 20;
-
+    
+    @Autowired
+    private IStockService stockService;
     @Autowired
     private StockModelTongJiService tongjiService;
     @Autowired
@@ -44,14 +48,16 @@ public class StockController {
     private StockModelManager smmManager;
     @Autowired
     private OptionManager opm;
-
+    @Autowired
+    private IStockDataService stockDataService;
+     
     // 股票指数数据
     @RequestMapping(value = "/stockindex", method = RequestMethod.GET)
     public String stockindex(@RequestParam(value = "curPage", required = false) Integer curPage, Model model) {
         if (curPage == null)
             curPage = 1;
         LBPage<StockIndex> page = new LBPage<StockIndex>();
-        page.setTotalrecord(StockServiceImp.getInstance().count());
+        page.setTotalrecord(stockService.count());
         page.setMaxresult(pageRecord);
         page.setCurrentpage(curPage);
         if (page.getTotalrecord() % page.getMaxresult() == 0)
@@ -59,7 +65,7 @@ public class StockController {
         else
             page.setTotalpage(page.getTotalrecord() / page.getMaxresult() + 1);
 
-        java.util.List<StockIndex> lst = StockServiceImp.getInstance().getPageData(page.getFirstResult(),
+        java.util.List<StockIndex> lst = stockService.getPageData(page.getFirstResult(),
                 page.getMaxresult());
         page.setRecords(lst);
 
@@ -166,7 +172,8 @@ public class StockController {
 
     @RequestMapping(value = "/initstockindex", method = RequestMethod.GET)
     public String initstockindex(Model model) {
-        Thread th = new Thread(new StockInitThread(true, false, false, smmManager, mdlService, opm));
+        Thread th = new Thread(new StockInitThread(true, false, false, smmManager, mdlService,
+        		opm, stockDataService, stockService));
         th.start();
 
         return "redirect:/blog/backend/index";
@@ -181,7 +188,8 @@ public class StockController {
 
     @RequestMapping(value = "/initstockdata", method = RequestMethod.GET)
     public String initstockdata(Model model) {
-        Thread th = new Thread(new StockInitThread(false, true, false, smmManager, mdlService, opm));
+        Thread th = new Thread(new StockInitThread(false, true, false, smmManager, mdlService, 
+        		opm, stockDataService, stockService));
         th.start();
 
         return "redirect:/blog/backend/index";
@@ -189,7 +197,8 @@ public class StockController {
 
     @RequestMapping(value = "/initmodeldata", method = RequestMethod.GET)
     public String initmodeldata(Model model) {
-        Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, opm));
+        Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, 
+        		opm, stockDataService, stockService));
         th.start();
 
         return "redirect:/blog/backend/index";

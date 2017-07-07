@@ -6,21 +6,16 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
 
 import me.wenshan.dao.HibernateUtil;
 import me.wenshan.stock.domain.StockIndex;
 
+@Service
 public class StockServiceImp implements IStockService {
-	private static StockServiceImp ssimp;
 
-	private StockServiceImp() {
+	public StockServiceImp() {
 
-	}
-
-	public static IStockService getInstance() {
-		if (ssimp == null)
-			ssimp = new StockServiceImp();
-		return ssimp;
 	}
 
 	@Override
@@ -89,10 +84,6 @@ public class StockServiceImp implements IStockService {
 		sn.close();
 		return lst;
 	}
-
-	
-
-	
 
 	@Override
 	public long GEMDataCount() {

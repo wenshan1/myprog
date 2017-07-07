@@ -1,5 +1,6 @@
 package me.wenshan.blog.backend.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,16 +16,21 @@ import me.wenshan.util.LBPage;
 @Controller
 @RequestMapping("/blog/backend/data")
 public class BeijingDataController {
+	@Autowired
+	private FangDiCanQianYueService fangDiCanQianYueService;
+	@Autowired
+	private KongQiZhiLiangService kongQiZhiLiangService;
+	
 	private final String path = "blog/backend/data";
 	private final int pageRecord = 20;
-	
+
 	// 房地产数据
 	@RequestMapping(value = "/fangdicanshuju", method = RequestMethod.GET)
 	public String fangdicanshuju(@RequestParam(value = "curPage", required = false) Integer curPage, Model model) {
 		if (curPage == null)
 			curPage = 1;
 		LBPage<Beijing_fangdican_qianyue> page = new LBPage<Beijing_fangdican_qianyue>();
-		page.setTotalrecord(FangDiCanQianYueService.getInstance().count());
+		page.setTotalrecord(fangDiCanQianYueService.count());
 		page.setMaxresult(pageRecord);
 		page.setCurrentpage(curPage);
 		if (page.getTotalrecord() % page.getMaxresult() == 0)
@@ -32,8 +38,8 @@ public class BeijingDataController {
 		else
 			page.setTotalpage(page.getTotalrecord() / page.getMaxresult() + 1);
 
-		java.util.List<Beijing_fangdican_qianyue> lst = FangDiCanQianYueService.getInstance()
-				.getPageData(page.getFirstResult(), page.getMaxresult());
+		java.util.List<Beijing_fangdican_qianyue> lst = fangDiCanQianYueService.getPageData(page.getFirstResult(),
+				page.getMaxresult());
 		page.setRecords(lst);
 
 		model.addAttribute("Page", page);
@@ -48,7 +54,7 @@ public class BeijingDataController {
 		if (curPage == null)
 			curPage = 1;
 		LBPage<KongQiZhiLiang> page = new LBPage<KongQiZhiLiang>();
-		page.setTotalrecord(KongQiZhiLiangService.getInstance().count());
+		page.setTotalrecord(kongQiZhiLiangService.count());
 		page.setMaxresult(pageRecord);
 		page.setCurrentpage(curPage);
 		if (page.getTotalrecord() % page.getMaxresult() == 0)
@@ -56,7 +62,7 @@ public class BeijingDataController {
 		else
 			page.setTotalpage(page.getTotalrecord() / page.getMaxresult() + 1);
 
-		java.util.List<KongQiZhiLiang> lst = KongQiZhiLiangService.getInstance().getPageData(page.getFirstResult(),
+		java.util.List<KongQiZhiLiang> lst = kongQiZhiLiangService.getPageData(page.getFirstResult(),
 				page.getMaxresult());
 		page.setRecords(lst);
 

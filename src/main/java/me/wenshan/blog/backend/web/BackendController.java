@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import me.wenshan.beijing.service.FangDiCanQianYueService;
 import me.wenshan.beijing.service.KongQiZhiLiangService;
-import me.wenshan.newsmth.service.NewsmthServiceImp;
+import me.wenshan.newsmth.service.NewsmthService;
+import me.wenshan.stock.service.IStockDataService;
 import me.wenshan.stock.service.IStockListService;
-import me.wenshan.stock.service.StockDataServiceImp;
-import me.wenshan.stock.service.StockServiceImp;
+import me.wenshan.stock.service.IStockService;
 import me.wenshan.userinfo.service.UserService;
 import me.wenshan.util.OSInfo;
 
@@ -25,6 +25,16 @@ public class BackendController {
 	private UserService userService;
 	@Autowired
 	private IStockListService stockListService;
+	@Autowired
+	private FangDiCanQianYueService fangDiCanQianYueService;
+	@Autowired
+	private KongQiZhiLiangService kongQiZhiLiangService;
+	@Autowired
+	private NewsmthService newsmthService;
+	@Autowired
+	private IStockDataService stockDataService;
+	@Autowired 
+	private IStockService stockService;
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model, HttpServletRequest req) {
@@ -41,12 +51,12 @@ public class BackendController {
 		
 		// 数据信息
 		
-		model.addAttribute("Newsmth_Count", NewsmthServiceImp.getInstance().count());
-		model.addAttribute("Newsmth_Photo_Count", NewsmthServiceImp.getInstance().countPhoto());
-		model.addAttribute("StockIndex_Count", StockServiceImp.getInstance().count());
-		model.addAttribute("KongQiZhiLiang_Count", KongQiZhiLiangService.getInstance().count());
-		model.addAttribute("Beijing_fangdican_qianyue_Count", FangDiCanQianYueService.getInstance().count());
-		model.addAttribute("stockData_Count", StockDataServiceImp.get().count ());
+		model.addAttribute("Newsmth_Count", newsmthService.count());
+		model.addAttribute("Newsmth_Photo_Count", newsmthService.countPhoto());
+		model.addAttribute("StockIndex_Count", stockService.count());
+		model.addAttribute("KongQiZhiLiang_Count", kongQiZhiLiangService.count());
+		model.addAttribute("Beijing_fangdican_qianyue_Count", fangDiCanQianYueService.count());
+		model.addAttribute("stockData_Count", stockDataService.count ());
 		model.addAttribute("stockList_Count", stockListService.count());
 
 		/*

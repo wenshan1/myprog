@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import me.wenshan.beijing.service.FetchData;
+import me.wenshan.beijing.service.KongQiZhiLiangService;
 import me.wenshan.biz.OptionManager;
+import me.wenshan.newsmth.service.NewsmthService;
 import me.wenshan.stock.domain.StockIndex;
+import me.wenshan.stock.service.IStockService;
 import me.wenshan.stock.service.StockServiceImp;
 import me.wenshan.stockmodel.service.StockModelManager;
 
@@ -27,7 +31,16 @@ public class RootController {
     private StockModelManager smmManager;
     @Autowired
     private OptionManager opm;
+    @Autowired
+    private FetchData fetchData;
+	@Autowired
+	private KongQiZhiLiangService kongQiZhiLiangService;
 
+    @Autowired 
+    private NewsmthService newsmthService;
+    @Autowired
+    private IStockService stockService;
+    
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
         return "index";
@@ -47,12 +60,14 @@ public class RootController {
     public void updatehourly(@RequestParam(value = "thread", required = false) Boolean useThread,
             HttpServletResponse response) throws IOException {
         if (useThread != null && useThread == true) {
-            Thread thread = new Thread(new UpdateHourlyThread(smmManager, opm));
+            Thread thread = new Thread(new UpdateHourlyThread(smmManager, opm, fetchData, 
+            		kongQiZhiLiangService, newsmthService));
             thread.start();
         } else {
             PrintWriter out = response.getWriter();
             out.println("10ver No Error");
-            UpdateHourlyThread.updateMinute(smmManager, opm, out);
+            UpdateHourlyThread.updateMinute(smmManager, opm, fetchData, kongQiZhiLiangService, 
+            		newsmthService, out);
         }
         return;
     }
@@ -72,7 +87,7 @@ public class RootController {
 					e.printStackTrace();
 				}        		
         	}
-            StockServiceImp.getInstance().saveAll(sim.getData(), false);
+        	stockService.saveAll(sim.getData(), false);
             return "OK";
         }
         else {

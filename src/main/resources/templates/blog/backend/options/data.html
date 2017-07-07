@@ -75,7 +75,7 @@
               </div>
               
               <div class="form-group"  th:with="str = ${stockModelCycle} != null?'has-error':''" th:class= "'form-group ' + ${str}">
-                <label class="col-sm-3" >*股票模型轮动周期</label>
+                <label class="col-sm-3" >*股票模型轮动周期(天)</label>
                 <div class="col-sm-6">
                   <input class="form-control" type="number" name="stockModelCycle" value="3" th:value = "*{stockModelCycle}"/>
                   <p class="help-block" th:if = "${stockModelCycle}" th:text = "${stockModelCycle}"></p>
@@ -83,7 +83,7 @@
               </div>
               
               <div class="form-group"  th:with="str = ${stockUpdateCycle} != null?'has-error':''" th:class= "'form-group ' + ${str}">
-                <label class="col-sm-3" >*股票模型更新数据周期</label>
+                <label class="col-sm-3" >*股票模型更新数据周期（分钟）</label>
                 <div class="col-sm-6">
                   <input class="form-control" type="number" name="stockUpdateCycle" value="3" th:value = "*{stockUpdateCycle}"/>
                   <p class="help-block" th:if = "${stockUpdateCycle}" th:text = "${stockUpdateCycle}"></p>
@@ -96,7 +96,6 @@
                 </div>
               </div>
             </form>	
-            
             
             </div>
             </div>

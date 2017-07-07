@@ -19,8 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import me.wenshan.stock.domain.StockIndex;
+import me.wenshan.stock.service.IStockService;
 import me.wenshan.stock.service.StockModelTongJiService;
-import me.wenshan.stock.service.StockServiceImp;
 import me.wenshan.stockmodel.domain.StockModelData;
 
 class Stock1 {
@@ -33,21 +33,24 @@ class Stock1 {
     private String modelName ;
     private StockModelDataService stockMDService;
     private StockModelTongJiService mdlService;
+    private IStockService stockService;
     
     private static final Logger logger = Logger.getLogger(Stock1.class);
 
     public Stock1 (String modelName, String s1, int c1, StockModelDataService srv
-            , StockModelTongJiService mdlService) {
+            , StockModelTongJiService mdlService,
+            IStockService stockService) {
         stockName = s1;
         cycle = c1;
         stockMDService = srv;
         this.modelName = modelName;
         this.mdlService = mdlService;
+        this.stockService = stockService;
     }
     
     private double getPreData(String riqi, String stockname) {
 
-        List<StockIndex> lst = StockServiceImp.getInstance().getDataRecord(stockname, riqi, cycle);
+        List<StockIndex> lst = stockService.getDataRecord(stockname, riqi, cycle);
         
         /*
          * for (int i = 0; i < 20; i++) { StockIndex ind = lst.get(i); m20 +=
@@ -63,7 +66,7 @@ class Stock1 {
 
         // 1. 得到 股票当日数据
 
-        StockIndex stockData = StockServiceImp.getInstance().getStockIndex(strriqi, stockName);
+        StockIndex stockData = stockService.getStockIndex(strriqi, stockName);
 
         if (stockData == null)
             return false;
@@ -77,7 +80,7 @@ class Stock1 {
             StockIndex curr = stockData;
             StockIndex pre;
             List<StockIndex> lst;
-            lst = StockServiceImp.getInstance().getDataRecord(currentstockName, strriqi, 1);
+            lst = stockService.getDataRecord(currentstockName, strriqi, 1);
             pre = lst.get(0);
             dbIndex = dbIndex * (1 + (curr.getCloseprice() - pre.getCloseprice()) / pre.getCloseprice());
         }
@@ -202,6 +205,7 @@ class Stock1or2 {
     private String currentstockName = "";
     private String modelName ;
     private StockModelTongJiService mdlService;
+    private IStockService stockService;
     
     public Stock1or2 (String modelName, String s1, String s2, int c1, StockModelDataService srv,
             StockModelTongJiService mdlService) {
@@ -215,7 +219,7 @@ class Stock1or2 {
     
     private double getPreData(String riqi, String stockname) {
 
-        List<StockIndex> lst = StockServiceImp.getInstance().getDataRecord(stockname, riqi, cycle);
+        List<StockIndex> lst = stockService.getDataRecord(stockname, riqi, cycle);
         /*
          * for (int i = 0; i < 20; i++) { StockIndex ind = lst.get(i); m20 +=
          * ind.getCloseprice(); }
@@ -230,8 +234,8 @@ class Stock1or2 {
 
         // 1. 得到 2股票 和 8股票 当日数据
 
-        StockIndex stock2 = StockServiceImp.getInstance().getStockIndex(strriqi, stock2Name);
-        StockIndex stock8 = StockServiceImp.getInstance().getStockIndex(strriqi, stock8Name);
+        StockIndex stock2 = stockService.getStockIndex(strriqi, stock2Name);
+        StockIndex stock8 = stockService.getStockIndex(strriqi, stock8Name);
         if (stock2 == null || stock8 == null)
             return false;
 
@@ -250,7 +254,7 @@ class Stock1or2 {
             } else {
                 curr = stock8;
             }
-            lst = StockServiceImp.getInstance().getDataRecord(currentstockName, strriqi, 1);
+            lst = stockService.getDataRecord(currentstockName, strriqi, 1);
             pre = lst.get(0);
             dbIndex = dbIndex * (1 + (curr.getCloseprice() - pre.getCloseprice()) / pre.getCloseprice());
         }
@@ -374,12 +378,15 @@ public class StockModelManager {
     @Autowired
     private StockModelTongJiService mdlService;
     
+    @Autowired 
+    private IStockService stockService;
+    
     public boolean genModelData (String modelName, String stockName1, String stockName2, 
             int cycle) { 
         stockMDService.removeAllData(modelName);
         if (stockName2.isEmpty()){
             Stock1 st = new Stock1 (modelName, stockName1, cycle, 
-                    stockMDService, mdlService);
+                    stockMDService, mdlService, stockService);
             
             return st.init();
         }
@@ -394,7 +401,7 @@ public class StockModelManager {
             int cycle) {
         if (stockName2.isEmpty()){
             Stock1 st = new Stock1 (modelName, stockName1, cycle, 
-                    stockMDService, mdlService);
+                    stockMDService, mdlService, stockService);
             st.update();
         }
         else {

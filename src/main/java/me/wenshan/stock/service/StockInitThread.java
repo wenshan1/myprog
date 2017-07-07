@@ -13,31 +13,35 @@ public class StockInitThread implements Runnable  {
 	private StockModelManager smmManager; 
 	private StockModelTongJiService mdlService;
 	private OptionManager opm;
+	private IStockDataService stockDataService;
+	private IStockService stockService;
 	
 	public StockInitThread (boolean bInitIndex, boolean bInitStock, 
 	        boolean bInitModel, StockModelManager smm,
 	        StockModelTongJiService mdlService,
-	        OptionManager opm) {
+	        OptionManager opm, 
+	        IStockDataService stockDataService,
+	        IStockService stockService) {
 	    smmManager = smm;
 		this.bInitIndex = bInitIndex;
 		this.bInitStock = bInitStock;
 		this.bInitModel = bInitModel;
 		this.mdlService = mdlService;
 		this.opm = opm;
+		this.stockDataService = stockDataService;
+		this.stockService = stockService;
 	}
-	
 	
 	@Override
 	public void run() {
 		if (bInitIndex) {
-		    StockServiceImp.getInstance().removeAll();
+			stockService.removeAll();
 		    
 		    // 注释。因为不能从sina或雅虎获得数据。
 	        //StockIndexFetcher.getInitData(); 
 		}
 		if (bInitStock) {
-	        IStockDataService ssdata = StockDataServiceImp.get();
-	        ssdata.removeAllData();
+	        stockDataService.removeAllData();
 		}
 		if (bInitModel) {
 		    StockModelTongJiMgr.get(mdlService).removeAllData();
