@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import me.wenshan.blog.domain.Post;
 import me.wenshan.blog.domain.PostStatus;
 import me.wenshan.dao.HibernateUtil;
+
 @Service
 public class PostServiceImp implements PostService {
 

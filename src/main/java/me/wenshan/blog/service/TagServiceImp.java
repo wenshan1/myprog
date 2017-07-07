@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import me.wenshan.blog.domain.Tag;
 import me.wenshan.dao.HibernateUtil;
+
 @Service
 public class TagServiceImp implements TagService {
 

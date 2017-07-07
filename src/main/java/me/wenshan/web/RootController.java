@@ -22,7 +22,6 @@ import me.wenshan.biz.OptionManager;
 import me.wenshan.newsmth.service.NewsmthService;
 import me.wenshan.stock.domain.StockIndex;
 import me.wenshan.stock.service.IStockService;
-import me.wenshan.stock.service.StockServiceImp;
 import me.wenshan.stockmodel.service.StockModelManager;
 
 @Controller

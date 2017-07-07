@@ -27,12 +27,9 @@ import me.wenshan.newsmth.domain.NewsmthData;
 @Service
 public class NewsmthServiceImp implements NewsmthService {
 
-	
-
 	public NewsmthServiceImp() {
 
 	}
-
 	
 	@Override
 	public void save(NewsmthData nmdata) {

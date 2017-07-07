@@ -1,20 +1,12 @@
 package me.wenshan.blog.backend.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import me.wenshan.biz.OptionManager;
 import me.wenshan.constants.StockConstants;
 import me.wenshan.stock.domain.StockIndex;
@@ -22,7 +14,6 @@ import me.wenshan.stock.service.IStockDataService;
 import me.wenshan.stock.service.IStockService;
 import me.wenshan.stock.service.StockInitThread;
 import me.wenshan.stock.service.StockModelTongJiService;
-import me.wenshan.stock.service.StockServiceImp;
 import me.wenshan.stockmodel.domain.StockModelData;
 import me.wenshan.stockmodel.service.StockModelDataService;
 import me.wenshan.stockmodel.service.StockModelManager;
