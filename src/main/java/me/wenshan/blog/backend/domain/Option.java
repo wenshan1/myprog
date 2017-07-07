@@ -15,6 +15,10 @@ public class Option {
 	@Column(name = "value")
 	private String value;
 
+	public Option () {
+	
+	}
+	
     public Option (String name, String value) {
 		setName (name);
 		setValue (value);
