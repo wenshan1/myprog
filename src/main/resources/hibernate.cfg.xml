@@ -25,7 +25,7 @@
             --> 
       
         <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">20</property>
+        <property name="connection.pool_size">6</property>
                 
         <!-- Disable the second-level cache  -->
         <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
@@ -51,7 +51,7 @@
          <!-- 每隔120秒检查连接池里的空闲连接 ，单位是秒--> 
          <property name="hibernate.cp30.idle_test_period">3000</property>  
          <!-- 当连接池里面的连接用完的时候，C3P0一下获取的新的连接数 -->  
-         <property name="hibernate.cp30.acquire_increment">2</property> 
+         <property name="hibernate.cp30.acquire_increment">1</property> 
          <!-- 每次都验证连接是否可用 -->   
          <property name="hibernate.cp30.validate">true</property>   
      

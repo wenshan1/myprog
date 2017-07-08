@@ -208,13 +208,14 @@ class Stock1or2 {
     private IStockService stockService;
     
     public Stock1or2 (String modelName, String s1, String s2, int c1, StockModelDataService srv,
-            StockModelTongJiService mdlService) {
+            StockModelTongJiService mdlService, IStockService stockService) {
         stock2Name = s1;
         stock8Name = s2;
         cycle = c1;
         stockMDService = srv;
         this.modelName = modelName;
         this.mdlService = mdlService;
+        this.stockService = stockService;
     }
     
     private double getPreData(String riqi, String stockname) {
@@ -392,7 +393,7 @@ public class StockModelManager {
         }
         else {
             Stock1or2 st = new Stock1or2 (modelName, stockName1, stockName2, cycle, 
-                    stockMDService, mdlService);
+                    stockMDService, mdlService, stockService);
             return st.init ();
         }
     }
@@ -406,7 +407,7 @@ public class StockModelManager {
         }
         else {
             Stock1or2 st = new Stock1or2 (modelName, stockName1, stockName2, cycle, 
-                    stockMDService, mdlService);
+                    stockMDService, mdlService, stockService);
             st.update();
         }
         
