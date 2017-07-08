@@ -47,7 +47,7 @@
          <!-- 指定连接池里的超时时常，单位毫秒 -->   
          <property name="hibernate.cp30.timeout">60000</property>   
          <!-- 指定连接池里最大缓存多少个Statement对象 -->   
-         <property name="hibernate.cp30.max_statements">100</property>   
+         <property name="hibernate.cp30.max_statements">10</property>   
          <!-- 每隔120秒检查连接池里的空闲连接 ，单位是秒--> 
          <property name="hibernate.cp30.idle_test_period">3000</property>  
          <!-- 当连接池里面的连接用完的时候，C3P0一下获取的新的连接数 -->  
