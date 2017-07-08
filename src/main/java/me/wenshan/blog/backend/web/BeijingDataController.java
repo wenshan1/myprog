@@ -1,10 +1,8 @@
 package me.wenshan.blog.backend.web;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +36,7 @@ public class BeijingDataController {
 	
 	@GetMapping ("/exportfangdicanshuju")
 	public void exportfangdicanshuju (HttpServletResponse response) throws IOException {
-		String filename= new String("北京房地产数据.cvs".getBytes(),"iso-8859-1");//中文文件名必须使用此句话
+		String filename= new String("北京房地产数据.csv".getBytes(),"iso-8859-1");//中文文件名必须使用此句话
 		response.setContentType("application/octet-stream");
         response.setContentType("application/OCTET-STREAM;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename="+filename );
@@ -60,7 +58,9 @@ public class BeijingDataController {
         out.append("现房总");
         out.append("\n");
         for (Beijing_fangdican_qianyue it : lst) {
-        	out.append(it.getRiqi().toString());
+        	SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+        	String str = formater.format(it.getRiqi());
+        	out.append(str);
             out.append(",");
             out.append(new Integer (it.getCunliangfang_zhuzhai()).toString());
             out.append(",");

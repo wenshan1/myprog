@@ -39,6 +39,22 @@
         <!-- Names the annotated entity class 
         <mapping class="me.wenshan.blog.example.jpa.domain.Customer"/> 
          -->
+         
+         <!-- 指定连接池里最大连接数 -->
+         <property name="hibernate.c3p0.maxsize">6</property>   
+         <!-- 指定连接池里最小连接数 -->   
+         <property name="hibernate.cp30.minsize">1</property>   
+         <!-- 指定连接池里的超时时常，单位毫秒 -->   
+         <property name="hibernate.cp30.timeout">60000</property>   
+         <!-- 指定连接池里最大缓存多少个Statement对象 -->   
+         <property name="hibernate.cp30.max_statements">100</property>   
+         <!-- 每隔120秒检查连接池里的空闲连接 ，单位是秒--> 
+         <property name="hibernate.cp30.idle_test_period">3000</property>  
+         <!-- 当连接池里面的连接用完的时候，C3P0一下获取的新的连接数 -->  
+         <property name="hibernate.cp30.acquire_increment">2</property> 
+         <!-- 每次都验证连接是否可用 -->   
+         <property name="hibernate.cp30.validate">true</property>   
+     
     </session-factory>
-
+    
 </hibernate-configuration>
