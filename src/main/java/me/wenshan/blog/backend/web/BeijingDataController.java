@@ -1,8 +1,18 @@
 package me.wenshan.blog.backend.web;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,9 +34,57 @@ public class BeijingDataController {
 	private final String path = "blog/backend/data";
 	private final int pageRecord = 20;
 
+	//导出房地产数据
+	
+	@GetMapping ("/exportfangdicanshuju")
+	public void exportfangdicanshuju (HttpServletResponse response) throws IOException {
+		String filename= new String("北京房地产数据.cvs".getBytes(),"iso-8859-1");//中文文件名必须使用此句话
+		response.setContentType("application/octet-stream");
+        response.setContentType("application/OCTET-STREAM;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename="+filename );
+        List<Beijing_fangdican_qianyue> lst = fangDiCanQianYueService.getAllData();
+    	
+        PrintWriter out = response.getWriter();
+        out.append("时间");
+        out.append(",");
+        out.append("存量房普通住宅");
+        out.append(",");
+        out.append("存量房总");
+        out.append(",");
+        out.append("期房普通住宅");
+        out.append(",");
+        out.append("期房总");
+        out.append(",");
+        out.append("现房普通住宅");
+        out.append(",");
+        out.append("现房总");
+        out.append("\n");
+        for (Beijing_fangdican_qianyue it : lst) {
+        	out.append(it.getRiqi().toString());
+            out.append(",");
+            out.append(new Integer (it.getCunliangfang_zhuzhai()).toString());
+            out.append(",");
+            out.append(new Integer (it.getCunliangfang_zong()).toString());
+            out.append(",");
+            out.append(new Integer (it.getQifang_zhuzhai()).toString());
+            out.append(",");
+            out.append(new Integer (it.getQifang_zong()).toString());
+            out.append(",");
+            out.append(new Integer (it.getXianfang_zhuzhai()).toString());
+            out.append(",");
+            out.append(new Integer (it.getXianfang_zong()).toString());
+            out.append("\n");
+            
+        }
+        out.flush();
+        out.close();
+		return ;
+		
+	}
 	// 房地产数据
 	@RequestMapping(value = "/fangdicanshuju", method = RequestMethod.GET)
-	public String fangdicanshuju(@RequestParam(value = "curPage", required = false) Integer curPage, Model model) {
+	public String fangdicanshuju(@RequestParam(value = "curPage", required = false) Integer curPage,
+			Model model) {
 		if (curPage == null)
 			curPage = 1;
 		LBPage<Beijing_fangdican_qianyue> page = new LBPage<Beijing_fangdican_qianyue>();
