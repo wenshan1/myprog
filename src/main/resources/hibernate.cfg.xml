@@ -15,17 +15,8 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
         
-        
-        <!-- openshift    
-        <property name="connection.url">jdbc:mysql://127.6.217.130:3306/stock?useUnicode=true&amp;characterEncoding=UTF-8</property>
-        <property name="connection.username">adminLvX24DJ</property>
-        <property name="connection.password">GAzzXXgp_PAt</property>
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>  
-            --> 
-      
-        <!-- JDBC connection pool (use the built-in) -->
-        <property name="connection.pool_size">6</property>
+        <!-- JDBC connection pool (use the built-in) 
+        <property name="connection.pool_size">6</property> -->
                 
         <!-- Disable the second-level cache  -->
         <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
