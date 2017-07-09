@@ -36,7 +36,7 @@
          <!-- 指定连接池里最小连接数 -->   
          <property name="hibernate.cp30.minsize">1</property>   
          <!-- 指定连接池里的超时时常，单位毫秒 -->   
-         <property name="hibernate.cp30.timeout">60000</property>   
+         <property name="hibernate.cp30.timeout">5000</property>   
          <!-- 指定连接池里最大缓存多少个Statement对象 -->   
          <property name="hibernate.cp30.max_statements">10</property>   
          <!-- 每隔120秒检查连接池里的空闲连接 ，单位是秒--> 
@@ -45,7 +45,9 @@
          <property name="hibernate.cp30.acquire_increment">1</property> 
          <!-- 每次都验证连接是否可用 -->   
          <property name="hibernate.cp30.validate">false</property>   
-     
+         <!-- 最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+         <property name="hibernate.cp30.maxIdleTime">60</property>   
+       
     </session-factory>
     
 </hibernate-configuration>
