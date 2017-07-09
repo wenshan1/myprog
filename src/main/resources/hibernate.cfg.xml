@@ -44,7 +44,7 @@
          <!-- 当连接池里面的连接用完的时候，C3P0一下获取的新的连接数 -->  
          <property name="hibernate.cp30.acquire_increment">1</property> 
          <!-- 每次都验证连接是否可用 -->   
-         <property name="hibernate.cp30.validate">true</property>   
+         <property name="hibernate.cp30.validate">false</property>   
      
     </session-factory>
     
