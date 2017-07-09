@@ -34,13 +34,14 @@ public class NewsmthFetchData {
 	
 	private static NewsmthService nmservice;
 
-	public static void fetchAll_sc () {
+	public static void fetchAll_sc (NewsmthService nm) {
+		nmservice = nm;
 		logger.info("start fetch www.newsmth.net data");
 		fetchAll();
 		logger.info("end fetch www.newsmth.net data");
 	}
 	
-	public static boolean fetchAll() {
+	private static boolean fetchAll() {
 		boolean bRet;
 		bRet = fetchNewsmth("http://www.newsmth.net/nForum/rss/topten", "topten");
 		if (!bRet)

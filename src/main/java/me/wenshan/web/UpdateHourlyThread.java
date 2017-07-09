@@ -57,17 +57,14 @@ public class UpdateHourlyThread implements Runnable {
 			NewsmthService newsmthService,
     		PrintWriter out) {
         try {
-            stockModleCount++;
-            newsmthCount++;
-            beijingFandicanCount++;
-            beijingKongQiCount++;
-
+   
             DataOption dataop = opm.getDataOption();
             
             //Calendar cal = Calendar.getInstance();
             //int d = cal.get(Calendar.HOUR_OF_DAY);
 
-            if ((stockModleCount > dataop.getStockUpdateCycle())) {
+            stockModleCount++;
+            if ((stockModleCount >= dataop.getStockUpdateCycle())) {
                 stockModleCount = 0;
 
                 smmManager.weekly(StockConstants.MODEL_300_500, "sh000300", "sh000905", 20);
@@ -77,23 +74,26 @@ public class UpdateHourlyThread implements Runnable {
 
             }
 
-            if (beijingFandicanCount > 60 * 4) {
+            beijingFandicanCount++;
+            if (beijingFandicanCount >= 60 * 4) {
                 beijingFandicanCount = 0;
                 fetchData.fetchAll_FandDiCan(); // 更新北京房地产数据
             }
 
-            if (beijingKongQiCount > 60) {
+            beijingKongQiCount++;
+            if (beijingKongQiCount >= 60) {
                 beijingKongQiCount = 0;
                 kongQiZhiLiangService.deleteOld(dataop.getBeijingQuality());
                 fetchData.fetchAll_KongQi(); // 更新空气质量
             }
 
-            if (newsmthCount > 60) {
+            newsmthCount++;
+            if (newsmthCount >= 60) {
                 newsmthCount = 0;
                 // 删除过多newsmth记录
                 newsmthService.deleteOld(dataop.getNewsmthNum());
                 if (dataop.getNewsmthNum() > 0)
-                    NewsmthFetchData.fetchAll_sc();
+                    NewsmthFetchData.fetchAll_sc(newsmthService);
             }
 
         } catch (Exception e) {
