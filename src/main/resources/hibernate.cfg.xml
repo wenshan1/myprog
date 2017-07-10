@@ -34,9 +34,9 @@
          <!-- 指定连接池里初始化连接数 -->
          <property name="hibernate.c3p0.initialPoolSize">1</property>
          <!-- 指定连接池里最大连接数 -->
-         <property name="hibernate.c3p0.maxsize">10</property>   
+         <property name="hibernate.c3p0.maxPoolSize">10</property>   
          <!-- 指定连接池里最小连接数 -->   
-         <property name="hibernate.c3p0.minsize">1</property>   
+         <property name="hibernate.c3p0.minPoolSize">1</property>   
          <!-- 指定连接池里的超时时常，单位秒 -->   
          <property name="hibernate.c3p0.timeout">120</property>   
          <!-- 指定连接池里最大缓存多少个Statement对象 -->   
@@ -47,8 +47,11 @@
          <property name="hibernate.c3p0.acquire_increment">1</property> 
          <!-- 每次都验证连接是否可用 -->   
          <property name="hibernate.c3p0.validate">false</property>   
-         <!-- 最大空闲时间,120秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
-         <property name="hibernate.c3p0.maxIdleTime">120</property>   
+         <!-- 最大空闲时间,120秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 
+         Hibernate-style property 'hibernate.c3p0.timeout' will be used and c3p0-style property 'hibernate.c3p0.maxIdleTime' will be ignored!
+         <property name="hibernate.c3p0.maxIdleTime">120</property>    -->
+         
+         <property name="hibernate.c3p0.debugUnreturnedConnectionStackTraces">true</property>
        
     </session-factory>
     
