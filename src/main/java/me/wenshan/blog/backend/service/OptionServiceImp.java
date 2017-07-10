@@ -9,19 +9,19 @@ import me.wenshan.dao.HibernateUtil;
 
 @Service
 public class OptionServiceImp implements OptionService {
-	public OptionServiceImp () {
-		
+	public OptionServiceImp() {
+
 	}
-	
+
 	@Override
 	public void save(Option op) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
-		Transaction sa=sn.beginTransaction();
+		Transaction sa = sn.beginTransaction();
 		try {
-		sn.save(op);
-		sa.commit();
-		}finally {
-		sn.close();
+			sn.save(op);
+			sa.commit();
+		} finally {
+			sn.close();
 		}
 	}
 
@@ -46,12 +46,12 @@ public class OptionServiceImp implements OptionService {
 	@Override
 	public void updateOptionValue(String name, String value) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
-		Transaction sa=sn.beginTransaction();
+		Transaction sa = sn.beginTransaction();
 		try {
-		sn.saveOrUpdate(new Option(name, value));
-		sa.commit();
-		}finally {
-		sn.close();
+			sn.saveOrUpdate(new Option(name, value));
+			sa.commit();
+		} finally {
+			sn.close();
 		}
 	}
 

@@ -32,14 +32,17 @@ public class StockModelTongJiServiceImp implements StockModelTongJiService {
 	public StockModelTongJi getLastOne(String modelName) {
 		StockModelTongJi tongji = null;
 		Session sn = HibernateUtil.getSessionFactory().openSession();
-		Query query = sn.createQuery("from StockModelTongJi where modelName = :name order by id desc").setString("name",
-				modelName);
-		query.setFirstResult(0);
-		query.setMaxResults(1);
-		List<?> lst = query.list();
-		if (lst != null && !lst.isEmpty())
-			tongji = (StockModelTongJi) lst.get(0);
-		sn.close();
+		try {
+			Query query = sn.createQuery("from StockModelTongJi where modelName = :name order by id desc")
+					.setString("name", modelName);
+			query.setFirstResult(0);
+			query.setMaxResults(1);
+			List<?> lst = query.list();
+			if (lst != null && !lst.isEmpty())
+				tongji = (StockModelTongJi) lst.get(0);
+		} finally {
+			sn.close();
+		}
 
 		return tongji;
 	}
@@ -47,13 +50,17 @@ public class StockModelTongJiServiceImp implements StockModelTongJiService {
 	@Override
 	public List<StockModelTongJi> getLastData(String modelName, int num) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
-		Query query = sn.createQuery("from StockModelTongJi where modelName = :name order by id desc ")
-				.setString("name", modelName);
-		query.setFirstResult(0);
-		query.setMaxResults(num);
+		List<StockModelTongJi> lst = null;
+		try {
+			Query query = sn.createQuery("from StockModelTongJi where modelName = :name order by id desc ")
+					.setString("name", modelName);
+			query.setFirstResult(0);
+			query.setMaxResults(num);
 
-		List<StockModelTongJi> lst = (List<StockModelTongJi>) query.list();
-		sn.close();
+			lst = (List<StockModelTongJi>) query.list();
+		} finally {
+			sn.close();
+		}
 		return lst;
 	}
 
@@ -88,10 +95,14 @@ public class StockModelTongJiServiceImp implements StockModelTongJiService {
 	@Override
 	public TongJiForm getTongJiForm(String modelName) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
-		Query query = sn.createQuery("from StockModelTongJi where modelName = :name order by id desc").setString("name",
-				modelName);
-		List<StockModelTongJi> lst = (List<StockModelTongJi>) query.list();
-		sn.close();
+		List<StockModelTongJi> lst = null;
+		try {
+			Query query = sn.createQuery("from StockModelTongJi where modelName = :name order by id desc")
+					.setString("name", modelName);
+			lst = (List<StockModelTongJi>) query.list();
+		} finally {
+			sn.close();
+		}
 
 		TongJiForm form = new TongJiForm();
 		form.setCount(lst.size());

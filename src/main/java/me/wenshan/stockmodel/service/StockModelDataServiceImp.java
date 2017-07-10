@@ -1,5 +1,6 @@
 package me.wenshan.stockmodel.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -82,8 +83,11 @@ public class StockModelDataServiceImp implements StockModelDataService {
         
         @SuppressWarnings("unchecked")
         List<StockModelData> queryList=query.list();
+        List<StockModelData> lst = new ArrayList <StockModelData> ();
+        lst.addAll(queryList);
+        sn.close();
         
-        return queryList;
+        return lst;
     }
 
     @Override
@@ -94,10 +98,13 @@ public class StockModelDataServiceImp implements StockModelDataService {
         query.setFirstResult(first);
         query.setMaxResults(pageSize);
         
-        @SuppressWarnings("unchecked")
         List<StockModelData> queryList=query.list();
         
-        return queryList;
+        List<StockModelData> lst = new ArrayList <StockModelData> ();
+        lst.addAll(queryList);
+        sn.close();
+        
+        return lst;
     }
 
 }
