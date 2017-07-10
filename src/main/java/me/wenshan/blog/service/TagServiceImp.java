@@ -32,8 +32,9 @@ public class TagServiceImp implements TagService {
 		}
 		catch (HibernateException e) {
 			sa.rollback();
-		}
+		}finally {
 		sn.close();
+		}
 		return tag;
 	}
 

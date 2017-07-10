@@ -34,8 +34,9 @@ public class PostServiceImp implements PostService {
 		}catch (HibernateException  e) {
 			sa.rollback();
 			bRet = false;
-		}
+		}finally {
 		sn.close();
+		}
 		return bRet;
 	}
 
@@ -51,7 +52,9 @@ public class PostServiceImp implements PostService {
 	            sa.rollback();
 	            bRet = false;
 	        }
+	        finally {
 	        sn.close();
+	        }
 	        return bRet;
 	    }
 	   

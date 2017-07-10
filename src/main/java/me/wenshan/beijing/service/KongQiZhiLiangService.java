@@ -18,9 +18,12 @@ public class KongQiZhiLiangService {
 	{
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa=sn.beginTransaction();
+		try {
 		sn.save(kongqi);
 		sa.commit();
+		}finally {
 		sn.close();
+		}
 	};
 	
 	public long count(){

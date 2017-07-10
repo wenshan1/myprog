@@ -27,11 +27,14 @@ public class StockModelDataServiceImp implements StockModelDataService {
     public void removeAllData(String modelName) {
         Session sn = HibernateUtil.getSessionFactory().openSession();
         Transaction sa = sn.beginTransaction();
+        try {
         Query query = sn.createQuery("delete from StockModelData as a where a.pk.name = :name").
                 setString("name", modelName);
         query.executeUpdate();
         sa.commit();
+        }finally {
         sn.close();
+        }
     }
     
     @Override

@@ -21,9 +21,12 @@ public class FangDiCanQianYueService {
 	public void saveOrUpdate(Beijing_fangdican_qianyue bj) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa = sn.beginTransaction();
-		sn.saveOrUpdate(bj);
-		sa.commit();
-		sn.close();
+		try {
+			sn.saveOrUpdate(bj);
+			sa.commit();
+		} finally {
+			sn.close();
+		}
 	}
 
 	public long count() {
@@ -32,16 +35,16 @@ public class FangDiCanQianYueService {
 		sn.close();
 		return cou;
 	}
-	public List<Beijing_fangdican_qianyue> getAllData () {
+
+	public List<Beijing_fangdican_qianyue> getAllData() {
 
 		Session sn = HibernateUtil.getSessionFactory().openSession();
-		List<Beijing_fangdican_qianyue> query = 
-				(List<Beijing_fangdican_qianyue>) 
-				sn.createQuery("from Beijing_fangdican_qianyue as a order by a.riqi desc").list();
+		List<Beijing_fangdican_qianyue> query = (List<Beijing_fangdican_qianyue>) sn
+				.createQuery("from Beijing_fangdican_qianyue as a order by a.riqi desc").list();
 		sn.close();
 		return query;
 	}
-	
+
 	public List<Beijing_fangdican_qianyue> getPageData(int first, int pageSize) {
 		List<Beijing_fangdican_qianyue> lst = new ArrayList<Beijing_fangdican_qianyue>();
 

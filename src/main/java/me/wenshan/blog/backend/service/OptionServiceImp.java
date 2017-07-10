@@ -17,9 +17,12 @@ public class OptionServiceImp implements OptionService {
 	public void save(Option op) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa=sn.beginTransaction();
+		try {
 		sn.save(op);
 		sa.commit();
+		}finally {
 		sn.close();
+		}
 	}
 
 	@Override
@@ -44,9 +47,12 @@ public class OptionServiceImp implements OptionService {
 	public void updateOptionValue(String name, String value) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa=sn.beginTransaction();
+		try {
 		sn.saveOrUpdate(new Option(name, value));
 		sa.commit();
+		}finally {
 		sn.close();
+		}
 	}
 
 }

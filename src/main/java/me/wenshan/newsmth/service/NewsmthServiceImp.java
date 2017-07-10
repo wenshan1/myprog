@@ -30,43 +30,44 @@ public class NewsmthServiceImp implements NewsmthService {
 	public NewsmthServiceImp() {
 
 	}
-	
+
 	@Override
 	public void save(NewsmthData nmdata) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa = sn.beginTransaction();
-		Object obj = sn.createQuery("select nm.id from Newsmth as nm where nm.link = ?").setString(0, nmdata.getNewsmth().getLink()).uniqueResult();
+		Object obj = sn.createQuery("select nm.id from Newsmth as nm where nm.link = ?")
+				.setString(0, nmdata.getNewsmth().getLink()).uniqueResult();
 		sn.clear();
-		
-		try{
-			
-		if (obj != null) {
-			long id = (long) obj;
-			nmdata.getNewsmth().setId(id);
-			sn.update(nmdata.getNewsmth());
-		} else {
-			sn.save(nmdata.getNewsmth());
-		}
-		
-		if (nmdata.getPhotos() != null && nmdata.getPhotos().size() != 0) {
-		    long id = (long) sn.createQuery("select nm.id from Newsmth as nm where nm.link = ?").setString(0, nmdata.getNewsmth().getLink()).uniqueResult();
-            sn.createQuery("delete from Photo ph where ph.newsmthid in (select nm.id from Newsmth as nm where nm.link = :link)").
-            setString("link", nmdata.getNewsmth().getLink()).executeUpdate();
-            for (int i = 0; i < nmdata.getPhotos().size(); i++) {
-                nmdata.getPhotos().get(i).setNewsmthid(id);
-                sn.save(nmdata.getPhotos().get(i));
-                }
-            }
-		
-		sa.commit();
-		}
-		catch (Exception e)
-		{
-			
+
+		try {
+
+			if (obj != null) {
+				long id = (long) obj;
+				nmdata.getNewsmth().setId(id);
+				sn.update(nmdata.getNewsmth());
+			} else {
+				sn.save(nmdata.getNewsmth());
+			}
+
+			if (nmdata.getPhotos() != null && nmdata.getPhotos().size() != 0) {
+				long id = (long) sn.createQuery("select nm.id from Newsmth as nm where nm.link = ?")
+						.setString(0, nmdata.getNewsmth().getLink()).uniqueResult();
+				sn.createQuery(
+						"delete from Photo ph where ph.newsmthid in (select nm.id from Newsmth as nm where nm.link = :link)")
+						.setString("link", nmdata.getNewsmth().getLink()).executeUpdate();
+				for (int i = 0; i < nmdata.getPhotos().size(); i++) {
+					nmdata.getPhotos().get(i).setNewsmthid(id);
+					sn.save(nmdata.getPhotos().get(i));
+				}
+			}
+
+			sa.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
 			sa.rollback();
-		}finally {
+		} finally {
 			sn.close();
-			sn = null;	
+			sn = null;
 		}
 	}
 
@@ -97,22 +98,26 @@ public class NewsmthServiceImp implements NewsmthService {
 	}
 
 	@SuppressWarnings("unchecked")
-    @Override
+	@Override
 	public void deleteOld(long preservernum) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
-		if (count() > preservernum) {
-			long nRemoved = count() - preservernum;
-			List<Object> lst;
-			lst = sn.createQuery("select nm.id from Newsmth nm order by id").list();
-			Transaction sa = sn.beginTransaction();
-			for (int i = 0; i < nRemoved; i++) {
-				long id = (long) lst.get(i);
-				sn.createQuery("delete from Newsmth nm where nm.id = :id").setLong("id", id).executeUpdate();
-				sn.createQuery("delete from Photo ph where ph.newsmthid = :newsmthid").setLong("newsmthid", id).executeUpdate();
+		try {
+			if (count() > preservernum) {
+				long nRemoved = count() - preservernum;
+				List<Object> lst;
+				lst = sn.createQuery("select nm.id from Newsmth nm order by id").list();
+				Transaction sa = sn.beginTransaction();
+				for (int i = 0; i < nRemoved; i++) {
+					long id = (long) lst.get(i);
+					sn.createQuery("delete from Newsmth nm where nm.id = :id").setLong("id", id).executeUpdate();
+					sn.createQuery("delete from Photo ph where ph.newsmthid = :newsmthid").setLong("newsmthid", id)
+							.executeUpdate();
+				}
+				sa.commit();
 			}
-			sa.commit();
+		} finally {
+			sn.close();
 		}
-		sn.close();
 	}
 
 	@Override
@@ -128,8 +133,8 @@ public class NewsmthServiceImp implements NewsmthService {
 		for (Object obj : queryList) {
 			NewsmthData data = new NewsmthData();
 			data.setNewsmth((Newsmth) obj);
-			List<Photo> photolst = (List<Photo>) sn.createQuery("from Photo as a where a.newsmthid = ?").setLong(0,
-					data.getNewsmth().getId()).list();
+			List<Photo> photolst = (List<Photo>) sn.createQuery("from Photo as a where a.newsmthid = ?")
+					.setLong(0, data.getNewsmth().getId()).list();
 			data.setPhotos(photolst);
 			lst.add(data);
 		}
@@ -142,11 +147,14 @@ public class NewsmthServiceImp implements NewsmthService {
 	public void delete(long id) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa = sn.beginTransaction();
-		sn.createQuery("delete from Newsmth ns where ns.id = ?").setLong(0, id).executeUpdate();
-		sn.createQuery("delete from Photo ph where ph.newsmthid = ?").setLong(0, id).executeUpdate();
-		sa.commit();
-		sn.close();
-		
+		try {
+			sn.createQuery("delete from Newsmth ns where ns.id = ?").setLong(0, id).executeUpdate();
+			sn.createQuery("delete from Photo ph where ph.newsmthid = ?").setLong(0, id).executeUpdate();
+			sa.commit();
+		} finally {
+			sn.close();
+		}
+
 	}
 
 }

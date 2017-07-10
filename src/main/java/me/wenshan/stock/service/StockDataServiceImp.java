@@ -28,8 +28,9 @@ public class StockDataServiceImp implements IStockDataService {
 			sa.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			sn.close();
 		}
-		sn.close();
 	}
 
 	@Override
@@ -41,17 +42,21 @@ public class StockDataServiceImp implements IStockDataService {
 			sa.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			sn.close();
 		}
-		sn.close();
 	}
 
 	@Override
 	public void removeAllData() {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa = sn.beginTransaction();
-		sn.createSQLQuery("delete from stockdata").executeUpdate();
-		sa.commit();
-		sn.close();
+		try {
+			sn.createSQLQuery("delete from stockdata").executeUpdate();
+			sa.commit();
+		} finally {
+			sn.close();
+		}
 	}
 
 	@Override
@@ -71,8 +76,9 @@ public class StockDataServiceImp implements IStockDataService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			bRet = false;
+		} finally {
+			sn.close();
 		}
-		sn.close();
 		return bRet;
 	}
 

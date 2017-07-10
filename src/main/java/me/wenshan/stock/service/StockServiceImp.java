@@ -22,9 +22,12 @@ public class StockServiceImp implements IStockService {
 	public void save(StockIndex sin) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa = sn.beginTransaction();
-		sn.saveOrUpdate(sin);
-		sa.commit();
-		sn.close();
+		try {
+			sn.saveOrUpdate(sin);
+			sa.commit();
+		} finally {
+			sn.close();
+		}
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class StockServiceImp implements IStockService {
 		lst = sn.createSQLQuery(sql).addEntity(StockIndex.class).list();
 		sn.close();
 
-		return  lst;
+		return lst;
 	}
 
 	@Override
@@ -58,7 +61,6 @@ public class StockServiceImp implements IStockService {
 		return index;
 	}
 
-
 	@Override
 	public long M20DataCount() {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
@@ -67,18 +69,16 @@ public class StockServiceImp implements IStockService {
 		return cou;
 	}
 
-	
-
 	public List<StockIndex> getPageData(int first, int pageSize) {
-		List<StockIndex> lst = new ArrayList<StockIndex> (); 
-		
+		List<StockIndex> lst = new ArrayList<StockIndex>();
+
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Query query = sn.createQuery("from StockIndex as a order by a.pk.riqi desc");
 		query.setFirstResult(first);
 		query.setMaxResults(pageSize);
-		
-		List<?> queryList=query.list();
-		for(Object obj : queryList){
+
+		List<?> queryList = query.list();
+		for (Object obj : queryList) {
 			lst.add((StockIndex) obj);
 		}
 		sn.close();
@@ -97,19 +97,22 @@ public class StockServiceImp implements IStockService {
 	public boolean saveAll(List<StockIndex> lst, boolean saved) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa = sn.beginTransaction();
-		for (int i = 0; i < lst.size(); i++) {
-			if (saved)
-				sn.save(lst.get(i));
-			else
-				sn.saveOrUpdate(lst.get(i));
+		try {
+			for (int i = 0; i < lst.size(); i++) {
+				if (saved)
+					sn.save(lst.get(i));
+				else
+					sn.saveOrUpdate(lst.get(i));
 
-			if (i % 500 == 0) {
-				sa.commit();
-				sa = sn.beginTransaction();
+				if (i % 500 == 0) {
+					sa.commit();
+					sa = sn.beginTransaction();
+				}
 			}
+			sa.commit();
+		} finally {
+			sn.close();
 		}
-		sa.commit();
-		sn.close();
 		return true;
 	}
 
@@ -117,10 +120,13 @@ public class StockServiceImp implements IStockService {
 	public boolean removeAll() {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
 		Transaction sa = sn.beginTransaction();
-		sn.createQuery("delete from StockIndex").executeUpdate();
-		sa.commit();
-		sn.close();
-		
+		try {
+			sn.createQuery("delete from StockIndex").executeUpdate();
+			sa.commit();
+		} finally {
+			sn.close();
+		}
+
 		return true;
 	}
 }
