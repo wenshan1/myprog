@@ -46,12 +46,16 @@
          <!-- 当连接池里面的连接用完的时候，C3P0一下获取的新的连接数 -->  
          <property name="hibernate.c3p0.acquire_increment">1</property> 
          <!-- 每次都验证连接是否可用 -->   
-         <property name="hibernate.c3p0.validate">false</property>   
+         <property name="hibernate.c3p0.validate">false</property>
+            
          <!-- 最大空闲时间,120秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 
          Hibernate-style property 'hibernate.c3p0.timeout' will be used and c3p0-style property 'hibernate.c3p0.maxIdleTime' will be ignored!
          <property name="hibernate.c3p0.maxIdleTime">120</property>    -->
          
-         <property name="hibernate.c3p0.debugUnreturnedConnectionStackTraces">true</property>
+         <!-- Slow JDBC operations are generally performed by helper threads that don't hold contended locks. 
+         Spreading these operations over multiple threads can significantly improve performance 
+         by allowing multiple operations to be performed simultaneously.  -->
+         <property name="hibernate.c3p0.numHelperThreads">1</property>
        
     </session-factory>
     
