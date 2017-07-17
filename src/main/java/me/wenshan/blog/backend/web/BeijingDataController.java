@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import me.wenshan.beijing.domain.Beijing_fangdican_qianyue;
 import me.wenshan.beijing.domain.KongQiZhiLiang;
@@ -81,6 +82,18 @@ public class BeijingDataController {
 		return ;
 		
 	}
+	
+	@GetMapping ("/fangdicanshuju.json")
+    public @ResponseBody List<Beijing_fangdican_qianyue>  fangdicanshujuJson() {
+        List<Beijing_fangdican_qianyue> lst = fangDiCanQianYueService.getAllData();
+        return lst;
+    }
+    
+    @GetMapping ("/fangdicanshuju-qeushi")
+    public String   fangdicanshujuQueshi() {
+        return path + "/fangdicanshuju-queshi";
+    }
+    
 	// 房地产数据
 	@RequestMapping(value = "/fangdicanshuju", method = RequestMethod.GET)
 	public String fangdicanshuju(@RequestParam(value = "curPage", required = false) Integer curPage,
