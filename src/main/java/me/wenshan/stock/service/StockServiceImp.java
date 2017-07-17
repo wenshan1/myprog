@@ -38,6 +38,7 @@ public class StockServiceImp implements IStockService {
 		return cou;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<StockIndex> getDataRecord(String stockname, String riqistr, int ncount) {
 		String sql = String.format(
@@ -46,7 +47,7 @@ public class StockServiceImp implements IStockService {
 
 		List<StockIndex> lst;
 		Session sn = HibernateUtil.getSessionFactory().openSession();
-		lst = sn.createSQLQuery(sql).addEntity(StockIndex.class).list();
+		lst = (List<StockIndex>)sn.createSQLQuery(sql).addEntity(StockIndex.class).list();
 		sn.close();
 
 		return lst;

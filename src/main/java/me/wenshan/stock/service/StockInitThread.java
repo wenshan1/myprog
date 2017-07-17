@@ -12,7 +12,6 @@ public class StockInitThread implements Runnable  {
 	
 	private StockModelManager smmManager; 
 	private StockModelTongJiService mdlService;
-	private OptionManager opm;
 	private IStockDataService stockDataService;
 	private IStockService stockService;
 	
@@ -27,7 +26,6 @@ public class StockInitThread implements Runnable  {
 		this.bInitStock = bInitStock;
 		this.bInitModel = bInitModel;
 		this.mdlService = mdlService;
-		this.opm = opm;
 		this.stockDataService = stockDataService;
 		this.stockService = stockService;
 	}
