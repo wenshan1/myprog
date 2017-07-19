@@ -47,7 +47,7 @@ public class HibernateUtil {
 		lst.add(me.wenshan.blog.domain.Post.class);
 		lst.add(me.wenshan.blog.domain.Tag.class);
 		lst.add(me.wenshan.stock.domain.StockBasics.class);
-		
+		lst.add(me.wenshan.stock.domain.StockDayHis.class);
 		
 		
 		//lst.add(me.wenshan.blog.domain.PostTag.class);
