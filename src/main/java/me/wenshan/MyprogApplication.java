@@ -7,9 +7,9 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import me.wenshan.blog.backend.domain.Option;
-import me.wenshan.blog.backend.service.OptionService;
-import me.wenshan.blog.backend.service.OptionServiceImp;
+import me.wenshan.backend.domain.Option;
+import me.wenshan.backend.service.OptionService;
+import me.wenshan.backend.service.OptionServiceImp;
 import me.wenshan.constants.UserConstants;
 import me.wenshan.userinfo.domain.User;
 import me.wenshan.userinfo.service.UserServiceImp;

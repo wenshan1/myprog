@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import me.wenshan.blog.backend.form.PostForm;
-import me.wenshan.blog.backend.form.PostVO;
+import me.wenshan.backend.form.PostForm;
+import me.wenshan.backend.form.PostVO;
 import me.wenshan.blog.domain.Post;
 import me.wenshan.blog.domain.PostComment;
 import me.wenshan.blog.domain.PostStatus;

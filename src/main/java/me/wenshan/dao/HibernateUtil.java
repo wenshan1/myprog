@@ -43,7 +43,7 @@ public class HibernateUtil {
 		//lst.add(me.wenshan.stock.domain.StockSzData.class);
 		
 		//lst.add(me.wenshan.blog.domain.Category.class);
-		lst.add(me.wenshan.blog.backend.domain.Option.class);
+		lst.add(me.wenshan.backend.domain.Option.class);
 		lst.add(me.wenshan.blog.domain.Post.class);
 		lst.add(me.wenshan.blog.domain.Tag.class);
 		lst.add(me.wenshan.stock.domain.StockBasics.class);

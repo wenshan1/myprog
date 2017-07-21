@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
 
-import me.wenshan.blog.backend.form.TongJiForm;
+import me.wenshan.backend.form.TongJiForm;
 import me.wenshan.dao.HibernateUtil;
 import me.wenshan.stockmodel.domain.StockModelTongJi;
 

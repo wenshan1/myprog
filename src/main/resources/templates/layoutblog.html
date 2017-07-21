@@ -43,22 +43,22 @@
 				<ul class="nav navbar-nav">
 					<li><a class="dropdown-toggle" data-toggle="dropdown" href="#">新建<span class="caret" /></a>
 						<ul class="dropdown-menu">
-							<li><a th:href="@{/blog/backend/posts/new}">文章</a></li>
+							<li><a th:href="@{/backend/posts/new}">文章</a></li>
 							<li><a href="${g.domain}/backend/links/edit">链接</a></li>
 							<li><a href="${g.domain}/backend/users/edit">用户</a></li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#" th:href="@{/blog/backend/index}">Dashboard</a></li>
+					<li><a href="#" th:href="@{/backend/index}">Dashboard</a></li>
 					<li><a class="dropdown-toggle" data-toggle="dropdown" href="#">你好,<span
 							th:text="${authUser}">${z:cookieValue('un')}</span><span
 							class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="/blog/backend/options/general"
-								th:href="@{/blog/backend/options/general}">设置</a></li>
+							<li><a href="/backend/options/general"
+								th:href="@{/backend/options/general}">设置</a></li>
 							<li><a href="${g.domain}/backend/users/my"
-								th:href="@{/blog/backend/users/my}">编辑我的个人资料</a></li>
+								th:href="@{/backend/users/my}">编辑我的个人资料</a></li>
 							<li><a href="${g.domain}/backend/logout"
 								th:href="@{/logout}">退出</a></li>
 						</ul></li>
@@ -77,10 +77,10 @@
                 <i class="left glyphicon glyphicon-home" aria-hidden="true"></i>系统设置
                 <i class="right glyphicon glyphicon-chevron-down" aria-hidden="true"></i></a>
             <ul class="sub-menu" style="display: block;">
-              <li><a href="#" th:href="@{/blog/backend/index}">首页</a></li>
-              <li><a href = "#" th:href="@{/blog/backend/options/general}">常规选项</a></li>
-              <li><a href="" th:href="@{/blog/backend/options/post}">撰写/阅读</a></li>
-              <li><a href="" th:href="@{/blog/backend/options/data}">数据设置</a></li>
+              <li><a href="#" th:href="@{/backend/index}">首页</a></li>
+              <li><a href = "#" th:href="@{/backend/options/general}">常规选项</a></li>
+              <li><a href="" th:href="@{/backend/options/post}">撰写/阅读</a></li>
+              <li><a href="" th:href="@{/backend/options/data}">数据设置</a></li>
             </ul>
        </li>
    
@@ -88,35 +88,43 @@
 				class="left glyphicon glyphicon-home" aria-hidden="true"></i>数据管理 <i
 				class="right glyphicon glyphicon-chevron-down" aria-hidden="true"></i></a>
 			<ul class="sub-menu" style="display: block;">
-				<li><a href="#" th:href="@{/blog/backend/data/fangdicanshuju}">北京房地产数据</a></li>
-				<li><a href="#" th:href="@{/blog/backend/data/fangdicanshuju-qeushi}">北京房地产趋势数据图</a></li>
-				<li><a href="#"
-					th:href="@{/blog/backend/data/beijing_kongqizhiliang}">北京空气质量数据</a></li>
-				<li><a href="#" th:href="@{/blog/backend/data/newsmth}">水木数据</a></li>
+				<li><a href="#" th:href="@{/backend/data/fangdicanshuju}">北京房地产数据</a></li>
+				<li><a href="#" th:href="@{/backend/data/fangdicanshuju-qeushi}">北京房地产趋势数据图</a></li>
+				<li><a href="#"	th:href="@{/backend/data/beijing_kongqizhiliang}">北京空气质量数据</a></li>
+				<li><a href="#" th:href="@{/backend/data/newsmth}">水木数据</a></li>
 			</ul></li>
+		
+		<li><a class="nav-header" href="#"> <i
+				class="left glyphicon glyphicon-home" aria-hidden="true"></i>股票数据信息列表 <i
+				class="right glyphicon glyphicon-chevron-down" aria-hidden="true"></i></a>
+			<ul class="sub-menu" style="display: block;">
+				<li><a href="#" th:href="@{/backend/stock/stockindex}">指数数据</a></li>
+				<li><a href="#" th:href="@{/backend/stock/stockbasics/1}">所有股票基本信息</a></li>
+				<li><a href="#" th:href="@{/backend/stock/stockdayhist/1}">所有股票前复权日线数据</a></li>
+			</ul>
+		</li>		
 
 		<li><a class="nav-header" href="#"> <i
 				class="left glyphicon glyphicon-home" aria-hidden="true"></i>股票模型 <i
 				class="right glyphicon glyphicon-chevron-down" aria-hidden="true"></i></a>
 			<ul class="sub-menu" style="display: block;">
-				<li><a href="#" th:href="@{/blog/backend/stock/stockindex}">指数数据</a></li>
-				<li><a href="#" th:href="@{/blog/backend/stock/stockm300_500}">轮动300-500</a></li>
-				<li><a href="#" th:href="@{/blog/backend/stock/stockm300_chuangyeban}">轮动牛300-创业板</a></li>
-				<li><a href="#" th:href="@{/blog/backend/stock/chuangyebanEn}">创业板指数增强</a></li>
-				<li><a href="#" th:href="@{/blog/backend/stock/stockm50_chuangyeban}" style="color: red;">50-创业板*</a></li>
-				<li><a href="#" th:href="@{/blog/backend/stock/custom}">定制模型</a></li>
-				<li><a href="#" th:href="@{/blog/backend/stock/modeltongji}">模型统计结果</a></li>
-				<li><a href="#" th:href="@{/blog/backend/stock/initstockdesc}">初始化股票数据</a></li>
+				<li><a href="#" th:href="@{/backend/stock/stockm300_500}">轮动300-500</a></li>
+				<li><a href="#" th:href="@{/backend/stock/stockm300_chuangyeban}">轮动牛300-创业板</a></li>
+				<li><a href="#" th:href="@{/backend/stock/chuangyebanEn}">创业板指数增强</a></li>
+				<li><a href="#" th:href="@{/backend/stock/stockm50_chuangyeban}" style="color: red;">50-创业板*</a></li>
+				<li><a href="#" th:href="@{/backend/stock/custom}">定制模型</a></li>
+				<li><a href="#" th:href="@{/backend/stock/modeltongji}">模型统计结果</a></li>
+				<li><a href="#" th:href="@{/backend/stock/initstockdesc}">初始化股票数据</a></li>
 			</ul>
 		</li>
-		
+				
 		<li><a class="nav-header" href="#">
             <i class="left glyphicon glyphicon-send" aria-hidden="true"></i>文章
             <i class="right glyphicon glyphicon-chevron-up" aria-hidden="true"></i>
             </a>
             <ul class="sub-menu">
-                <li><a href = "#" th:href="@{/blog/backend/posts/new}">写文章</a></li>
-                <li><a href="${g.domain}/backend/posts" th:href="@{/blog/backend/posts}" >所有文章</a></li>
+                <li><a href = "#" th:href="@{/backend/posts/new}">写文章</a></li>
+                <li><a href="${g.domain}/backend/posts" th:href="@{/backend/posts}" >所有文章</a></li>
             </ul>
         </li>
   
@@ -126,8 +134,8 @@
                 <i class="right glyphicon glyphicon-chevron-up" aria-hidden="true"></i>
             </a>
             <ul class="sub-menu">
-               <li><a href="#" th:href="@{/blog/backend/pages}" >所有页面</a></li>
-               <li><a class="last" href="#" th:href="@{/blog/backend/pages/edit}" >新建页面</a></li>
+               <li><a href="#" th:href="@{/backend/pages}" >所有页面</a></li>
+               <li><a class="last" href="#" th:href="@{/backend/pages/edit}" >新建页面</a></li>
             </ul>
         </li>
 

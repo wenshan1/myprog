@@ -3,7 +3,8 @@ package me.wenshan.util;
 import java.util.Calendar;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
-import me.wenshan.blog.backend.service.OptionService;
+
+import me.wenshan.backend.service.OptionService;
 import me.wenshan.constants.OptionConstants;
 
 public class Global {

@@ -2,7 +2,7 @@ package me.wenshan.stock.service;
 
 import java.util.List;
 
-import me.wenshan.blog.backend.form.TongJiForm;
+import me.wenshan.backend.form.TongJiForm;
 import me.wenshan.stockmodel.domain.StockModelTongJi;
 
 public interface StockModelTongJiService {

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layoutblog :: bootstrap">
+<meta charset="UTF-8" />
+</head>
+
+<body style="margin-top: 50px;">
+	<div class="container-fluid" th:replace="layoutblog :: navbar" />
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2" id="sidebar" style="padding: 0;">
+				<ul class="side-menu" th:replace="layoutblog :: sidebar" />
+				<script type="text/javascript" src="/blog/js/backend/sidebar.js"></script>
+			</div>
+			<div class="col-sm-9 col-md-10">
+				<ol class="breadcrumb header">
+					<li><span class="icon glyphicon glyphicon-home"></span>主菜单</li>
+					<li>系统设置</li>
+				</ol>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="icon glyphicon glyphicon-briefcase"></span>常规
+					</div>
+					<div class="panel-body">
+
+						<div th:if="${success}" class="alert alert-success"
+							style="padding: 10px 15px;">修改成功</div>
+
+						<form action="#" th:action="@{/backend/options/general}"
+							th:object="${form}" method="post"
+							class="form-horizontal text-left">
+							<div class="form-group" th:with="str = ${title} != null?'has-error':''" th:class= "'form-group ' + ${str}">
+								<label class="col-sm-3" for="title">*站点标题</label>
+								<div class="col-sm-6">
+									<input placeholder="站点标题" name="title" class="form-control"
+										type="text" value="站点标题" th:value="*{title}" th:field="*{title}" />
+									<p class="help-block" th:text = "${title}"></p>
+								</div>
+							</div>
+							<div class="form-group" th:with="str = ${subtitle} != null?'has-error':''" th:class= "'form-group ' + ${str}">
+								<label class="col-sm-3" for="subtitle">*副标题</label>
+								<div class="col-sm-6">
+									<input placeholder="副标题" name="subtitle" class="form-control"
+										type="text" value=""
+										th:value="*{subtitle}" th:field="*{subtitle}" />
+								</div>
+							</div>
+							<div class="form-group" th:with="str = ${description} != null?'has-error':''" th:class= "'form-group ' + ${str}">
+								<label class="col-sm-3" for="description">*站点描述</label>
+								<div class="col-sm-6">
+									<input placeholder="站点描述" name="description"
+										class="form-control" type="text" value="${form.description}"
+										th:value="*{description}" th:field="*{description}" />
+									<p class="help-block" th:with = "str = ${description} != null? ${description}:'用简洁的文字描述本站点。'" th:text = "${str}" ></p> 
+								</div>
+							</div>
+							<div class="form-group" th:with="str = ${keywords} != null?'has-error':''" th:class= "'form-group ' + ${str}">
+								<label class="col-sm-3" for="keywords">*站点keywords</label>
+								<div class="col-sm-6">
+									<input placeholder="keywords" name="keywords"
+										class="form-control" type="text" value="${form.keywords}"
+										th:value="*{keywords}" th:field="*{keywords}" />
+									<p class="help-block" th:with = "str = ${keywords} != null? ${keywords}:'填写本站的关键字。'" th:text = "${str}"> ${keywords!=null?keywords:'填写本站的关键字。'}</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3" for="weburl">*站点地址（URL）</label>
+								<div class="col-sm-6">
+									<input placeholder="http://" name="weburl" class="form-control"
+										type="text" value="${form.weburl}" th:value="*{weburl}" th:field="*{weburl}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3" for="email">电子邮件地址 </label>
+								<div class="col-sm-6">
+									<input class="form-control" type="text" name="email" th:value="*{email}" th:field="*{email}"  />
+									<p class="help-block">这个电子邮件地址仅为了管理方便而索要，例如新注册用户通知。</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3">成员资格</label>
+								<div class="col-sm-6">
+									<div class="checkbox">
+										<label style="padding-left: 20px;"> <input
+											type="checkbox" name="enableReg" readonly="readonly" />任何人都可以注册
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3">新用户默认角色</label>
+								<div class="col-sm-6">
+									<select class="form-control" name="defaultUserRole">
+										<option>订阅者</option>
+										<option>编辑</option>
+										<option>作者</option>
+										<option>投稿者</option>
+										<option>管理员</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group" style="padding-top: 20px;">
+								<div class="col-sm-offset-3 col-sm-2">
+									<button type="submit" class="btn btn-primary btn-block">保存更改</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
