@@ -169,13 +169,13 @@ public class StockListServiceImp implements IStockListService {
         sn.close();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<StockList> getAllDataFromDB() {
-        List<StockList> lst;
         Session sn = HibernateUtil.getSessionFactory().openSession();
-        lst = sn.createSQLQuery("SELECT * FROM stocklist").addEntity(StockList.class).list();
+        List<?> lst = sn.createSQLQuery("SELECT * FROM stocklist").addEntity(StockList.class).list();
         sn.close();
-        return  lst;
+        return  (List<StockList>) lst;
     }
 
 	@Override

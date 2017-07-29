@@ -39,6 +39,7 @@ public class FangDiCanQianYueService {
 	public List<Beijing_fangdican_qianyue> getAllData() {
 
 		Session sn = HibernateUtil.getSessionFactory().openSession();
+		@SuppressWarnings("unchecked")
 		List<Beijing_fangdican_qianyue> query = (List<Beijing_fangdican_qianyue>) sn
 				.createQuery("from Beijing_fangdican_qianyue as a order by a.riqi desc").list();
 		sn.close();

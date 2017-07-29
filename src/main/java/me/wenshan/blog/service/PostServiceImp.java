@@ -81,7 +81,8 @@ public class PostServiceImp implements PostService {
         return lst;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public long getTopId() {
         List<Post> lst = null;
         Session sn = HibernateUtil.getSessionFactory().openSession();

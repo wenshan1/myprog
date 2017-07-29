@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
 import me.wenshan.dao.HibernateUtil;
-import me.wenshan.stock.domain.StockBasics;
 import me.wenshan.stock.domain.StockDayHis;
 
 @Service
@@ -22,7 +21,8 @@ public class StockDayHisServiceImp implements StockDayHisService {
         return cou;
         }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<StockDayHis> getPageData(int first, int pageSize) 
         {
         Session sn = HibernateUtil.getSessionFactory().openSession();
@@ -36,6 +36,7 @@ public class StockDayHisServiceImp implements StockDayHisService {
             {
             return null;
             }
+        
         return (List<StockDayHis>) lst;
     }
 

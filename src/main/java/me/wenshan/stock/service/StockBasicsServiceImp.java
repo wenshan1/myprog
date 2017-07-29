@@ -20,7 +20,8 @@ public class StockBasicsServiceImp implements StockBasicsService {
         return cou;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<StockBasics> getPageData(int first, int pageSize) {
         Session sn = HibernateUtil.getSessionFactory().openSession();
         Query query = sn.createQuery("from StockBasics as a order by a.code");

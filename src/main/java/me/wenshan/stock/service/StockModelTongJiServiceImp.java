@@ -47,6 +47,7 @@ public class StockModelTongJiServiceImp implements StockModelTongJiService {
 		return tongji;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<StockModelTongJi> getLastData(String modelName, int num) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();
@@ -92,6 +93,7 @@ public class StockModelTongJiServiceImp implements StockModelTongJiService {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public TongJiForm getTongJiForm(String modelName) {
 		Session sn = HibernateUtil.getSessionFactory().openSession();

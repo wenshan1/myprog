@@ -98,7 +98,8 @@ public class StockModelDataServiceImp implements StockModelDataService {
         query.setFirstResult(first);
         query.setMaxResults(pageSize);
         
-        List<StockModelData> queryList=query.list();
+        @SuppressWarnings("unchecked")
+		List<StockModelData> queryList=query.list();
         
         List<StockModelData> lst = new ArrayList <StockModelData> ();
         lst.addAll(queryList);

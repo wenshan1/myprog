@@ -133,6 +133,7 @@ public class NewsmthServiceImp implements NewsmthService {
 		for (Object obj : queryList) {
 			NewsmthData data = new NewsmthData();
 			data.setNewsmth((Newsmth) obj);
+			@SuppressWarnings("unchecked")
 			List<Photo> photolst = (List<Photo>) sn.createQuery("from Photo as a where a.newsmthid = ?")
 					.setLong(0, data.getNewsmth().getId()).list();
 			data.setPhotos(photolst);
