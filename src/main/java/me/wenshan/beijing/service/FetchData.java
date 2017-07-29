@@ -121,6 +121,7 @@ public class FetchData {
 
 		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
 		try {
+			riqi.replace('/', '-');
 			beijing.setRiqi(formater.parse(riqi));
 		} catch (Exception e) {
 			e.printStackTrace();
