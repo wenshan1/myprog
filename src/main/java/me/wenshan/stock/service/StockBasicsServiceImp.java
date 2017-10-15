@@ -24,7 +24,7 @@ public class StockBasicsServiceImp implements StockBasicsService {
 	@Override
     public List<StockBasics> getPageData(int first, int pageSize) {
         Session sn = HibernateUtil.getSessionFactory().openSession();
-        Query query = sn.createQuery("from StockBasics as a order by a.code");
+        Query query = sn.createQuery("from StockBasics as a order by a.timeToMarket");
         query.setFirstResult(first);
         query.setMaxResults(pageSize);
 
