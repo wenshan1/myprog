@@ -17,19 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import me.wenshan.beijing.domain.Beijing_fangdican_qianyue;
-import me.wenshan.beijing.domain.KongQiZhiLiang;
 import me.wenshan.beijing.service.FangDiCanQianYueService;
-import me.wenshan.beijing.service.KongQiZhiLiangService;
 import me.wenshan.util.LBPage;
 
 @Controller
 @RequestMapping("/backend/data")
 public class BeijingDataController {
 	@Autowired
-	private FangDiCanQianYueService fangDiCanQianYueService;
-	@Autowired
-	private KongQiZhiLiangService kongQiZhiLiangService;
-	
+	private FangDiCanQianYueService fangDiCanQianYueService;	
 	private final String path = "backend/data";
 	private final int pageRecord = 20;
 
@@ -116,29 +111,5 @@ public class BeijingDataController {
 		model.addAttribute("Page", page);
 
 		return path + "/fangdicanshuju";
-	}
-
-	// 北京空气质量数据
-	@RequestMapping(value = "/beijing_kongqizhiliang", method = RequestMethod.GET)
-	public String beijing_kongqizhiliang(@RequestParam(value = "curPage", required = false) Integer curPage,
-			Model model) {
-		if (curPage == null)
-			curPage = 1;
-		LBPage<KongQiZhiLiang> page = new LBPage<KongQiZhiLiang>();
-		page.setTotalrecord(kongQiZhiLiangService.count());
-		page.setMaxresult(pageRecord);
-		page.setCurrentpage(curPage);
-		if (page.getTotalrecord() % page.getMaxresult() == 0)
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult());
-		else
-			page.setTotalpage(page.getTotalrecord() / page.getMaxresult() + 1);
-
-		java.util.List<KongQiZhiLiang> lst = kongQiZhiLiangService.getPageData(page.getFirstResult(),
-				page.getMaxresult());
-		page.setRecords(lst);
-
-		model.addAttribute("Page", page);
-
-		return path + "/beijing_kongqizhiliang";
 	}
 }

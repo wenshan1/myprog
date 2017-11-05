@@ -25,10 +25,7 @@ public class HibernateUtil {
 	{
 		ArrayList<Class> lst = new ArrayList<Class>();
 		lst.add(me.wenshan.userinfo.domain.User.class);
-		lst.add(me.wenshan.newsmth.domain.Newsmth.class);
-		lst.add(me.wenshan.newsmth.domain.Photo.class);
 		lst.add(me.wenshan.beijing.domain.Beijing_fangdican_qianyue.class);
-		lst.add(me.wenshan.beijing.domain.KongQiZhiLiang.class);
 		lst.add(me.wenshan.stock.domain.StockIndex.class);
 		lst.add(me.wenshan.stock.domain.StockList.class);
 		//lst.add(me.wenshan.stock.domain.StockM20Data.class);
