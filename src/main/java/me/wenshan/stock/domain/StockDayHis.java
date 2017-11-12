@@ -5,7 +5,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-//股票日k线数据,前复权
+//股票日k线数据,不复权
 @Entity
 @Table(name = "stockdayhist")
 public class StockDayHis {

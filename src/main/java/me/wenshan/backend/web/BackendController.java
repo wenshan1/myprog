@@ -13,6 +13,8 @@ import me.wenshan.beijing.service.FangDiCanQianYueService;
 import me.wenshan.stock.service.IStockDataService;
 import me.wenshan.stock.service.IStockListService;
 import me.wenshan.stock.service.IStockService;
+import me.wenshan.stock.service.StockBasicsService;
+import me.wenshan.stock.service.StockDayHisService;
 import me.wenshan.userinfo.service.UserService;
 import me.wenshan.util.OSInfo;
 
@@ -29,6 +31,10 @@ public class BackendController {
 	private IStockDataService stockDataService;
 	@Autowired 
 	private IStockService stockService;
+	@Autowired
+	private StockDayHisService stockDayHistService;
+	@Autowired
+	private StockBasicsService  stockBasicServer;
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model, HttpServletRequest req) {
@@ -48,6 +54,8 @@ public class BackendController {
 		model.addAttribute("Beijing_fangdican_qianyue_Count", fangDiCanQianYueService.count());
 		model.addAttribute("stockData_Count", stockDataService.count ());
 		model.addAttribute("stockList_Count", stockListService.count());
+		model.addAttribute("stockDayHis_Count", stockDayHistService.count());
+		model.addAttribute("stockBasic_Count", stockBasicServer.count());
 
 		/*
 		 * model.addAttribute("postCount", postService.count());
