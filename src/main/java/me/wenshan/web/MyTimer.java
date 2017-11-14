@@ -27,14 +27,14 @@ public class MyTimer {
     @Autowired
     private IStockService stockService;
     
-    @Scheduled(cron = "0 */2 * * * ?")
+    @Scheduled(cron = "0 0 */1 * * ?")
     public void updateHourly_sc () {
         Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, 
         		opm, stockDataService, stockService));
         th.start();
     }
     
-    @Scheduled(cron = "0 */8 * * * ?")
+    @Scheduled(cron = "0 0 0 */1 * ?")
     public void updateFanDican () {
         fetchData.fetchAll_FandDiCan(); // 更新北京房地产数据
     }
