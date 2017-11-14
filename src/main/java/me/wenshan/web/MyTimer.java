@@ -6,6 +6,10 @@ import org.springframework.stereotype.Component;
 
 import me.wenshan.beijing.service.FetchData;
 import me.wenshan.biz.OptionManager;
+import me.wenshan.stock.service.IStockDataService;
+import me.wenshan.stock.service.IStockService;
+import me.wenshan.stock.service.StockInitThread;
+import me.wenshan.stock.service.StockModelTongJiService;
 import me.wenshan.stockmodel.service.StockModelManager;
 
 @Component
@@ -16,10 +20,23 @@ public class MyTimer {
     private OptionManager opm;
     @Autowired 
     private FetchData fetchData;
+    @Autowired
+    private StockModelTongJiService mdlService;
+    @Autowired
+    private IStockDataService stockDataService;
+    @Autowired
+    private IStockService stockService;
     
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 */2 * * * ?")
     public void updateHourly_sc () {
-        UpdateHourlyThread.updateMinute (smmManager, opm, fetchData, null);
+        Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, 
+        		opm, stockDataService, stockService));
+        th.start();
+    }
+    
+    @Scheduled(cron = "0 */8 * * * ?")
+    public void updateFanDican () {
+        fetchData.fetchAll_FandDiCan(); // 更新北京房地产数据
     }
 
 }

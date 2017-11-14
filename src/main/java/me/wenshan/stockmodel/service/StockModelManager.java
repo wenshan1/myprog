@@ -24,7 +24,7 @@ import me.wenshan.stock.service.StockModelTongJiService;
 import me.wenshan.stockmodel.domain.StockModelData;
 
 class Stock1 {
-    private double dbIndex = 1000; /* 2011-1-1 */
+    private double dbIndex = 100; /* 2011-1-1 */
     private String stockName ;
     private String nextstockName = "";
     private String nnextstockName = "";
@@ -221,13 +221,7 @@ class Stock1or2 {
     private double getPreData(String riqi, String stockname) {
 
         List<StockIndex> lst = stockService.getDataRecord(stockname, riqi, cycle);
-        /*
-         * for (int i = 0; i < 20; i++) { StockIndex ind = lst.get(i); m20 +=
-         * ind.getCloseprice(); }
-         * 
-         * return m20 / 20;
-         */
-
+      
         return lst.get(cycle - 1).getCloseprice();
     }
     

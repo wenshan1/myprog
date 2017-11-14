@@ -1,5 +1,6 @@
 package me.wenshan.stock.service;
 
+import me.wenshan.backend.form.DataOption;
 import me.wenshan.biz.OptionManager;
 import me.wenshan.constants.StockConstants;
 import me.wenshan.stockmodel.service.StockModelManager;
@@ -14,6 +15,8 @@ public class StockInitThread implements Runnable  {
 	private StockModelTongJiService mdlService;
 	private IStockDataService stockDataService;
 	private IStockService stockService;
+	private OptionManager  optionManager;
+	private static boolean bRunning = false;
 	
 	public StockInitThread (boolean bInitIndex, boolean bInitStock, 
 	        boolean bInitModel, StockModelManager smm,
@@ -28,10 +31,14 @@ public class StockInitThread implements Runnable  {
 		this.mdlService = mdlService;
 		this.stockDataService = stockDataService;
 		this.stockService = stockService;
+		optionManager = opm;
 	}
 	
 	@Override
 	public void run() {
+		if (bRunning)
+			return ;
+		bRunning = true;
 		if (bInitIndex) {
 			stockService.removeAll();
 		    
@@ -43,22 +50,20 @@ public class StockInitThread implements Runnable  {
 		}
 		if (bInitModel) {
 		    StockModelTongJiMgr.get(mdlService).removeAllData();
-		    
-		    /*
-	        StockM20 m20 = new StockM20();
-	        m20.initMyStock();
-	        StockMGEM tmp = new StockMGEM();
-	        tmp.initMyStock();
-	        Stock50GEM nn = new Stock50GEM();
-	        nn.initMyStock(); 
-		    
-	        StockGEMEx tmp3 = new StockGEMEx();
-	        tmp3.initMyStock(); */
+	        DataOption datao = optionManager.getDataOption ();
 	        
-	        smmManager.genModelData(StockConstants.MODEL_300_500, "sh000300", "sh000905", 20);
-	        smmManager.genModelData(StockConstants.MODEL_300_CHUANGYEBAN, "sh000300", "sz399006", 20);
-	        smmManager.genModelData(StockConstants.MODEL_50_CHUANGYEBAN, "sh000016", "sz399006", 20);
-	        smmManager.genModelData(StockConstants.MODEL_CHUANGYEBANEXEX, "sz399006", "", 20);
+	        smmManager.genModelData(StockConstants.MODEL_300_500, "sh000300", "sh000905", 
+	        		datao.getStockModelCycle());
+	        smmManager.genModelData(StockConstants.MODEL_300_CHUANGYEBAN, "sh000300", "sz399006", 
+	        		datao.getStockModelCycle());
+	        smmManager.genModelData(StockConstants.MODEL_50_CHUANGYEBAN, "sh000016", "sz399006", 
+	        		datao.getStockModelCycle());
+	        smmManager.genModelData(StockConstants.MODEL_CHUANGYEBANEXEX, "sz399006", "", 
+	        		datao.getStockModelCycle());
+	        smmManager.genModelData(StockConstants.MODEL_CUSTOME, datao.getStockModelName1(), 
+	        		datao.getStockModelName2(), 
+	        		datao.getStockModelCycle());
 		}
+		bRunning = false; 
 	}
 }
