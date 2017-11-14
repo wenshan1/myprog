@@ -207,16 +207,16 @@ public class StockController {
     @GetMapping(value = "/modeltongji")
     public String modelTongJi(Model model) {
         // 300-500
-        model.addAttribute("model_300_500", tongjiService.getLastData(StockConstants.MODEL_300_500, 5));
+        model.addAttribute("model_300_500", tongjiService.getLastData(StockConstants.MODEL_300_500, 10));
         model.addAttribute("tongji300500form", tongjiService.getTongJiForm(StockConstants.MODEL_300_500));
 
         // 50-创业板
-        model.addAttribute("model_50_chuangyeban", tongjiService.getLastData(StockConstants.MODEL_50_CHUANGYEBAN, 5));
+        model.addAttribute("model_50_chuangyeban", tongjiService.getLastData(StockConstants.MODEL_50_CHUANGYEBAN, 10));
         model.addAttribute("model_50_chuangyebanform",
                 tongjiService.getTongJiForm(StockConstants.MODEL_50_CHUANGYEBAN));
 
         // 增强创业板
-        model.addAttribute("chuangyebanex", tongjiService.getLastData(StockConstants.MODEL_CHUANGYEBANEXEX, 5));
+        model.addAttribute("chuangyebanex", tongjiService.getLastData(StockConstants.MODEL_CHUANGYEBANEXEX, 10));
         model.addAttribute("chuangyebanexform", tongjiService.getTongJiForm(StockConstants.MODEL_CHUANGYEBANEXEX));
         return path + "/modeltongji";
     }
