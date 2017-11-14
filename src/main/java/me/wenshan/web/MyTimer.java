@@ -11,9 +11,12 @@ import me.wenshan.stock.service.IStockService;
 import me.wenshan.stock.service.StockInitThread;
 import me.wenshan.stock.service.StockModelTongJiService;
 import me.wenshan.stockmodel.service.StockModelManager;
+import me.wenshan.util.EmailSend;
 
 @Component
 public class MyTimer {
+	@Autowired
+	private EmailSend emailSend;
     @Autowired
     private StockModelManager smmManager;
     @Autowired
@@ -26,6 +29,10 @@ public class MyTimer {
     private IStockDataService stockDataService;
     @Autowired
     private IStockService stockService;
+    @Scheduled(cron = "0 0 */8 * * ?")
+    public void email_send () {
+    	emailSend.send();
+    }
     
     @Scheduled(cron = "0 0 */1 * * ?")
     public void updateHourly_sc () {

@@ -78,7 +78,7 @@ public class FetchData {
 
 		Beijing_fangdican_qianyue beijing = new Beijing_fangdican_qianyue();
 
-		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formater = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			riqi.replace('/', '-');
 			beijing.setRiqi(formater.parse(riqi));

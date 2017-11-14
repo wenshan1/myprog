@@ -1,6 +1,8 @@
 package me.wenshan.stockmodel.service;
 
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import me.wenshan.dao.HibernateUtil;
 import me.wenshan.stockmodel.domain.StockModelData;
+import me.wenshan.stockmodel.domain.StockModelData_Pk;
 
 @Service
 public class StockModelDataServiceImp implements StockModelDataService {
@@ -107,5 +110,20 @@ public class StockModelDataServiceImp implements StockModelDataService {
         
         return lst;
     }
+
+	
+	@Override
+	public StockModelData getLatestData(String modelName) {
+		StockModelData stdata = null;
+        Session sn = HibernateUtil.getSessionFactory().openSession();
+        Query query = sn.createQuery("from StockModelData as a where a.pk.name = :name order by a.pk.riqi desc").
+                setString("name", modelName);
+        
+		List<StockModelData> queryList=query.list();
+		if (queryList != null)
+			stdata = queryList.get(0);
+        sn.close();
+		return stdata;
+	}
 
 }
