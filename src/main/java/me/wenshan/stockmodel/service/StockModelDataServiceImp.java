@@ -118,7 +118,7 @@ public class StockModelDataServiceImp implements StockModelDataService {
         Session sn = HibernateUtil.getSessionFactory().openSession();
         Query query = sn.createQuery("from StockModelData as a where a.pk.name = :name order by a.pk.riqi desc").
                 setString("name", modelName);
-        
+        query.setMaxResults(10);
 		List<StockModelData> queryList=query.list();
 		if (queryList != null)
 			stdata = queryList.get(0);

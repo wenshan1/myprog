@@ -16,11 +16,14 @@ import me.wenshan.stock.service.IStockService;
 import me.wenshan.stock.service.StockBasicsService;
 import me.wenshan.stock.service.StockDayHisService;
 import me.wenshan.userinfo.service.UserService;
+import me.wenshan.util.EmailSend;
 import me.wenshan.util.OSInfo;
 
 @Controller
 @RequestMapping("/backend")
 public class BackendController {
+    @Autowired
+	private EmailSend emailSend;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -36,6 +39,11 @@ public class BackendController {
 	@Autowired
 	private StockBasicsService  stockBasicServer;
 	
+	@RequestMapping(value = "/send_email", method = RequestMethod.GET)
+    public String send_email(Model model) {
+    	emailSend.send();
+        return "redirect:/backend/index";
+    }
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model, HttpServletRequest req) {
 				
