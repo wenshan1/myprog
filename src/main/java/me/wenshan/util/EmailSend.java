@@ -61,7 +61,7 @@ public class EmailSend {
          email.setFrom("jetlan@sina.com"); //发送方,这里可以写多个  
          email.addTo("jetlan@live.cn"); // 接收方    
          email.setCharset("UTF-8");  
-         email.setSubject("最新28结果 " + cal.getTime()); // 标题  
+         email.setSubject("最新模型结果" ); // 标题  
          email.setHtmlMsg(content); // 内容  
          email.send();  
          System.out.println("发送成功");  
