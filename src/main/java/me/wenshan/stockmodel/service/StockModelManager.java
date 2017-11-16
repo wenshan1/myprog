@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import me.wenshan.constants.StockConstants;
 import me.wenshan.stock.domain.StockIndex;
 import me.wenshan.stock.service.IStockService;
 import me.wenshan.stock.service.StockModelTongJiService;
@@ -134,61 +135,6 @@ class Stock1 {
         return true;
     }
     
-    public void update() {
-        
-        logger.info("update: Begin generate " + modelName);
-
-        // 开始
-        Calendar cal = Calendar.getInstance();
-        Date todaydate = cal.getTime();
-        cal.add(Calendar.DAY_OF_MONTH, -7);
-
-        int m = cal.get(Calendar.MONTH) + 1;
-        int d = cal.get(Calendar.DAY_OF_MONTH);
-        int y = cal.get(Calendar.YEAR);
-
-        String strriqi = String.format("%d-%02d-%02d", y, m, d);
-
-        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-        Date riqi;
-        try {
-            riqi = formater.parse(strriqi);
-        } catch (ParseException e1) {
-            e1.printStackTrace();
-            return;
-        }
-        cal.setTime(riqi);
-
-        // 得到上一个收盘日数据
-
-        List<StockModelData> lstM20 = stockMDService.getStockDataRecord(modelName, strriqi, 1);
-        StockModelData tmp = lstM20.get(0);
-        
-        dbIndex = tmp.getCloseprice();
-        currentstockName = tmp.getNextStockName();
-        nextstockName = tmp.getNnextStockName();
-
-        do {
-            m = cal.get(Calendar.MONTH) + 1;
-            d = cal.get(Calendar.DAY_OF_MONTH);
-            y = cal.get(Calendar.YEAR);
-            strriqi = String.format("%d-%02d-%02d", y, m, d);
-
-            if (getCurrentIndex(strriqi)) {
-                StockModelData m20data = new StockModelData(modelName, cal.getTime(), dbIndex, currentstockName, 
-                        nextstockName, nnextstockName);
-                stockMDService.saveOrUpdate(m20data);
-                
-                StockModelTongJiMgr.get(mdlService).saveModelData (modelName, 
-                        cal.getTime(), dbIndex, currentstockName);
-                currentstockName = nextstockName;
-                nextstockName = nnextstockName;
-            }
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-        } while (cal.getTime().getTime() <= todaydate.getTime());
-
-        logger.info("update: End generate " + modelName);
-    }
 }
 
 // 股票1 和 股票2 轮动
@@ -197,6 +143,7 @@ class Stock1or2 {
     
     private StockModelDataService stockMDService;
     private double dbIndex = 1000; /* 2011-1-1 */
+    private String startYear = "2011-01-01";
     private String stock2Name;
     private String stock8Name;
     private int cycle;
@@ -209,6 +156,10 @@ class Stock1or2 {
     
     public Stock1or2 (String modelName, String s1, String s2, int c1, StockModelDataService srv,
             StockModelTongJiService mdlService, IStockService stockService) {
+    	if (modelName.compareToIgnoreCase(StockConstants.MODEL_300_500) == 0) {
+    		dbIndex = 100;
+    		startYear = "2007-07-01"; 
+    	}
         stock2Name = s1;
         stock8Name = s2;
         cycle = c1;
@@ -272,62 +223,6 @@ class Stock1or2 {
         return true;
     }
     
-    public void update() {
-        
-        logger.info("update: Begin generate " + modelName);
-        
-        // 开始
-        
-        Calendar cal = Calendar.getInstance();
-        Date todaydate = cal.getTime();
-        cal.add(Calendar.DAY_OF_MONTH, -7);
-
-        int m = cal.get(Calendar.MONTH) + 1;
-        int d = cal.get(Calendar.DAY_OF_MONTH);
-        int y = cal.get(Calendar.YEAR);
-
-        String strriqi = String.format("%d-%02d-%02d", y, m, d);
-
-        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-        Date riqi;
-        try {
-            riqi = formater.parse(strriqi);
-        } catch (ParseException e1) {
-            e1.printStackTrace();
-            return;
-        }
-        cal.setTime(riqi);
-
-        // 得到上一个收盘日数据
-
-        List<StockModelData> lstM20 = stockMDService.getStockDataRecord(modelName, strriqi, 1);
-        StockModelData m20data = lstM20.get(0);
-        dbIndex = m20data.getCloseprice();
-        currentstockName = m20data.getNextStockName();
-        nextstockName = m20data.getNnextStockName();
-
-        do {
-            m = cal.get(Calendar.MONTH) + 1;
-            d = cal.get(Calendar.DAY_OF_MONTH);
-            y = cal.get(Calendar.YEAR);
-            strriqi = String.format("%d-%02d-%02d", y, m, d);
-
-            if (getCurrentIndex(strriqi)) {
-                m20data = new StockModelData(modelName, cal.getTime(), dbIndex, currentstockName, nextstockName, nnextstockName);
-                stockMDService.saveOrUpdate(m20data);
-                
-                StockModelTongJiMgr.get(mdlService).saveModelData (modelName, 
-                                                         cal.getTime(), dbIndex, currentstockName);
-
-                currentstockName = nextstockName;
-                nextstockName = nnextstockName;
-            }
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-        } while (cal.getTime().getTime() <= todaydate.getTime());
-        
-        logger.info("update: End generate " + modelName);
-    }
-    
     public boolean init () {
         Calendar cal = Calendar.getInstance();
         Date todaydate = cal.getTime();
@@ -335,7 +230,7 @@ class Stock1or2 {
         SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
         Date riqi;
         try {
-            riqi = formater.parse("2011-01-01");
+            riqi = formater.parse(startYear);
         } catch (ParseException e1) {
             e1.printStackTrace();
             return false;
@@ -390,21 +285,5 @@ public class StockModelManager {
                     stockMDService, mdlService, stockService);
             return st.init ();
         }
-    }
-    
-    public void weekly (String modelName, String stockName1, String stockName2, 
-            int cycle) {
-        if (stockName2.isEmpty()){
-            Stock1 st = new Stock1 (modelName, stockName1, cycle, 
-                    stockMDService, mdlService, stockService);
-            st.update();
-        }
-        else {
-            Stock1or2 st = new Stock1or2 (modelName, stockName1, stockName2, cycle, 
-                    stockMDService, mdlService, stockService);
-            st.update();
-        }
-        
-        return ;
     }
 }

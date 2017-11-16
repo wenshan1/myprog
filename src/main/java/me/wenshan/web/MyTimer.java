@@ -29,9 +29,11 @@ public class MyTimer {
     private IStockDataService stockDataService;
     @Autowired
     private IStockService stockService;
+    
     @Scheduled(cron = "0 0 5,8 * * ?")
     public void email_send () {
     	emailSend.send();
+    	return;
     }
     
     @Scheduled(cron = "0 0 */1 * * ?")

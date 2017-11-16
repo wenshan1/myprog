@@ -2,7 +2,6 @@ package me.wenshan.stockmodel.service;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import me.wenshan.dao.HibernateUtil;
 import me.wenshan.stockmodel.domain.StockModelData;
-import me.wenshan.stockmodel.domain.StockModelData_Pk;
 
 @Service
 public class StockModelDataServiceImp implements StockModelDataService {

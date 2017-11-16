@@ -1,6 +1,5 @@
 package me.wenshan.util;
 
-import java.util.Calendar;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +46,6 @@ public class EmailSend {
 		
 	}
 	public void send () {
-		Calendar cal = Calendar.getInstance();
 		String content = getContent ();
 		if (content == null)
 			return;
