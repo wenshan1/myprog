@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import me.wenshan.beijing.service.FetchData;
 import me.wenshan.stock.domain.StockIndex;
 import me.wenshan.stock.service.IStockService;
 import me.wenshan.stock.service.StockFetchData;
 
 @Controller
 public class RootController {
+    @Autowired 
+    private FetchData fetchData;
     @Autowired
     private IStockService stockService;
     @Autowired
@@ -33,6 +36,12 @@ public class RootController {
         return "index";
     }
 
+    @RequestMapping(value = "/update_fangdican", method = RequestMethod.GET)
+    public String update_fangdican() {
+    	fetchData.fetchAll_FandDiCan();
+        return "index";
+    }
+    
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(String msg, Model model) {
         return "login";

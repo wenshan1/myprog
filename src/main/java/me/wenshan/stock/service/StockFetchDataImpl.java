@@ -295,11 +295,19 @@ public class StockFetchDataImpl implements StockFetchData {
 	@Override
 	public boolean updateAllIndexData() {
 		Calendar cal = Calendar.getInstance();
+		int m = cal.get(Calendar.MONTH) + 1;
+        int d = cal.get(Calendar.DAY_OF_MONTH);
         int y = cal.get(Calendar.YEAR);
+        String strriqi = String.format("%d-%02d-%02d", y, m, d);
+		
 		List<StockIndex> lst = null;
 		for (Iterator<String> it =StockConstants.getSockNames().iterator(); 
 			 it.hasNext();) {
-			lst = getIndexData_K (it.next(), String.format("%d-01-01", y), null);
+			String name = it.next();
+			if (stockService.getStockIndex(strriqi, name) != null)
+				continue;
+			
+			lst = getIndexData_K (name, strriqi, null);
 			if (lst != null && lst.size() !=0)
 			    stockService.saveAll(lst, false);
 		}
