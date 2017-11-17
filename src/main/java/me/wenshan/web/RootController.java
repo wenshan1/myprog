@@ -13,14 +13,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import me.wenshan.stock.domain.StockIndex;
 import me.wenshan.stock.service.IStockService;
+import me.wenshan.stock.service.StockFetchData;
 
 @Controller
 public class RootController {
     @Autowired
     private IStockService stockService;
+    @Autowired
+    private StockFetchData  ftData; 
     
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
+        return "index";
+    }
+    
+    @RequestMapping(value = "/debug", method = RequestMethod.GET)
+    public String debug() {
+    	ftData.updateAllIndexData ();
         return "index";
     }
 

@@ -17,6 +17,7 @@ import me.wenshan.stock.service.IStockDataService;
 import me.wenshan.stock.service.IStockService;
 import me.wenshan.stock.service.StockBasicsService;
 import me.wenshan.stock.service.StockDayHisService;
+import me.wenshan.stock.service.StockFetchData;
 import me.wenshan.stock.service.StockInitThread;
 import me.wenshan.stock.service.StockModelTongJiService;
 import me.wenshan.stockmodel.domain.StockModelData;
@@ -30,7 +31,8 @@ import me.wenshan.util.ShowHelp;
 public class StockController {
     private final String path = "backend/stock";
     private final int pageRecord = 20;
-    
+    @Autowired
+	private StockFetchData    stockFetchData;
     @Autowired
     private IStockService stockService;
     @Autowired
@@ -173,7 +175,7 @@ public class StockController {
     @RequestMapping(value = "/initstockindex", method = RequestMethod.GET)
     public String initstockindex(Model model) {
         Thread th = new Thread(new StockInitThread(true, false, false, smmManager, mdlService,
-        		opm, stockDataService, stockService));
+        		opm, stockDataService, stockFetchData));
         th.start();
 
         return "redirect:/backend/index";
@@ -189,7 +191,7 @@ public class StockController {
     @RequestMapping(value = "/initstockdata", method = RequestMethod.GET)
     public String initstockdata(Model model) {
         Thread th = new Thread(new StockInitThread(false, true, false, smmManager, mdlService, 
-        		opm, stockDataService, stockService));
+        		opm, stockDataService, stockFetchData));
         th.start();
 
         return "redirect:/backend/index";
@@ -198,7 +200,7 @@ public class StockController {
     @RequestMapping(value = "/initmodeldata", method = RequestMethod.GET)
     public String initmodeldata(Model model) {
         Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, 
-        		opm, stockDataService, stockService));
+        		opm, stockDataService, stockFetchData));
         th.start();
 
         return "redirect:/backend/index";
