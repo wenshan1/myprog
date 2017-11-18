@@ -12,4 +12,5 @@ public interface StockModelDataService {
     List<StockModelData> getStockDataRecord (String modelName, String riqistr, int ncount);
     List<StockModelData> getPageData(String modelName, int first, int pageSize);
 	StockModelData getLatestData(String modelName);
+	StockModelData getStockModelData (String modelName, String riqistr);
 }

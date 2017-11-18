@@ -16,6 +16,9 @@ public class TongJiForm {
 	
 	//盈利记录数
 	private long   yinCount = 0;
+	
+	// 最近一年盈利率
+	private double latestYearLv = 0;
 
 	public double getYinMax() {
 		return yinMax;
@@ -63,6 +66,14 @@ public class TongJiForm {
 
 	public void setYinCount(long yinCount) {
 		this.yinCount = yinCount;
+	}
+
+	public double getLatestYearLv() {
+		return latestYearLv;
+	}
+
+	public void setLatestYearLv(double latestYearLv) {
+		this.latestYearLv = latestYearLv;
 	}
 	
 }

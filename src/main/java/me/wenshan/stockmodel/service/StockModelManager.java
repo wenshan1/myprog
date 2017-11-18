@@ -158,7 +158,7 @@ class Stock1or2 {
             StockModelTongJiService mdlService, IStockService stockService) {
     	if (modelName.compareToIgnoreCase(StockConstants.MODEL_300_500) == 0) {
     		dbIndex = 100;
-    		startYear = "2007-07-01"; 
+    		startYear = "2008-01-01"; 
     	}
         stock2Name = s1;
         stock8Name = s2;

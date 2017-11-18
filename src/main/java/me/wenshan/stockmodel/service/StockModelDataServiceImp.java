@@ -1,6 +1,8 @@
 package me.wenshan.stockmodel.service;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import me.wenshan.dao.HibernateUtil;
 import me.wenshan.stockmodel.domain.StockModelData;
+import me.wenshan.stockmodel.domain.StockModelData_Pk;
 
 @Service
 public class StockModelDataServiceImp implements StockModelDataService {
@@ -123,5 +126,26 @@ public class StockModelDataServiceImp implements StockModelDataService {
         sn.close();
 		return stdata;
 	}
+
+    @Override
+    public StockModelData getStockModelData(String modelName, String riqistr) {
+        StockModelData_Pk pk = new StockModelData_Pk ();   
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy/MM/dd");
+        
+        pk.setName(modelName);
+        try {
+            pk.setRiqi(formater.parse(riqistr));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+        
+        Session sn = HibernateUtil.getSessionFactory().openSession();
+        StockModelData data = sn.get (StockModelData.class, pk);
+        
+        sn.close();
+        
+        return data;
+    }
 
 }
