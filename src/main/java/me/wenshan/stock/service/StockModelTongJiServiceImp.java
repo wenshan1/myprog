@@ -134,10 +134,10 @@ public class StockModelTongJiServiceImp implements StockModelTongJiService {
                 break;
             }
             cal.setTime(today);
-            cal.add(Calendar.DAY_OF_MONTH, 1);
+            cal.add(Calendar.DAY_OF_MONTH, -1);
             today = cal.getTime();
         }while (true);
-        lv = enddata.getCloseprice() - startdata.getCloseprice();
+        lv = (enddata.getCloseprice() - startdata.getCloseprice())/startdata.getCloseprice();
 	    return lv;
         }
 	

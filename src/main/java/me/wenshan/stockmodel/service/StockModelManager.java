@@ -157,8 +157,8 @@ class Stock1or2 {
     public Stock1or2 (String modelName, String s1, String s2, int c1, StockModelDataService srv,
             StockModelTongJiService mdlService, IStockService stockService) {
     	if (modelName.compareToIgnoreCase(StockConstants.MODEL_300_500) == 0) {
-    		dbIndex = 100;
-    		startYear = "2008-01-01"; 
+    		dbIndex = 1000;
+    		startYear = "2011-01-01"; 
     	}
         stock2Name = s1;
         stock8Name = s2;

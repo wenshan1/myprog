@@ -42,8 +42,8 @@ public class MyTimer {
     	return;
     }
     
-    @Scheduled(cron = "0 0 0/1 * * ?")
-    public void updateHourly_sc () {
+    @Scheduled(cron = "0 30 0/2 * * ?")
+    public void updateModelData () {
         Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, 
         		opm, stockDataService, null));
         th.start();
