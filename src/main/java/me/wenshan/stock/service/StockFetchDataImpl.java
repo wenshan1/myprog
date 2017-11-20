@@ -294,6 +294,8 @@ public class StockFetchDataImpl implements StockFetchData {
 
 	@Override
 	public boolean updateAllIndexData() {
+		boolean bRet = false;
+		
 		Calendar cal = Calendar.getInstance();
 		int m = cal.get(Calendar.MONTH) + 1;
         int d = cal.get(Calendar.DAY_OF_MONTH);
@@ -310,8 +312,9 @@ public class StockFetchDataImpl implements StockFetchData {
 			lst = getIndexData_K (name, strriqi, null);
 			if (lst != null && lst.size() !=0)
 			    stockService.saveAll(lst, false);
+			bRet = true;
 		}
-		return true;
+		return bRet;
 	}
 
 }

@@ -36,19 +36,16 @@ public class MyTimer {
     	return;
     }
     
-    @Scheduled(cron = "0 0 5,6,7,8,9,10,11 * * ?")
+    @Scheduled(cron = "0 5 15-23 * * ?")
     public void update_stockindex () {
-    	ftData.updateAllIndexData();
+    	if (ftData.updateAllIndexData()) {
+            Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, 
+            		opm, stockDataService, null));
+            th.start();
+    	}
     	return;
     }
-    
-    @Scheduled(cron = "0 30 0/2 * * ?")
-    public void updateModelData () {
-        Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, 
-        		opm, stockDataService, null));
-        th.start();
-    }
-    
+        
     @Scheduled(cron = "0 0 3,17 * * ?")
     public void updateFanDican () {
         fetchData.fetchAll_FandDiCan(); // 更新北京房地产数据
