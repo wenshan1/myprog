@@ -27,21 +27,11 @@ public class MyTimer {
     private FetchData fetchData;
     @Autowired
     private StockModelTongJiService mdlService;
-    @Autowired
-    private IStockDataService stockDataService;
-    
-    @Scheduled(cron = "0 0 17,8 * * ?")
-    public void email_send () {
-    	emailSend.send();
-    	return;
-    }
-    
     @Scheduled(cron = "0 5 15-23 * * ?")
     public void update_stockindex () {
     	if (ftData.updateAllIndexData()) {
-            Thread th = new Thread(new StockInitThread(false, false, true, smmManager, mdlService, 
-            		opm, stockDataService, null));
-            th.start();
+    		StockInitThread.initModel (mdlService, opm, smmManager);
+    	    emailSend.send();
     	}
     	return;
     }

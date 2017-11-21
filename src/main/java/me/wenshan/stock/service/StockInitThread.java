@@ -34,6 +34,28 @@ public class StockInitThread implements Runnable  {
 		this.stockFetchData = stockFetchData;
 	}
 	
+	public static void initModel 
+	    (
+	    StockModelTongJiService mdlService,
+        OptionManager  optionManager, 
+	    StockModelManager smmManager) 
+	    {
+	    StockModelTongJiMgr.get(mdlService).removeAllData();
+        DataOption datao = optionManager.getDataOption ();
+        
+        smmManager.genModelData(StockConstants.MODEL_300_500, "sh000300", "sh000905", 
+        		datao.getStockModelCycle());
+        smmManager.genModelData(StockConstants.MODEL_300_CHUANGYEBAN, "sh000300", "sz399006", 
+        		datao.getStockModelCycle());
+        smmManager.genModelData(StockConstants.MODEL_50_CHUANGYEBAN, "sh000016", "sz399006", 
+        		datao.getStockModelCycle());
+        smmManager.genModelData(StockConstants.MODEL_CHUANGYEBANEXEX, "sz399006", "", 
+        		datao.getStockModelCycle());
+        smmManager.genModelData(StockConstants.MODEL_CUSTOME, datao.getStockModelName1(), 
+        		datao.getStockModelName2(), 
+        		datao.getStockModelCycle());
+        }
+	
 	@Override
 	public void run() {
 		if (bRunning)
@@ -46,20 +68,7 @@ public class StockInitThread implements Runnable  {
 	        stockDataService.removeAllData();
 		}
 		if (bInitModel) {
-		    StockModelTongJiMgr.get(mdlService).removeAllData();
-	        DataOption datao = optionManager.getDataOption ();
-	        
-	        smmManager.genModelData(StockConstants.MODEL_300_500, "sh000300", "sh000905", 
-	        		datao.getStockModelCycle());
-	        smmManager.genModelData(StockConstants.MODEL_300_CHUANGYEBAN, "sh000300", "sz399006", 
-	        		datao.getStockModelCycle());
-	        smmManager.genModelData(StockConstants.MODEL_50_CHUANGYEBAN, "sh000016", "sz399006", 
-	        		datao.getStockModelCycle());
-	        smmManager.genModelData(StockConstants.MODEL_CHUANGYEBANEXEX, "sz399006", "", 
-	        		datao.getStockModelCycle());
-	        smmManager.genModelData(StockConstants.MODEL_CUSTOME, datao.getStockModelName1(), 
-	        		datao.getStockModelName2(), 
-	        		datao.getStockModelCycle());
+			initModel (mdlService, optionManager, smmManager);
 		}
 		bRunning = false; 
 	}
