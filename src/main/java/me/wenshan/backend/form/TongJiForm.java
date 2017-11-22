@@ -20,6 +20,12 @@ public class TongJiForm {
 	// 最近一年盈利率
 	private double latestYearLv = 0;
 
+	// 今年以来盈利率
+	private double yearLv = 0;
+	
+	// 最近三年盈利率
+	private double threeYearLv = 0;
+	
 	public double getYinMax() {
 		return yinMax;
 	}
@@ -74,6 +80,22 @@ public class TongJiForm {
 
 	public void setLatestYearLv(double latestYearLv) {
 		this.latestYearLv = latestYearLv;
+	}
+
+	public double getYearLv() {
+		return yearLv;
+	}
+
+	public void setYearLv(double yearLv) {
+		this.yearLv = yearLv;
+	}
+
+	public double getThreeYearLv() {
+		return threeYearLv;
+	}
+
+	public void setThreeYearLv(double threeYearLv) {
+		this.threeYearLv = threeYearLv;
 	}
 	
 }

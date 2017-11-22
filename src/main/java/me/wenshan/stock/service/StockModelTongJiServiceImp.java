@@ -19,8 +19,8 @@ import me.wenshan.stockmodel.service.StockModelDataService;
 
 @Service
 public class StockModelTongJiServiceImp implements StockModelTongJiService {
-    @Autowired
-    private StockModelDataService stockModelDataService; 
+	@Autowired
+	private StockModelDataService stockModelDataService;
 
 	@Override
 	public boolean save(StockModelTongJi st) {
@@ -101,46 +101,130 @@ public class StockModelTongJiServiceImp implements StockModelTongJiService {
 		return true;
 	}
 
-	private double latestYearLv (String modelName) 
-        {
-	    double lv = 0;
-	    Calendar cal = Calendar.getInstance();
-	    Date today = cal.getTime();
-	    cal.add(Calendar.YEAR, -1);
-	    Date lasteseYear = cal.getTime();
-	    SimpleDateFormat fmt = new SimpleDateFormat ("yyyy/MM/dd");
-	    StockModelData startdata = null;
-	    StockModelData enddata = null;
-	    
-	    // 得到开始日期数据
-	    do {
-	        String riqistr = fmt.format(lasteseYear);
-	        startdata = stockModelDataService.getStockModelData
-	                    (modelName, riqistr);
-	        if (startdata !=null) {
-	            break;
-	        }
-	        cal.setTime(lasteseYear);
-	        cal.add(Calendar.DAY_OF_MONTH, 1);
-	        lasteseYear = cal.getTime();
-	    }while (true);
-	    
-	       // 得到终结日期数据
-        do {
-            String riqistr = fmt.format(today);
-            enddata = stockModelDataService.getStockModelData
-                      (modelName, riqistr);
-            if (enddata !=null) {
-                break;
-            }
-            cal.setTime(today);
-            cal.add(Calendar.DAY_OF_MONTH, -1);
-            today = cal.getTime();
-        }while (true);
-        lv = (enddata.getCloseprice() - startdata.getCloseprice())/startdata.getCloseprice();
-	    return lv;
-        }
-	
+	// 今年以来增涨率
+	private double yearLv(String modelName) {
+		double lv = 0;
+		Calendar cal = Calendar.getInstance();
+		Date today = cal.getTime();
+
+		cal.set(Calendar.MONTH, 0);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		Date lasteseYear = cal.getTime();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
+		StockModelData startdata = null;
+		StockModelData enddata = null;
+
+		// 得到开始日期数据
+		do {
+			String riqistr = fmt.format(lasteseYear);
+			startdata = stockModelDataService.getStockModelData(modelName, riqistr);
+			if (startdata != null) {
+				break;
+			}
+			cal.setTime(lasteseYear);
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			lasteseYear = cal.getTime();
+		} while (lasteseYear.getTime() <= today.getTime());
+
+		// 得到终结日期数据
+		do {
+			String riqistr = fmt.format(today);
+			enddata = stockModelDataService.getStockModelData(modelName, riqistr);
+			if (enddata != null) {
+				break;
+			}
+			cal.setTime(today);
+			cal.add(Calendar.DAY_OF_MONTH, -1);
+			today = cal.getTime();
+		} while (today.getTime() >= lasteseYear.getTime());
+		if (startdata == null || enddata == null)
+			lv = 0;
+		else
+			lv = (enddata.getCloseprice() - startdata.getCloseprice()) / startdata.getCloseprice();
+		return lv;
+	}
+
+	private double latestYearLv(String modelName) {
+		double lv = 0;
+		Calendar cal = Calendar.getInstance();
+		Date today = cal.getTime();
+		cal.add(Calendar.YEAR, -1);
+		Date lasteseYear = cal.getTime();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
+		StockModelData startdata = null;
+		StockModelData enddata = null;
+
+		// 得到开始日期数据
+		do {
+			String riqistr = fmt.format(lasteseYear);
+			startdata = stockModelDataService.getStockModelData(modelName, riqistr);
+			if (startdata != null) {
+				break;
+			}
+			cal.setTime(lasteseYear);
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			lasteseYear = cal.getTime();
+		} while (lasteseYear.getTime() <= today.getTime());
+
+		// 得到终结日期数据
+		do {
+			String riqistr = fmt.format(today);
+			enddata = stockModelDataService.getStockModelData(modelName, riqistr);
+			if (enddata != null) {
+				break;
+			}
+			cal.setTime(today);
+			cal.add(Calendar.DAY_OF_MONTH, -1);
+			today = cal.getTime();
+		} while (today.getTime() >= lasteseYear.getTime());
+		if (enddata == null || startdata == null)
+			lv = 0;
+		else
+			lv = (enddata.getCloseprice() - startdata.getCloseprice()) / startdata.getCloseprice();
+		return lv;
+	}
+
+	//最近三年盈利率
+	private double threeYearLv(String modelName) {
+		double lv = 0;
+		Calendar cal = Calendar.getInstance();
+		Date today = cal.getTime();
+		cal.add(Calendar.YEAR, -3);
+		Date lasteseYear = cal.getTime();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
+		StockModelData startdata = null;
+		StockModelData enddata = null;
+
+		// 得到开始日期数据
+		do {
+			String riqistr = fmt.format(lasteseYear);
+			startdata = stockModelDataService.getStockModelData(modelName, riqistr);
+			if (startdata != null) {
+				break;
+			}
+			cal.setTime(lasteseYear);
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			lasteseYear = cal.getTime();
+		} while (lasteseYear.getTime() <= today.getTime());
+
+		// 得到终结日期数据
+		do {
+			String riqistr = fmt.format(today);
+			enddata = stockModelDataService.getStockModelData(modelName, riqistr);
+			if (enddata != null) {
+				break;
+			}
+			cal.setTime(today);
+			cal.add(Calendar.DAY_OF_MONTH, -1);
+			today = cal.getTime();
+		} while (today.getTime() >= lasteseYear.getTime());
+		if (enddata == null || startdata == null)
+			lv = 0;
+		else
+			lv = (enddata.getCloseprice() - startdata.getCloseprice()) / startdata.getCloseprice();
+		return lv;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public TongJiForm getTongJiForm(String modelName) {
@@ -173,6 +257,8 @@ public class StockModelTongJiServiceImp implements StockModelTongJiService {
 				form.setYinCount(form.getYinCount() + 1);
 		}
 		form.setLatestYearLv(latestYearLv(modelName));
+		form.setYearLv(yearLv(modelName));
+		form.setThreeYearLv(threeYearLv (modelName));
 		return form;
 	}
 }

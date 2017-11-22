@@ -57,7 +57,26 @@
 							</tr>
 						</table>
 						<br />
-						<div>最近一年盈利率：<span th:text = "${tongji300500form.latestYearLv}"></span></div>
+					<div>
+						<table class="table">
+							<tr>
+								<th>统计项</th>
+								<th>盈利率</th>
+							</tr>
+							<tr >
+								<td >今年以来盈利率</td>
+								<td th:text="${tongji300500form.yearLv}">收盘价格</td>
+							</tr>
+						    <tr >
+								<td >最近一年盈利率</td>
+								<td th:text="${tongji300500form.latestYearLv}">收盘价格</td>
+							</tr>
+							<tr >
+							<td >最近三年盈利率</td>
+								<td th:text="${tongji300500form.threeYearLv}">收盘价格</td>
+							</tr>
+						</table>
+					</div>
 						<div>最大盈利率：<span th:text = "${tongji300500form.yinMax}"></span>
 						    <table class="table">
 							<tr>
@@ -159,7 +178,27 @@
 							</tr>
 						</table>
 						<br />
-						<div>最近一年盈利率：<span th:text = "${model_50_chuangyebanform.latestYearLv}"></span></div>
+
+					   <div>
+						<table class="table">
+							<tr>
+								<th>统计项</th>
+								<th>盈利率</th>
+							</tr>
+							<tr >
+								<td >今年以来盈利率</td>
+								<td th:text="${model_50_chuangyebanform.yearLv}">收盘价格</td>
+							</tr>
+						    <tr >
+								<td >最近一年盈利率</td>
+								<td th:text="${model_50_chuangyebanform.latestYearLv}">收盘价格</td>
+							</tr>
+							<tr >
+							<td >最近三年盈利率</td>
+								<td th:text="${model_50_chuangyebanform.threeYearLv}">收盘价格</td>
+							</tr>
+						</table>
+					</div>
 						<div>最大盈利率：<span th:text = "${model_50_chuangyebanform.yinMax}"></span>
 						    <table class="table">
 							<tr>
@@ -261,8 +300,27 @@
 							</tr>
 						</table>
 						<br />
-						<div>最近一年盈利率：<span th:text = "${chuangyebanexform.latestYearLv}"></span></div>
-						<div>最大盈利率：<span th:text = "${chuangyebanexform.yinMax}"></span>
+						<div>
+						<table class="table">
+							<tr>
+								<th>统计项</th>
+								<th>盈利率</th>
+							</tr>
+							<tr >
+								<td >今年以来盈利率</td>
+								<td th:text="${chuangyebanexform.yearLv}">收盘价格</td>
+							</tr>
+						    <tr >
+								<td >最近一年盈利率</td>
+								<td th:text="${chuangyebanexform.latestYearLv}">收盘价格</td>
+							</tr>
+							<tr >
+							<td >最近三年盈利率</td>
+								<td th:text="${chuangyebanexform.threeYearLv}">收盘价格</td>
+							</tr>
+						</table>
+					</div>
+				    <div>最大盈利率：<span th:text = "${chuangyebanexform.yinMax}"></span>
 						    <table class="table">
 							<tr>
 								<th>开始日期</th>
