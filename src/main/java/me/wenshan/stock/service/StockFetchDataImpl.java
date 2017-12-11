@@ -310,9 +310,10 @@ public class StockFetchDataImpl implements StockFetchData {
 				continue;
 			
 			lst = getIndexData_K (name, strriqi, null);
-			if (lst != null && lst.size() !=0)
+			if (lst != null && lst.size() !=0) {
 			    stockService.saveAll(lst, false);
-			bRet = true;
+				bRet = true;
+			}
 		}
 		return bRet;
 	}
