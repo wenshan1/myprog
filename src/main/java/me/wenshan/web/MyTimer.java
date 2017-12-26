@@ -31,7 +31,7 @@ public class MyTimer {
     public void update_stockindex () {
     	if (ftData.updateAllIndexData()) {
     		StockInitThread.initModel (mdlService, opm, smmManager);
-    	    emailSend.send();
+    	    //emailSend.send();
     	}
     	return;
     }
