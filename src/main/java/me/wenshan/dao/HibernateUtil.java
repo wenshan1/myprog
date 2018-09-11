@@ -57,15 +57,15 @@ public class HibernateUtil {
 			Configuration configuration = new Configuration();
 			configuration.configure(configFile);
 			
-			// if openshift, reset the jdbc url etc
-			String str = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+			// if setenv, reset the jdbc url etc
+			String str = System.getenv("MY_DB_HOST");
 			if (str != null )
 			{
 				configuration.setProperty("hibernate.connection.url", 
-						"jdbc:mysql://" + System.getenv("OPENSHIFT_MYSQL_DB_HOST") + ":" + System.getenv("OPENSHIFT_MYSQL_DB_PORT")
+						"jdbc:mysql://" + System.getenv("MY_DB_HOST") + ":3306" 
 						+ "/stock?useUnicode=true&characterEncoding=UTF-8");
-				configuration.setProperty("hibernate.connection.username", System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"));
-				configuration.setProperty("hibernate.connection.password", System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"));
+				configuration.setProperty("hibernate.connection.username", System.getenv("MY_DB_USERNAME"));
+				configuration.setProperty("hibernate.connection.password", System.getenv("MY_DB_PASSWORD"));
 			}
 			//end of openshift
 			
