@@ -2,8 +2,6 @@ package me.wenshan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -17,11 +15,7 @@ import me.wenshan.util.Global;
 
 @SpringBootApplication
 @EnableScheduling
-public class MyprogApplication extends SpringBootServletInitializer { 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(MyprogApplication.class);
-	}
+public class MyprogApplication { 
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyprogApplication.class, args);
